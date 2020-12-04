@@ -1,0 +1,68 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Taxas</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Taxas</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Taxa"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'nova_taxa' %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Nova Taxa
+    </a>   
+    
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Unidade</th>
+          <th>Valor Unitário</th>
+          <th>Quantidade</th>
+          <th>Orgão</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for taxa in taxa %}
+          <tr>
+
+            <td>{{ taxa.nome }}</td>
+            <td>{{ taxa.unidade }}</td>
+            <td>{{ taxa.valor_unitario }}</td>
+            <td>{{ taxa.quantidade }}</td>
+            <td>{{ taxa.orgao.nome }}</td>
+
+
+            <td><a href="{% url 'alterar_taxa' taxa.id %}" style="text-decoration:none">
+                <button class="btn btn-info btn-sm" type="button">Alterar
+                  <span class="icono-rename" aria-hidden="true"></span>
+                </button>
+              </a> </td>
+            
+            <!-- retirar exclusão ...-->
+            <td>
+
+              <form method="post" action="{% url 'excluir_taxa' taxa.id %}">
+                {% csrf_token %}
+                <!-- onclick deseja realmente deletar...-->
+                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+              
+              </form>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

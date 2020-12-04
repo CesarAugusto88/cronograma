@@ -1,0 +1,101 @@
+{% extends "base-funcionario.html" %}
+
+{% block content %}
+<div class="container" style="padding-top: 15px;">
+    <h2>Funcionário</h2>
+    <form action="submit" method="POST">
+        {% csrf_token %}
+        
+        <fieldset>
+            <legend>Dados do Funcionário</legend>
+            <p>
+                <label>Nome:
+                <!--hidden fica escondido 'id'-->
+                <input type="number" name="id_funcionario" value="{{ funcionario.id }}" hidden> 
+                <input type="text" name="nome" size="30" value="{{ funcionario.nome }}" required>
+                </label>
+            </p>
+            <p>
+                <label>Telefone:
+                <input type="tel" name="fone" size="30" value="{{ funcionario.fone }}" required>
+                </label>
+            </p>
+            <p>
+                <label>E-mail:
+                <input type="email" name="email" size="30" value="{{ funcionario.email }}" required>
+                </label>
+            </p>
+        </fieldset>
+
+        <fieldset>
+            <legend>Endereço</legend>
+            <p>
+                <label>Rua:<!--name="variavel_models" que esta na função views-->
+                <textarea name="rua" rows="4" cols="32" required>{{ funcionario.rua }}</textarea>
+                </label>
+            </p>
+            <p>
+                <label>Cep:
+                <input type="text" name="cep" size="22" value="{{ funcionario.cep }}" required>
+                </label>
+            </p>
+            <p>
+                <label>Cidade:
+                <input type="text" name="cidade" size="22" value="{{ funcionario.cidade }}" required>
+                </label>
+            </p>
+            <p>
+                <label>
+                    Estado:
+                    <select name="uf"> {{ funcionario.uf }} <!--o que estiver no value vai ser salvo no banco, selected para deixar marcado-->
+                        <option value="">Escolha um Estado</option>
+                        <option value="AC">Acre</option>
+                        <option value="AL">Amapá</option>
+                        <option value="AM">Amazonas</option>
+                        <option value="BA">Bahia</option>
+                        <option value="CE">Ceará</option>
+                        <option value="DF">Distrito Federal</option>
+                        <option value="ES">Espírito Santo</option>
+                        <option value="GO">Goiás</option>
+                        <option value="MA">Maranhão</option>
+                        <option value="MT">Mato Grosso</option>
+                        <option value="MS">Mato Grosso do Sul</option>
+                        <option value="MG">Minas Gerais</option>
+                        <option value="PA">Pará</option>
+                        <option value="PB">Paraíbao</option>
+                        <option value="PR">Paraná</option>
+                        <option value="PE">Pernambuco</option>
+                        <option value="PI">Piauí</option>
+                        <option value="RJ">Rio de Janeiro</option>
+                        <option value="RN">Rio Grande do Norte</option>
+                        <option value="RS">Rio Grande do Sul</option>
+                        <option value="RO">Rondônia</option>
+                        <option value="RR">Roraima</option>
+                        <option value="SC">Santa Catarina</option>
+                        <option value="SP" selected>São Paulo</option>
+                        <option value="SE">Sergipe</option>
+                        <option value="TO">Tocantins</option>
+                    </select>
+                </label>
+            </p>
+            
+        </fieldset>     
+        <div class="navbar-brand">
+            <button type="submit" class="btn btn-primary btn-sm">
+                <span class="icono-check" aria-hidden="true"></span>
+                Salvar
+            </button>
+
+            <a class="navbar-brand" href="{% url 'funcionario' %}">
+                <button type="button" class="btn btn-primary btn-sm">
+                <span class="icono-cross" aria-hidden="true"></span>
+                Cancelar
+                </button>
+            </a>
+        </div>
+        
+    </form>
+</div>
+
+
+{% endblock %}

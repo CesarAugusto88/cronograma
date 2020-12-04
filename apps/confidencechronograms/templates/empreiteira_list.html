@@ -1,0 +1,65 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Empreiteiras</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Empreiteiras</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Empreiteira"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'nova_empreiteira' %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Nova Empreiteira
+    </a>   
+    
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+
+
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for empreiteira in empreiteira %}
+          <tr>
+
+            <td>{{ empreiteira.nome }}</td>
+            <td>{{ empreiteira.email }}</td>
+            <td>{{ empreiteira.fone }}</td>
+
+            <td><a href="{% url 'alterar_empreiteira' empreiteira.id %}" style="text-decoration:none">
+                <button class="btn btn-info btn-sm" type="button">Alterar
+                  <span class="icono-rename" aria-hidden="true"></span>
+                </button>
+              </a> </td>
+            
+            <!-- retirar exclusão ...-->
+            <td>
+
+              <form method="post" action="{% url 'excluir_empreiteira' empreiteira.id %}">
+                {% csrf_token %}
+                <!-- onclick deseja realmente deletar...-->
+                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+              
+              </form>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

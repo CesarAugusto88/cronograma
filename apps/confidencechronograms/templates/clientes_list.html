@@ -1,0 +1,55 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="container">
+  <h1>Clientes</h1>
+  <form action="" class="pure-form">
+    <fieldset>
+        <legend>Pesquisa de Clientes</legend>
+        <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Cliente"/>
+        <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+    </fieldset>
+  </form>
+<hr>
+  {% for cliente in clientes %}
+  <fieldset>
+    <legend> <b>Dados do cliente</b> </legend>
+    <p>
+      <label>Nome:
+        {{ cliente.nome }}
+      </label>
+    </p>
+    <p>
+      <label>Telefone:
+        {{ cliente.fone }}
+      </label>
+    </p>
+    <p>
+      <label>E-mail:
+        {{ cliente.email }}
+      </label>
+    </p>
+
+    <p>
+      <label>Alterar:
+        <a href="{% url 'alterar_clientes' cliente.id %}" style="text-decoration:none">
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="button">
+            Alterar
+          </button>
+        </a>
+      </label>
+    </p>
+      
+    <form method="post" action="{% url 'excluir_clientes' cliente.pk %}">
+      {% csrf_token %}
+      <p>
+        <label>Excluir Cliente:
+          <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+        </label>
+      </p>
+    </form>
+
+  {% endfor %}
+
+</div>
+{% endblock %}

@@ -1,0 +1,74 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Tarefas</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Tarefas</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Tarefa"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'new_task' %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Nova Tarefa
+    </a>   
+    
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <!--'ident', 'chronogram', 'name', 'task_text', 'start_date',
+            'end_date', 'progress', 'dependencies', 'price'-->
+          <th>Ident.</th>
+          <th>Cronograma</th>
+          <th>Tarefa</th>
+          <th>Início</th>
+          <th>Fim</th>
+          <th>Progresso</th>
+          <th>Depêndencia</th>
+          <th>Valor da Tarefa R$</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+          
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td>{{ task.ident }}</td>
+            <td>{{ task.cronograma.estrutura }}</td>
+            <td>{{ task.nome }}</td>
+            <td>{{ task.dt_inicial }}</td>
+            <td>{{ task.dt_final }}</td>
+            <td>{{ task.progresso }}</td>
+            <td>{{ task.dependencias }}</td>
+            <td>colocar alguma função</td>
+            <td><a href="{% url 'update_task' task.id %}" style="text-decoration:none">
+                <button class="btn btn-info btn-sm" type="button">Alterar
+                  <span class="icono-rename" aria-hidden="true"></span>
+                </button>
+              </a> </td>
+            
+            <!-- retirar exclusão ...-->
+            <td>
+
+              <form method="post" action="{% url 'delete_task' task.id %}">
+                {% csrf_token %}
+                <!-- onclick deseja realmente deletar...-->
+                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+              
+              </form>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,61 @@
+{% extends "base.html" %}
+
+{% block content %}
+
+{% load static %}
+  
+  <link rel="stylesheet" href="{% static 'css/login.css' %}" type="text/css">
+
+  <section class="container-fluid" style="margin-top: 35px;">
+    <section class="row justify-content-center">
+      <section class="col-12 col-sm-6 col-md-3">
+        <form class="form-cotainer" action="submit" method="POST">
+          {% csrf_token %}
+          <div>
+            <h4 style="font-size: 35px; text-align: center;">Conecte-se</h4>
+          </div>
+          <div class="form-group">
+            <label style="font-size: 25px;">Usuário:
+              <input type="text" class="form-control" name="username" size="37" placeholder="Name" aria-describedby="userHelp">
+            </label>
+            <small id="userHelp" class="form-text text-muted">Nunca compartilharemos seu usuário com ninguém.</small>
+          
+            <label style="font-size: 25px;">Senha:
+              <input type="password" class="form-control" name="password" id="myInput" size="37" placeholder="Password">
+            </label>
+          </div>
+          <div class="form-group form-check">
+            <label class="form-check-label">
+              <input type="checkbox" class="form-check-input" onclick="myFunction()">Verificar senhar
+            </label>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-block">Entrar</button>
+        
+          <button type="button" class="btn btn-primary btn-block" onclick="location.href='/'">Cancelar</button>
+          <br>
+
+          <div style="text-align: center">
+            <a href="/">
+              <img src="{% static 'images/android-icon-36x36.png' %}" width="50px" alt="logo">
+            </a>
+          </div>
+        </form>
+        {% for message in messages %}
+          <br>
+          <div style="color: red;" align="left">
+            &emsp;&emsp; 
+            <strong>Erro: </strong>{{ message }}
+          </div>
+        {% endfor %}
+      </section>
+    </section>
+  </section>
+  <script src="{% static 'js/main.js' %}"></script>
+
+  <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+ 
+{% endblock %}  
+

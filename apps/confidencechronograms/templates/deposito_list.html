@@ -1,0 +1,63 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Depósitos</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Depósitos</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Depósito"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'novo_deposito' %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Novo Depósito
+    </a>   
+    
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>E-mail</th>
+          <th>Telefone</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for deposito in deposito %}
+          <tr>
+
+            <td>{{ deposito.nome }}</td>
+            <td>{{ deposito.email }}</td>
+            <td>{{ deposito.fone }}</td>
+
+            <td><a href="{% url 'alterar_deposito' deposito.id %}" style="text-decoration:none">
+                <button class="btn btn-info btn-sm" type="button">Alterar
+                  <span class="icono-rename" aria-hidden="true"></span>
+                </button>
+              </a> </td>
+            
+            <!-- retirar exclusão ...-->
+            <td>
+
+              <form method="post" action="{% url 'excluir_deposito' deposito.id %}">
+                {% csrf_token %}
+                <!-- onclick deseja realmente deletar...-->
+                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+              
+              </form>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

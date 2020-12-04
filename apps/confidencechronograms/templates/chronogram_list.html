@@ -1,0 +1,57 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Cronogramas</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Cronogramas</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Construção"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'new_chronogram' %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Novo Cronograma
+    </a>
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <!--'construction', 'client', 'owner', 'address',
+            'total_time', 'total_price'-->
+          <th>Construção</th>
+          <th>Cliente</th>
+          <th>Endereço</th>
+          <th>Altera</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for cronograma in cronogramas %}
+          <tr>
+            <td>{{ cronograma.estrutura }}</td>
+            <td>{{ cronograma.cliente }}</td>
+            <td>{{ cronograma.endereco }}</td>
+            <td><a href="{% url 'update_chronogram' cronograma.id %}" style="text-decoration:none">
+              <button class="btn btn-info btn-sm" type="button">Alterar
+                <span class="icono-rename" aria-hidden="true"></span>
+              </button>
+            </a> </td>
+            <!-- retirar exclusão ...-->
+            <td>
+              <form method="post" action="{% url 'delete_chronogram' cronograma.id %}">
+                {% csrf_token %}
+                <button type="submit" class="pure-button pure-button-disabled" onclick="return confirm('Tem certeza que deseja deletar esse registro? Verifique se todas tarefas estão removidas.');">Excluir</button>
+              </form>
+            </td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

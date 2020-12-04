@@ -1,0 +1,21 @@
+{% extends "base-funcionario.html" %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 15px;">
+        <h2>Update Cronograma</h2>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            {{ form.as_p }} <!--form.as_table padrao?-->
+            
+            <div class="navbar-brand">
+                <button type="submit" class="btn btn-primary btn-sm">
+                    <span class="icono-check" aria-hidden="true"></span>
+                    Salvar
+                </button>
+            </div>
+        </form>
+    </div> 
+</div>
+
+{% endblock %}

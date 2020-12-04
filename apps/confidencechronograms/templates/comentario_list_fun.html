@@ -1,0 +1,46 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon">
+  <h2>Comentários</h2>
+  <form action="" class="pure-form">
+    <fieldset>
+        <legend>Pesquisa de Comentários</legend>
+        <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Assunto"/>
+        <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+    </fieldset>
+  </form>
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Nome do Cliente</th>
+          <th>Assunto</th>
+          <th>Descrição</th>
+          <th>Download</th>
+
+        </tr>
+      </thead>
+      <tbody>
+        {% for comentario in comentarios %}
+          <tr>
+            <td>{{ comentario.nome_cliente }}</td>
+            <td>{{ comentario.assunto }}</td>
+            <td>{{ comentario.descricao }}</td>
+            <td>
+              {% if comentario.arquivo %}
+              <a href="{{ comentario.arquivo.url }}" class="pure-button pure-button-active" target="_blank">
+                Download
+              </a>
+              {% else %}
+                <span class="pure-form-message">Sem arquivo</span>
+              {% endif %}
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

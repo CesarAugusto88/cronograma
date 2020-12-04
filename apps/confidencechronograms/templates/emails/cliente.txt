@@ -1,0 +1,1 @@
+Tarefa {{ tarefa }} cadastrada/alterada com a seguinte descrição: {{ descricao }}. Porcentagem de execução da tarefa {{ progresso }}%.

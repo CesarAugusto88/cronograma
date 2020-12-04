@@ -1,0 +1,110 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+    <head>
+        <title>Retatório</title>
+        <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+        <style type="text/css">
+            body {
+                font-weight: 200;
+                font-size: 14px;
+            }
+            .header {
+                font-size: 20px;
+                font-weight: 100;
+                text-align: center;
+                color: #007cae;
+            }
+            .title {
+                font-size: 22px;
+                font-weight: 100;
+               /* text-align: right;*/
+               padding: 10px 20px 0px 20px;  
+            }
+            .title span {
+                color: #007cae;
+            }
+            .details {
+                padding: 10px 20px 0px 20px;
+                text-align: left !important;
+                /*margin-left: 40%;*/
+            }
+            .hrItem {
+                border: none;
+                height: 1px;
+                /* Set the hr color */
+                color: #333; /* old IE */
+                background-color: #fff; /* Modern Browsers */
+            }
+        </style>
+    </head>
+    <body>
+        <div class='wrapper'>
+            <div class='header'>
+		    <p class='title'># Relatório #</p>
+            </div>
+            <div class='details'>
+                Data: {{ today }} <br>
+                Cliente: {{ cliente.nome }} <br>
+                Cronograma Estrutura: {{ chronogram.construction }} <br>
+                <hr class='hrItem' />
+            </div>
+            <div class="pure-u-1">
+                <table class="pure-table pure-table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Tarefa</th>
+                        <th>Início</th>
+                        <th>Fim</th>
+                        <th>Valor Mão de Obra</th>
+                        <th>Valor Materiais</th>
+                        <th>Valor Taxas</th>
+                        <th>Valor total</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for task in tasks %}
+                    <tr style="text-align: center;">
+                        <td>{{ task.nome }}</td>
+                        <td>{{ task.dt_inicial }}</td>
+                        <td>{{ task.dt_final }}</td>
+                        <td>{{ task.total_valor_mao_de_obra }}</td>
+                        <td>{{ task.total_valor_material }}</td>
+                        <td>{{ task.total_valor_taxa }}</td>
+                        <td>{{ task.valor_total }}</td>
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr class='hrItem' />
+                <table class="pure-table pure-table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                        <th></th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="text-align: center;">
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td style="text-align: right;"><strong>Total =</strong></td>
+                        <td><strong>{{ soma }}</strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+            </div>
+            <div class='details'>            
+                <hr class='hrItem' />
+            </div>
+        </div>
+    </body>
+</html>

@@ -1,0 +1,50 @@
+{% extends 'base-cliente.html' %}
+
+{% block content %}
+<div class="content-ribbon">
+  {% block content_header %}
+    <h2>Valores das Tarefas</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Valores das Tarefas</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome da Tarefa"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    
+  {% endblock %}
+  <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'relatorio' %}">
+        <span class="icono-check" aria-hidden="true"></span>
+        Gerar Relatório
+  </a> 
+  <!-- <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href=" url 'e_mail' ">
+        <span class="icono-mail" aria-hidden="true"></span>
+        Enviar E-mail
+  </a>  -->
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Tarefa</th>
+            <th>Início</th>
+            <th>Fim</th>
+            <th>Valor total</th>
+          </tr>
+      </thead>
+      <tbody>
+        {% for task in tasks %}
+          <tr>
+            <td>{{ task.nome }}</td>
+            <td>{{ task.dt_inicial }}</td>
+            <td>{{ task.dt_final }}</td>
+            <td>Colocar alguma função</td>
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <!--Mostrar o Total...-->
+  </div>
+</div>
+{% endblock %}

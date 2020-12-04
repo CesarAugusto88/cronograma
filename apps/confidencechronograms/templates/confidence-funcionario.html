@@ -1,0 +1,72 @@
+{% extends "base-funcionario.html" %}
+
+{% block content %}
+
+<div class="container" style="padding-top: 15px;">
+    <h2>Bem Vindo(a)!</h2>  
+    <!-- <a href="funcionario/" style="text-decoration:none">
+      <button type="button">Novo funcionario</button>
+    </a> -->
+
+   <!-- IF se funcionário existir 'usuario_fun' mostra o conteúdo -->
+    <ul style="font-size: 20px;">
+        {% for funcionario in funcionario %}
+          {% if funcionario.usuario %}
+          <div class="content-ribbon">
+          <fieldset>
+            <legend>Dados do Funcionário</legend>
+            <p>
+              <label>Nome:
+              {{ funcionario.nome }}
+              </label>
+            </p>
+            <p>
+                <label>Telefone:
+                {{ funcionario.fone }}            
+                </label>
+            </p>
+            <p>
+              <label>E-mail
+              {{ funcionario.email }}
+              </label>
+            </p>
+          </fieldset>
+
+          <fieldset>
+              <legend>Endereço</legend>
+              <p>
+                  <label>Rua:
+                  {{ funcionario.rua }}
+                  </label>
+              </p>
+              <p>
+                <label>Cidade:
+                {{ funcionario.cidade }}
+                </label>
+              </p>
+              <p>
+                  <label>Cep:
+                  {{ funcionario.cep }}
+                  </label>
+              </p>
+              <p>
+                <label>Estado:
+                {{ funcionario.uf }}
+                </label>
+              </p>
+ 
+          </fieldset>   
+          <br>
+          
+          <a href="func/?id={{ funcionario.id }}" style="text-decoration:none">
+            <button class="btn btn-info btn-sm" type="button">Editar
+              <span class="icono-rename" aria-hidden="true"></span>
+            </button>
+          </a>  
+          
+          </div>
+          {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock%}

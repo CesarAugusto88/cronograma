@@ -1,0 +1,66 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Detalhe Mão de Obra</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Detalhe</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="id"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'novo_detalhe_mao_de_obra' %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Novo Detalhe
+    </a>
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>id</th>
+          <th>Funcionario</th>
+          <th>Mão de Obra</th>
+          <th>Valor Unitário</th>
+          <th>Quantidade</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for detalhe_mao_de_obra in detalhe_mao_de_obra %}
+          <tr>
+
+            <td>{{ detalhe_mao_de_obra.id }}</td>
+            <td>{{ detalhe_mao_de_obra.funcionario_da_obra.nome }}</td>
+            <td>{{ detalhe_mao_de_obra.mao_de_obra.nome }}</td>
+            <td>{{ detalhe_mao_de_obra.valor_unitario}}</td>
+            <td>{{ detalhe_mao_de_obra.quantidade}}</td>
+
+            <td><a href="{% url 'alterar_detalhe_mao_de_obra' detalhe_mao_de_obra.id %}" style="text-decoration:none">
+                <button class="btn btn-info btn-sm" type="button">Alterar
+                  <span class="icono-rename" aria-hidden="true"></span>
+                </button>
+              </a> </td>
+            
+            <!-- retirar exclusão ...-->
+            <td>
+
+              <form method="post" action="{% url 'excluir_detalhe_mao_de_obra' detalhe_mao_de_obra.id %}">
+                {% csrf_token %}
+                <!-- onclick deseja realmente deletar...-->
+                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+              
+              </form>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

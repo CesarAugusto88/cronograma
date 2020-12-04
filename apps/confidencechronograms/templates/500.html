@@ -1,0 +1,198 @@
+<!DOCTYPE <!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title> ERROR 500 🎮 Jogo da Velha</title>
+<!--Fonte Jogo da Velha html/css/javascript:
+    mendesrl gist.github.com/mendesrl/81445bb51e25510368bf233effc8722e/revisions-->
+<!--CSS-->
+    <style>
+        /*Importação do estilo de fonte pixel*/
+        @import url(http://fonts.googleapis.com/css?family=Geo&subset=latin);
+        
+        /*Corpo da Página*/
+        body{background-color: #b36dbd;}
+        
+        /*Título Principal*/
+        h1{
+            text-align: center;
+            color: white;
+            font-family: 'Geo', serif;
+            padding-top: 50px;
+            font-size: 70px;
+        }
+        
+        /*DIV principal*/
+        div
+        {
+            width: 30%;
+            height: 100%;
+            background: black;
+            margin: auto;
+        }
+        
+        /*DIV que engloba os inputs*/
+        .divInput
+        {
+            height: 30%;
+            width: 70%;
+            float: none;
+        }
+        
+        /*Todos os inputs com essa formatação*/
+        input{
+            width: 80px;
+            height: 80px;
+            border: 5px solid violet;
+            font-size: 60px;
+            margin: 5px;
+            text-align: center;
+            font-family: 'Geo', serif;
+        }
+        
+        /*Paragrafo*/
+        p{
+            color: white;
+            text-align: center;
+            font-family: 'Geo', serif;
+            font-size: 20px;
+        }
+  </style>
+
+<!--JS / JAVASCRIPT -->
+ <script>
+   //Funçao que verifica o jogo - Se existe um vencedor ou se deu empate
+   function compara()
+   {
+      //INICIO DO SET (Utilizado para que o processamento dos dados seja em 50 milisegundos
+      setTimeout( ()=> 
+      {
+            ///////////////////--DECLARAÇÃO DAS VARIAVEIS DO JOGO--////////////////////////////
+            var cel1 = document.getElementById("cel1").value;
+            var cel2 = document.getElementById("cel2").value;   
+            var cel3 = document.getElementById("cel3").value;
+            var cel4 = document.getElementById("cel4").value;
+            var cel5 = document.getElementById("cel5").value;
+            var cel6 = document.getElementById("cel6").value;
+            var cel7 = document.getElementById("cel7").value;
+            var cel8 = document.getElementById("cel8").value;
+            var cel9 = document.getElementById("cel9").value;
+
+            ///////////////////--PRIMEIRA LINHA--////////////////////////////        
+
+                /*Compara a Primeira linha e coluna*/
+                if(cel1 !="" && cel1 == cel2 && cel2 == cel3)
+                {
+                    window.alert(cel3 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+
+            ///////////////////--SEGUNDA LINHA--////////////////////////////
+
+                /*Compara a segunda linha e calula*/
+                else if(cel4 !="" && cel4 == cel5 && cel5 == cel6)
+                {
+                    window.alert(cel6 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+            
+            ///////////////////--TERCEIRA LINHA--////////////////////////////
+
+                /*Compara a segunda linha e calula o venceddor*/
+                else if(cel7 !="" && cel7 == cel8 && cel8 == cel9)
+                {
+                    window.alert(cel9 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+
+            ///////////////////--PRIMEIRA COLUNA--////////////////////////////        
+
+                /*Compara a Primeira COLUNA e calula*/
+                else if(cel1 !="" && cel1 == cel4 && cel4 == cel7)
+                {
+                    window.alert(cel7 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+
+            ///////////////////--SEGUNDA COLUNA--////////////////////////////
+
+                /*Compara a segunda COLUNA e calula*/
+                else if(cel2 !="" && cel2 == cel5 && cel5 == cel8)
+                {
+                    window.alert(cel8 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+               
+            ///////////////////--TERCEIRA COLUNA--////////////////////////////
+
+                /*Compara a terceira COLUNA e calula*/
+                else if(cel3 !="" && cel3 == cel6 && cel6 == cel9)
+                {
+                    window.alert(cel9 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+
+            ///////////////////---DIAGONAIS---////////////////////////////
+            
+                /*1º DIAGONAL*/
+                else if(cel1 !="" && cel1 == cel5 && cel5 == cel9)
+                {
+                    window.alert(cel9 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+
+                /*2º DIAGONAL*/
+                else if(cel3 !="" && cel3 == cel5 && cel5 == cel7)
+                {
+                    window.alert(cel7 + " é o VENCEDOR" );
+                    location.reload();//Utilizado para zerar o jogo caso exista um vencedor
+                }
+
+            ///////////////////---Empate---////////////////////////////
+                else if (cel1 !="" &&
+                         cel2 !="" &&
+                         cel3 !="" &&
+                         cel4 !="" &&
+                         cel5 !="" &&
+                         cel6 !="" &&
+                         cel7 !="" &&
+                         cel8 !="" &&
+                         cel9 !="" )
+                         {
+                            window.alert("FIM DO JOGO : Deu Velha");
+                            location.reload();//Utilizado para zerar o jogo após o empate
+                        }
+            }, 50);
+    }   
+    </script>
+</head>
+
+<body>
+    
+<h1 style="text-align: center;">500 ERROR <br> Internal Server Error</h1>
+<h3 style="text-align: center;">Algo errado não está certo. Por favor, contate o administrador do site.</h3>
+
+    <div>
+        <!--Jogo da Velha-->
+        <h1>Jogo da Velha</h1>
+        <p>Jogador 1 : X | Jogador 2 : O</p>
+
+            <!--PRIMEIRA LINHA-->
+        <div class="divInput">
+            <input type="text" id="cel1" maxlength="1" onkeypress="window.compara()">
+            <input type="text" id="cel2" maxlength="1" onkeypress="window.compara()">
+            <input type="text" id="cel3" maxlength="1" onkeypress="window.compara()"><br><br>
+
+            <!--SEGUNDA LINHA-->
+            <input type="text" id="cel4" maxlength="1" onkeypress="window.compara()">
+            <input type="text" id="cel5" maxlength="1" onkeypress="window.compara()">
+            <input type="text" id="cel6" maxlength="1" onkeypress="window.compara()"><br><br>
+
+            <!--TERCEIRA LINHA-->
+            <input type="text" id="cel7" maxlength="1" onkeypress="window.compara()">
+            <input type="text" id="cel8" maxlength="1" onkeypress="window.compara()">
+            <input type="text" id="cel9" maxlength="1" onkeypress="window.compara()"><br><br>
+        </div>
+</div>
+</body>
+</html>

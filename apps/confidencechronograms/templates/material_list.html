@@ -1,0 +1,63 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Materiais</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Material</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'novo_material' %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Novo Material
+    </a>   
+    
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Unidade</th>
+          <th>Deposito</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for material in material %}
+          <tr>
+
+            <td>{{ material.nome }}</td>
+            <td>{{ material.unidade }}</td>
+            <td>{{ material.depositos.nome }}</td>
+
+            <td><a href="{% url 'alterar_material' material.id %}" style="text-decoration:none">
+                <button class="btn btn-info btn-sm" type="button">Alterar
+                  <span class="icono-rename" aria-hidden="true"></span>
+                </button>
+              </a> </td>
+            
+            <!-- retirar exclusão ...-->
+            <td>
+
+              <form method="post" action="{% url 'excluir_material' material.id %}">
+                {% csrf_token %}
+                <!-- onclick deseja realmente deletar...-->
+                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+              
+              </form>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

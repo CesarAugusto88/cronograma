@@ -1,0 +1,59 @@
+{% extends 'base-funcionario.html' %}
+
+{% block content %}
+<div class="content-ribbon" style="padding-top: 1rem;">
+  {% block content_header %}
+    <h2>Categorias</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Categorias</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Categoria"/>
+          <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
+      </fieldset>
+    </form>
+    <a class="navbar-brand pure-button pure-button-primary btn-sm" 
+    href="{% url 'nova_categoria %}">
+        <span class="icono-plus" aria-hidden="true"></span>
+        Nova Categoria
+    </a>
+  {% endblock %}
+  <div class="pure-u-1">
+    <table class="pure-table pure-table-bordered">
+      <thead>
+        <tr>
+          <th>Nome</th>
+          <th>Alterar</th>
+          <th>Excluir</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for categoria in categoria %}
+          <tr>
+
+            <td>{{ categoria.nome }}</td>
+
+            <td><a href="{% url 'alterar_categoria categoria.id %}" style="text-decoration:none">
+                <button class="btn btn-info btn-sm" type="button">Alterar
+                  <span class="icono-rename" aria-hidden="true"></span>
+                </button>
+              </a>
+            </td>
+            
+            
+            <td>
+                <!-- retirar exclusão ...-->
+              <form method="post" action="{% url 'excluir_categoria' categoria.id %}">
+                {% csrf_token %}
+                <!-- onclick deseja realmente deletar...-->
+                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+              
+              </form>
+            </td>
+            
+          </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

@@ -1,0 +1,70 @@
+{% extends "base-cliente.html" %}
+
+{% block content %}
+<div class="container" style="padding-top: 15px;">
+    <h2>Bem vindo(a)!</h2> 
+    <!--IF se cliente existir 'usuario_cli' mostra os dados -->
+    <ul style="font-size: 20px">
+        {% for cliente in cliente %} 
+          {% if cliente.usuario %}
+          <div class="content-ribbon">
+            <fieldset>
+              <legend>Dados do Cliente</legend>
+              <p>
+                <label>Nome:
+                {{ cliente.nome }}
+                </label>
+              </p>
+              <p>
+                  <label>Telefone:
+                  {{ cliente.fone }}            
+                  </label>
+              </p>
+              <p>
+                <label>E-mail
+                {{ cliente.email }}
+                </label>
+              </p>
+            </fieldset>
+  
+            <fieldset>
+                <legend>Endereço</legend>
+                <p>
+                    <label>Rua:
+                    {{ cliente.rua }}
+                    </label>
+                </p>
+                <p>
+                  <label>Cidade:
+                  {{ cliente.cidade }}
+                  </label>
+                </p>
+                <p>
+                    <label>Cep:
+                    {{ cliente.cep }}
+                    </label>
+                </p>
+                <p>
+                  <label>Estado:
+                  {{ cliente.uf }}
+                  </label>
+                </p>
+   
+            </fieldset>  
+          <br>
+         
+          <a href="clie/?id={{ cliente.id }}" style="text-decoration:none">
+            <button class="btn btn-info btn-sm" type="button">Editar
+              <span class="icono-rename" aria-hidden="true"></span>
+            </button>
+          </a> 
+          
+          <!-- Cliente não deleta <a href="cliente/delete/ cliente.id /">
+            <button type="button">Deletar</button>
+          </a>-->
+          </div>
+          {% endif %}
+        {% endfor %}
+    </ul>
+</div>
+{% endblock %}

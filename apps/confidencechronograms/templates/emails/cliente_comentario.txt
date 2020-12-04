@@ -1,0 +1,1 @@
+Cliente {{ cliente }} cadastrou ou alterou um Comentário com a seguinte descrição: {{ descricao }}. Comentário para o funcionário {{ funcionario }}.
