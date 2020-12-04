@@ -214,6 +214,7 @@ class Funcionario_da_Obra(models.Model):
 
 
 class Mao_de_Obra(models.Model):
+
     nome = models.CharField(max_length=200)
     #unidade - m2, m3, hora...
     unidade = models.CharField(max_length=20)
@@ -313,6 +314,7 @@ class Categoria(models.Model):
 # Como Produto
 class Material(models.Model):
     """ Materiais de determinado 'Deposito' """
+
     nome = models.CharField(max_length=200)
     #unidade - m2, m3, hora...
     unidade = models.CharField(max_length=20)
@@ -378,6 +380,7 @@ class Orgao(models.Model):
 
 class Taxa(models.Model):
     """ Taxas de determinado 'Orgão' """
+
     nome = models.CharField(max_length=60)
     unidade = models.CharField(max_length=20)
     #Orgao
@@ -390,10 +393,13 @@ class Taxa(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
+
         return f"Taxa: {self.nome}"
+
 
 # Tabela associação de Taxa e Orgão
 class Detalhe_Taxa(models.Model):
+
     valor_unitario = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     quantidade = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
 
@@ -412,6 +418,7 @@ class Detalhe_Taxa(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
+        
         return self.valor_unitario
 
 ########################################
