@@ -107,6 +107,7 @@ class Cliente(models.Model):
         """ Devolve uma representação em string do modelo."""
         return self.nome
 
+
 # Criar Foreinkey de Cliente ou tabém com funcionário...
 class Cronograma(models.Model):
     """ Um cronograma da obra em que o cliente e
@@ -141,6 +142,7 @@ class Cronograma(models.Model):
     def get_date_added(self):
 
         return self.date_added.strftime('%d/%m/%Y %H h : %M min')
+
 
 ########################################
 class Empreiteira(models.Model):
@@ -210,6 +212,7 @@ class Funcionario_da_Obra(models.Model):
         """ Devolve uma representação em string do modelo."""
         return self.nome
 
+
 class Mao_de_Obra(models.Model):
     nome = models.CharField(max_length=200)
     #unidade - m2, m3, hora...
@@ -225,7 +228,7 @@ class Mao_de_Obra(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return f"Mão de Obra:{self.nome}, Empreiteira:{self.empreiteiras.nome}, Funcionário:{self.funcionarios_da_obra.nome}"
+        return self.nome
 
 
 # Tabela associação de Mão de obra e Funcionario da obra
@@ -250,7 +253,7 @@ class Detalhe_Mao_de_Obra(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return f"Mão de Obra:{self.mao_de_obra.nome}, Empreiteira:{self.empreiteira.nome}"
+        return self.valor_unitario
 
 
 # Tabela associação de Mão de obra e Funcionario da obra
@@ -272,7 +275,8 @@ class Detalhe_Funcionario_da_Obra(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return f"Funcionário:{self.funcionario_da_obra.nome} Mão de Obra:{self.mao_de_obra.nome},"
+        return self.funcionario_da_obra
+
 
 class Deposito(models.Model):
     """ Deposito de Vários materiais """
@@ -324,7 +328,9 @@ class Material(models.Model):
         """ Devolve uma representação em string do modelo."""
         return f"Material:{self.nome}"
 
+
 class Detalhe_Material(models.Model):
+
     valor_unitario = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     quantidade = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
     #Material
@@ -347,10 +353,12 @@ class Detalhe_Material(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return f"Material:{self.material.nome}, Categoria:{self.categoria.nome}"
+        return self.valor_unitario
+
 
 class Orgao(models.Model):
     """ Orgão que emite várias taxas """
+
     nome = models.CharField(max_length=200)
     cnpj = models.CharField(blank=True, null=True, max_length=14)
     email = models.EmailField("E-mail", blank=True, null=True, max_length=60)
@@ -358,7 +366,7 @@ class Orgao(models.Model):
     date_added = models.DateTimeField(verbose_name = 'Data de criação', auto_now_add=True)
     date_update = models.DateTimeField(verbose_name = 'Data de atualização', auto_now=True)
     #Taxa
-    taxas = models.ManyToManyField('Taxas', through='Detalhe_Taxa')
+    taxas = models.ManyToManyField('Taxa', through='Detalhe_Taxa')
 
     class Meta:
         verbose_name = 'Orgão'
@@ -404,7 +412,7 @@ class Detalhe_Taxa(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return f"Taxa{self.taxa.nome}"
+        return self.valor_unitario
 
 ########################################
 
@@ -417,6 +425,7 @@ class Tarefa(models.Model):
     O que importa são os valores que uma tarefa tem.
     Por isso separado "Mao de Obra', 'Material' e, 'Taxa'.
     """
+
     #funcionario user
     funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
     # Cronograma tem cliente e funcionario
@@ -506,11 +515,10 @@ class Tarefa(models.Model):
         return f"{self.nome} {self.descricao}"
 
 
-
-
 # Comentario feito por um cliente
 class Comentario(models.Model):
     """Tabela de comentário com referencia de cliente e funcionário."""
+
     nome_cliente = models.CharField("Nome do cliente", max_length=60)
     assunto = models.CharField("Assunto", max_length=60)
     descricao = models.TextField(verbose_name = 'Descrição')
