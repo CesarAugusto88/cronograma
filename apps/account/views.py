@@ -1,12 +1,15 @@
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
-from django.contrib.auth.forms import UserCreationForm, AuthenticationForm, PasswordChangeForm
-from django.contrib.auth import authenticate, login, logout, update_session_auth_hash
+from django.contrib.auth.forms import (
+    UserCreationForm, AuthenticationForm, PasswordChangeForm)
+from django.contrib.auth import (
+    authenticate, login, logout, update_session_auth_hash)
 from django.contrib.auth.models import User
 
 from apps.confidencechronograms.models import Cliente, Funcionario
-#com o forms vou conseguir resolver para incluir o usuario_cli e usuario_fun
+# com o forms vou conseguir resolver para incluir o usuario_cli e usuario_fun
 from .forms import ClienteForm, FuncionarioForm
+
 
 # Cadastro de cliente
 def cadastrar_cliente(request):
@@ -17,7 +20,9 @@ def cadastrar_cliente(request):
             return redirect('account:continue_cad_cliente')
     else:
         form_usuario = UserCreationForm()
-    return render(request, 'cadastro_cliente.html', {'form_usuario': form_usuario})
+    return render(
+        request, 'cadastro_cliente.html', {'form_usuario': form_usuario})
+
 
 # mostra continue cadastro cliente
 @login_required(login_url="/login/")
@@ -25,7 +30,7 @@ def continue_cad_cliente(request):
     if request.method == "POST":
         form = ClienteForm(request.POST)
         if form.is_valid():
-            #'nome', 'rua', 'razao_social', 'tipo_pessoa', 'cpf', 'rg',
+            # 'nome', 'rua', 'razao_social', 'tipo_pessoa', 'cpf', 'rg',
             # 'cep', 'uf', 'email', 'fone', 'usuario_cli'
             nome = form.cleaned_data['nome']
             rua = form.cleaned_data['rua']
@@ -38,11 +43,10 @@ def continue_cad_cliente(request):
             usuario_cli = form.cleaned_data['usuario']
             novo = Cliente(
                 nome=nome, rua=rua, cpf=cpf, rg=rg,
-                cep=cep, uf=uf, email=email, fone=fone, 
+                cep=cep, uf=uf, email=email, fone=fone,
                 usuario=usuario_cli
             )
             novo.save()
-            #form.save()
             return redirect("funcionario")
     else:
         form = ClienteForm()
@@ -70,7 +74,8 @@ def submit_continue_cad_cliente(request):
         )
     return redirect("/confidencechronogram/funcionario")
 
-#cadastro de funcinário
+
+# cadastro de funcinário
 def cadastrar_funcionario(request):
     if request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
@@ -79,7 +84,9 @@ def cadastrar_funcionario(request):
             return redirect('account:continue_cad_funcionario')
     else:
         form_usuario = UserCreationForm()
-    return render(request, 'cadastro_funcionario.html', {'form_usuario': form_usuario})
+    return render(
+        request, 'cadastro_funcionario.html', {'form_usuario': form_usuario})
+
 
 # mostra continue cadastro funcionário
 @login_required(login_url="/login/")
@@ -107,7 +114,8 @@ def continue_cad_funcionario(request):
     #         usuario_fun = form.cleaned_data['usuario_fun']
     #         novo = Funcionario(
     #             nome=nome, rua=rua, cpf=cpf,
-    #             rg=rg, fone=fone, bloqueado=bloqueado, usuario_fun=usuario_fun
+    #             rg=rg, fone=fone, bloqueado=bloqueado,
+    #             suario_fun=usuario_fun
     #         )
     #         novo.save()
     #         return redirect("funcionario")
@@ -158,6 +166,7 @@ def deslogar_usuario(request):
     logout(request)
     return redirect('index')
 
+
 @login_required(login_url='/login/')
 def alterar_senha(request):
     if request.method == "POST":
@@ -169,15 +178,3 @@ def alterar_senha(request):
     else:
         form_senha = PasswordChangeForm(request.user)
     return render(request, 'alterar_senha.html', {'form_senha': form_senha})
-
-@login_required(login_url="/login/")
-def upload_chamado(request):
-    """ Cria formulário do chamado e envia objeto cliente para pegar id. """
-    if request.method == "POST":
-        form = ChamadoForm(request.POST, request.FILES)
-        if form.is_valid():
-            form.save()
-            return redirect("chamado_list")
-    else:
-        form = ChamadoForm()
-    return render(request, "upload_chamado.html", {"form": form})

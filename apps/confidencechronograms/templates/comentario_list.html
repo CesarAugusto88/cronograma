@@ -1,7 +1,7 @@
 {% extends 'base-cliente.html' %}
 
 {% block content %}
-<div class="content-ribbon">
+<div class="container">
   {% block content_header %}
     <h2>Comentários</h2>
     <form action="" class="pure-form">
@@ -16,55 +16,45 @@
         <span class="icono-plus" aria-hidden="true"></span>
         Novo comentario
     </a>   
-    
+    <hr>
   {% endblock %}
-  <div class="pure-u-1">
-    <table class="pure-table pure-table-bordered">
-      <thead>
-        <tr>
-          <th>Nome do Cliente</th>
-          <th>Assunto</th>
-          <th>Descrição</th>
-          <th>Download</th>
-          <th>Update</th>
-          <th>Delete</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for comentario in comentarios %}
-          <tr>
-            <td>{{ comentario.nome_cliente }}</td>
-            <td>{{ comentario.assunto }}</td>
-            <td>{{ comentario.descricao }}</td>
-            <td>
-              {% if comentario.arquivo %}
-              <a href="{{ comentario.arquivo.url }}" class="pure-button pure-button-active" target="_blank">
-                Baixar
-              </a>
-              {% else %}
-                <span class="pure-form-message">No arquivo</span>
-              {% endif %}
-            </td>
-            <td>
-              <a href="{% url 'update_comentario' comentario.id %}" style="text-decoration:none">
-                <button class="btn btn-info btn-sm" type="button">
-                 Alterar
-                </button>
-              </a>
-            </td>
-            <!-- exclusão por cliente...-->
-            <td>
-              <form method="post" action="{% url 'delete_comentario' comentario.id %}"> <!--Deve ser 'pk' em urls também-->
-                {% csrf_token %}
-                <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">
-                  Excluir
-                </button>
-              </form>
-            </td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <div class="container">
+    {% for comentario in comentarios %}
+      <p>Cliente:
+        {{ comentario.nome_cliente }}
+      </p>
+      <p>Assunto:
+        {{ comentario.assunto }}
+      </p>
+      <p>Descrição:
+        {{ comentario.descricao }}
+      </p>
+      <p>Arquivo:
+        {% if comentario.arquivo %}
+          <a href="{{ comentario.arquivo.url }}" class="pure-button pure-button-active" target="_blank">
+            Baixar
+          </a>
+          {% else %}
+            <span class="pure-form-message">No arquivo</span>
+        {% endif %}
+      </p>
+      <p>Alterar Comentário:
+        <a href="{% url 'update_comentario' comentario.id %}" style="text-decoration:none">
+          <button class="btn btn-info btn-sm" type="button">
+            Alterar
+          </button>
+        </a>
+      </p>
+      <form method="post" action="{% url 'delete_comentario' comentario.id %}"> <!--Deve ser 'pk' em urls também-->
+        {% csrf_token %}
+        Deletar arquivo:
+        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">
+          Excluir
+        </button>
+      </form>
+          <br>
+          <hr>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}

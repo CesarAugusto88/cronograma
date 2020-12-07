@@ -1,7 +1,7 @@
 {% extends 'base-funcionario.html' %}
 
 {% block content %}
-<div class="content-ribbon" style="padding-top: 1rem;">
+<div class="container">
   {% block content_header %}
     <h2>Depósitos</h2>
     <form action="" class="pure-form">
@@ -16,48 +16,30 @@
         <span class="icono-plus" aria-hidden="true"></span>
         Novo Depósito
     </a>   
-    
+    <hr>
   {% endblock %}
-  <div class="pure-u-1">
-    <table class="pure-table pure-table-bordered">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>E-mail</th>
-          <th>Telefone</th>
-          <th>Alterar</th>
-          <th>Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
+
         {% for deposito in deposito %}
-          <tr>
-
-            <td>{{ deposito.nome }}</td>
-            <td>{{ deposito.email }}</td>
-            <td>{{ deposito.fone }}</td>
-
-            <td><a href="{% url 'alterar_deposito' deposito.id %}" style="text-decoration:none">
-                <button class="btn btn-info btn-sm" type="button">Alterar
-                  <span class="icono-rename" aria-hidden="true"></span>
-                </button>
-              </a> </td>
-            
-            <!-- retirar exclusão ...-->
-            <td>
-
-              <form method="post" action="{% url 'excluir_deposito' deposito.id %}">
-                {% csrf_token %}
-                <!-- onclick deseja realmente deletar...-->
-                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
-              
-              </form>
-            </td>
-            
-          </tr>
+          <p>Nome:
+            {{ deposito.nome }}
+          </p>
+          <p>E-mail:
+            {{ deposito.email }}
+          </p>
+          <p>Telefone:
+            {{ deposito.fone }}
+          </p>
+            <form method="post" action="{% url 'excluir_deposito' deposito.id %}">
+              {% csrf_token %}
+              <a href="{% url 'alterar_deposito' deposito.id %}" style="text-decoration:none">
+              <button class="btn btn-outline-primary my-2 my-sm-0" type="button">
+                Alterar
+              </button>
+              </a>
+              <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+            </form>
+              <hr>
         {% endfor %}
-      </tbody>
-    </table>
-  </div>
+
 </div>
 {% endblock %}

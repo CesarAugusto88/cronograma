@@ -18,33 +18,27 @@
         <span class="icono-check" aria-hidden="true"></span>
         Gerar Relatório
   </a> 
+  <hr>
   <!-- <a class="navbar-brand pure-button pure-button-primary btn-sm" 
     href=" url 'e_mail' ">
         <span class="icono-mail" aria-hidden="true"></span>
         Enviar E-mail
   </a>  -->
-  <div class="pure-u-1">
-    <table class="pure-table pure-table-bordered">
-      <thead>
-        <tr>
-          <th>Tarefa</th>
-            <th>Início</th>
-            <th>Fim</th>
-            <th>Valor total</th>
-          </tr>
-      </thead>
-      <tbody>
-        {% for task in tasks %}
-          <tr>
-            <td>{{ task.nome }}</td>
-            <td>{{ task.dt_inicial }}</td>
-            <td>{{ task.dt_final }}</td>
-            <td>Colocar alguma função</td>
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-    <!--Mostrar o Total...-->
-  </div>
+
+  {% for task in tasks %}
+    <p>Nome:
+    <b>{{ task.nome }}</b>
+    </p>
+    <p>Data inicial:
+      {{ task.dt_inicial }}
+    </p>
+    <p>Data final:
+      {{ task.dt_final }}
+    </p>
+    <p>Valor total:
+      Colocar uma função
+    </p>
+    <hr>
+  {% endfor %}
 </div>
 {% endblock %}

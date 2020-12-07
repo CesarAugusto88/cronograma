@@ -1,7 +1,10 @@
 {% extends 'base-funcionario.html' %}
 
 {% block content %}
-<div class="content-ribbon" style="padding-top: 1rem;">
+
+{% load my_filters %}
+
+<div class="container">
   {% block content_header %}
     <h2>Mão de Obra</h2>
     <form action="" class="pure-form">
@@ -16,50 +19,42 @@
         <span class="icono-plus" aria-hidden="true"></span>
         Nova Mão de Obra
     </a>   
-    
+    <hr>
   {% endblock %}
-  <div class="pure-u-1">
-    <table class="pure-table pure-table-bordered">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>Unidade</th>
-          <th>Empreiteira</th>
-          <th>Funcionário</th>
-          <th>Alterar</th>
-          <th>Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for mao_de_obra in mao_de_obra %}
-          <tr>
 
-            <td>{{ mao_de_obra.nome }}</td>
-            <td>{{ mao_de_obra.unidade }}</td>
-            <td>{{ mao_de_obra.empreiteiras }}</td>
-            <td>{{ mao_de_obra.funcionarios_da_obra }}</td>
-
-            <td><a href="{% url 'alterar_mao_de_obra' mao_de_obra.id %}" style="text-decoration:none">
-                <button class="btn btn-info btn-sm" type="button">Alterar
-                  <span class="icono-rename" aria-hidden="true"></span>
-                </button>
-              </a> </td>
-            
-            <!-- retirar exclusão ...-->
-            <td>
-
-              <form method="post" action="{% url 'excluir_mao_de_obra' mao_de_obra.id %}">
-                {% csrf_token %}
-                <!-- onclick deseja realmente deletar...-->
-                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
-              
-              </form>
-            </td>
-            
-          </tr>
+    {% for mao_de_obra in mao_de_obra %}
+      <p>Nome:
+        {{ mao_de_obra.nome }}
+      </p>
+      <p>Unidade:
+        {{ mao_de_obra.unidade }}
+      </p>
+      <p>Valor unitário:
+        {{ mao_de_obra.valor_unitario }}
+      </p>
+      <p>Quantidade:
+        {{ mao_de_obra.quantidade }}
+      </p>
+      <p>Valor total:
+        {% multiply mao_de_obra.valor_unitario mao_de_obra.quantidade %}
+      </p>
+      <!-- <p>Funcionários: erro não é todos - muitos para muitos...
+        {% for funcionario in funcionarios %}
+          - {{ funcionario.nome }}
         {% endfor %}
-      </tbody>
-    </table>
-  </div>
+      </p> -->
+      
+      <form method="post" action="{% url 'excluir_mao_de_obra' mao_de_obra.id %}">
+        {% csrf_token %}
+        <a href="{% url 'alterar_mao_de_obra' mao_de_obra.id %}" style="text-decoration:none">
+          <button class="btn btn-outline-primary my-2 my-sm-0" type="button">
+            Alterar
+          </button>
+        </a>
+        <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+      </form>
+    <hr>
+    {% endfor %}
+
 </div>
 {% endblock %}

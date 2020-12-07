@@ -1,10 +1,17 @@
 from django.contrib import admin
-from apps.confidencechronograms.models import Cronograma, Tarefa, Cliente, Funcionario, Comentario, Empreiteira, Mao_de_Obra, Funcionario_da_Obra, Deposito, Material, Categoria, Orgao, Taxa, Detalhe_Mao_de_Obra, Detalhe_Material, Detalhe_Taxa, Detalhe_Funcionario_da_Obra
+from apps.confidencechronograms.models import (
+    Cronograma, Tarefa, Cliente, Funcionario, Comentario, Empreiteira,
+    Mao_de_Obra, Funcionario_da_Obra, Deposito, Material, Categoria,
+    Orgao, Taxa)
+# Detalhe_Mao_de_Obra, Detalhe_Material, Detalhe_Taxa,
+# Detalhe_Funcionario_da_Obra, Detalhe_Mao_de_Obra_Tarefa
+
 
 class FuncionarioAdmin(admin.ModelAdmin):
     list_display = ('nome', 'cargo', 'rua', 'fone')
     list_filter = ('nome',)
     search_fields = ['nome', 'fone']
+
 
 class ClienteAdmin(admin.ModelAdmin):
     list_display = ('nome', 'rua', 'fone')
@@ -13,7 +20,9 @@ class ClienteAdmin(admin.ModelAdmin):
 
 
 class CronogramaAdmin(admin.ModelAdmin):
-    list_display = ('estrutura', 'cliente', 'tempo_total', 'endereco', 'valor_total', 'date_added')
+    list_display = (
+        'estrutura', 'cliente', 'tempo_total',
+        'endereco', 'valor_total', 'date_added')
     list_filter = ('estrutura', 'cliente',)
     search_fields = ['cliente', 'estrutura']
 
@@ -23,8 +32,9 @@ class TarefaAdmin(admin.ModelAdmin):
     list_filter = ('dt_inicial',)
     search_fields = ['descricao', 'dt_inicial']
 
-class Comentario_Admin(admin.ModelAdmin):    
-    list_display = ('nome_cliente','assunto', 'date_added')
+
+class Comentario_Admin(admin.ModelAdmin):
+    list_display = ('nome_cliente', 'assunto', 'date_added')
     search_fields = ['nome_cliente']
 
 
@@ -42,7 +52,8 @@ admin.site.register(Material)
 admin.site.register(Categoria)
 admin.site.register(Orgao)
 admin.site.register(Taxa)
-admin.site.register(Detalhe_Mao_de_Obra)
-admin.site.register(Detalhe_Material)
-admin.site.register(Detalhe_Taxa)
-admin.site.register(Detalhe_Funcionario_da_Obra)
+# admin.site.register(Detalhe_Mao_de_Obra)
+# admin.site.register(Detalhe_Mao_de_Obra_Tarefa)
+# admin.site.register(Detalhe_Material)
+# admin.site.register(Detalhe_Taxa)
+# admin.site.register(Detalhe_Funcionario_da_Obra)

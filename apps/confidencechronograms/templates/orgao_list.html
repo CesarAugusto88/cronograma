@@ -1,7 +1,7 @@
 {% extends 'base-funcionario.html' %}
 
 {% block content %}
-<div class="content-ribbon" style="padding-top: 1rem;">
+<div class="container">
   {% block content_header %}
     <h2>Orgãos</h2>
     <form action="" class="pure-form">
@@ -16,50 +16,29 @@
         <span class="icono-plus" aria-hidden="true"></span>
         Novo Orgão
     </a>   
-    
+    <hr>
   {% endblock %}
-  <div class="pure-u-1">
-    <table class="pure-table pure-table-bordered">
-      <thead>
-        <tr>
-          <th>Nome</th>
-          <th>E-mail</th>
-          <th>Telefone</th>
-          <th>Taxas</th>
-          <th>Alterar</th>
-          <th>Excluir</th>
-        </tr>
-      </thead>
-      <tbody>
-        {% for orgao in orgao %}
-          <tr>
+    {% for orgao in orgao %}
+      <p>Nome:
+        {{ orgao.nome }}
+      </p>
+      <p>E-mail:
+        {{ orgao.email }}
+      </p>
+      <p>Telefone:
+        {{ orgao.fone }} 
+      </p>
 
-            <td>{{ orgao.nome }}</td>
-            <td>{{ orgao.email }}</td>
-            <td>{{ orgao.fone }}</td>
-            <td>{{ orgao.taxas }}</td>
-
-            <td><a href="{% url 'alterar_orgao' orgao.id %}" style="text-decoration:none">
-                <button class="btn btn-info btn-sm" type="button">Alterar
-                  <span class="icono-rename" aria-hidden="true"></span>
-                </button>
-              </a> </td>
-            
-            <!-- retirar exclusão ...-->
-            <td>
-
-              <form method="post" action="{% url 'excluir_orgao' orgao.id %}">
-                {% csrf_token %}
-                <!-- onclick deseja realmente deletar...-->
-                <button type="submit" class="navbar-brand pure-button" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
-              
-              </form>
-            </td>
-            
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
-  </div>
+        <form method="post" action="{% url 'excluir_orgao' orgao.id %}">
+          {% csrf_token %}
+          <a href="{% url 'alterar_orgao' orgao.id %}" style="text-decoration:none">
+            <button class="btn btn-outline-primary my-2 my-sm-0" type="button">
+              Alterar
+            </button>
+          </a>
+        <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
+      </form>
+    <hr>
+    {% endfor %}
 </div>
 {% endblock %}

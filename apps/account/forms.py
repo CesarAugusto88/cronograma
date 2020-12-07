@@ -11,6 +11,7 @@ class ClienteForm(forms.ModelForm):
             'cep', 'uf', 'email', 'fone', 'usuario'
             )
 
+
 class FuncionarioForm(forms.ModelForm):
     class Meta:
         model = Funcionario

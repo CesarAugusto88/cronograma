@@ -1,0 +1,16 @@
+{% extends 'base-funcionario.html' %}
+
+{% load crispy_forms_tags %}
+
+{% block content %}
+
+<div class="content-ribbon" style="padding-top: 1rem;">
+  <h2>Detalhe Mão de Obra Tarefa</h2>
+  <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form|crispy }}
+
+    <button type="submit" class="pure-button pure-button-primary">Criar Detalhe Mão de Obra</button>
+  </form>
+</div>
+{% endblock %}

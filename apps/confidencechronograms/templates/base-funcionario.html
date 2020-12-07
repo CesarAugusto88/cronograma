@@ -9,18 +9,18 @@
   <title>Cronograma Confiável</title>
   <link rel="icon" href="{% static 'images/android-icon-36x36.png' %}">
 
-   <!-- Bootstrap core CSS -->
-   <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+  <!-- Bootstrap core CSS -->
+  <link rel="stylesheet" href="{% static 'css/bootstrap.css' %}">
+
+  <!-- Custom styles for this template -->
+  <link rel="stylesheet" href="{% static 'css/business-frontpage.css' %}">
   
-   <!-- Custom styles for this template -->
-   <link rel="stylesheet" href="{% static 'css/business-frontpage.css' %}">
-   
-   <!--https://saeedalipoor.github.io/icono/-->
-   <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css">
-   
-   <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
-   <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
-    
+  <!--https://saeedalipoor.github.io/icono/-->
+  <link rel="stylesheet" href="https://icono-49d6.kxcdn.com/icono.min.css">
+  
+  <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
 </head>
 
 <body>
@@ -59,18 +59,15 @@
               </button>
               <div class="dropdown-menu">
                 <a class="dropdown-item" href="{% url 'empreiteira_list' %}">Empreiteira</a>
-                <a class="dropdown-item" href="{% url 'mao_de_obra_list' %}">Mão de Obra</a>
                 <a class="dropdown-item" href="{% url 'funcionario_da_obra_list' %}">Funcionário da Obra</a>
-                <a class="dropdown-item" href="{% url 'detalhe_mao_de_obra_list' %}">Detalhe Mão de Obra</a>
+                <a class="dropdown-item" href="{% url 'mao_de_obra_list' %}">Mão de Obra</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'deposito_list' %}">Depósito</a>
+                <a class="dropdown-item" href="{% url 'categoria_list' %}">Categoria de Material</a>
                 <a class="dropdown-item" href="{% url 'material_list' %}">Material</a>
-                <a class="dropdown-item" href="{% url 'detalhe_material_list' %}">Detalhe Material</a>
                 <div class="dropdown-divider"></div>
                 <a class="dropdown-item" href="{% url 'orgao_list' %}">Orgão</a>
                 <a class="dropdown-item" href="{% url 'taxa_list' %}">Taxa</a>
-                <a class="dropdown-item" href="{% url 'detalhe_taxa_list' %}">Detalhe Taxa</a>
-                
               </div>
             </div>
           </li>

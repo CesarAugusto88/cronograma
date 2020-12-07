@@ -30,25 +30,16 @@
       </label>
     </p>
 
-    <p>
-      <label>Alterar:
-        <a href="{% url 'alterar_clientes' cliente.id %}" style="text-decoration:none">
-          <button class="btn btn-outline-primary my-2 my-sm-0" type="button">
-            Alterar
-          </button>
-        </a>
-      </label>
-    </p>
-      
     <form method="post" action="{% url 'excluir_clientes' cliente.pk %}">
       {% csrf_token %}
-      <p>
-        <label>Excluir Cliente:
-          <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
-        </label>
-      </p>
+      <a href="{% url 'alterar_clientes' cliente.id %}" style="text-decoration:none">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="button">
+          Alterar
+        </button>
+      </a>
+      <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
     </form>
-
+    <hr>
   {% endfor %}
 
 </div>

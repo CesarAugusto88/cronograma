@@ -1,7 +1,7 @@
 {% extends "base-funcionario.html" %}
 
 {% block content %}
-<div class="container" style="padding-top: 15px;">
+<div class="container">
     <h2>Funcionário</h2>
     <form action="submit" method="POST">
         {% csrf_token %}
@@ -12,17 +12,17 @@
                 <label>Nome:
                 <!--hidden fica escondido 'id'-->
                 <input type="number" name="id_funcionario" value="{{ funcionario.id }}" hidden> 
-                <input type="text" name="nome" size="30" value="{{ funcionario.nome }}" required>
+                <input type="text" name="nome" size="28" value="{{ funcionario.nome }}" required>
                 </label>
             </p>
             <p>
                 <label>Telefone:
-                <input type="tel" name="fone" size="30" value="{{ funcionario.fone }}" required>
+                <input type="tel" name="fone" size="28" value="{{ funcionario.fone }}" required>
                 </label>
             </p>
             <p>
                 <label>E-mail:
-                <input type="email" name="email" size="30" value="{{ funcionario.email }}" required>
+                <input type="email" name="email" size="28" value="{{ funcionario.email }}" required>
                 </label>
             </p>
         </fieldset>
@@ -31,17 +31,17 @@
             <legend>Endereço</legend>
             <p>
                 <label>Rua:<!--name="variavel_models" que esta na função views-->
-                <textarea name="rua" rows="4" cols="32" required>{{ funcionario.rua }}</textarea>
+                <textarea name="rua" rows="4" cols="28" required>{{ funcionario.rua }}</textarea>
                 </label>
             </p>
             <p>
                 <label>Cep:
-                <input type="text" name="cep" size="22" value="{{ funcionario.cep }}" required>
+                <input type="text" name="cep" size="20" value="{{ funcionario.cep }}" required>
                 </label>
             </p>
             <p>
                 <label>Cidade:
-                <input type="text" name="cidade" size="22" value="{{ funcionario.cidade }}" required>
+                <input type="text" name="cidade" size="20" value="{{ funcionario.cidade }}" required>
                 </label>
             </p>
             <p>
@@ -79,7 +79,7 @@
                 </label>
             </p>
             
-        </fieldset>     
+        </fieldset>
         <div class="navbar-brand">
             <button type="submit" class="btn btn-primary btn-sm">
                 <span class="icono-check" aria-hidden="true"></span>

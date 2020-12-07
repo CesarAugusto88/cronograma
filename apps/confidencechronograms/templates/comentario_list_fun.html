@@ -1,7 +1,7 @@
 {% extends 'base-funcionario.html' %}
 
 {% block content %}
-<div class="content-ribbon">
+<div class="container">
   <h2>Comentários</h2>
   <form action="" class="pure-form">
     <fieldset>
@@ -10,37 +10,30 @@
         <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
     </fieldset>
   </form>
-  <div class="pure-u-1">
-    <table class="pure-table pure-table-bordered">
-      <thead>
-        <tr>
-          <th>Nome do Cliente</th>
-          <th>Assunto</th>
-          <th>Descrição</th>
-          <th>Download</th>
-
-        </tr>
-      </thead>
-      <tbody>
-        {% for comentario in comentarios %}
-          <tr>
-            <td>{{ comentario.nome_cliente }}</td>
-            <td>{{ comentario.assunto }}</td>
-            <td>{{ comentario.descricao }}</td>
-            <td>
-              {% if comentario.arquivo %}
-              <a href="{{ comentario.arquivo.url }}" class="pure-button pure-button-active" target="_blank">
-                Download
-              </a>
-              {% else %}
-                <span class="pure-form-message">Sem arquivo</span>
-              {% endif %}
-            </td>
-            
-          </tr>
-        {% endfor %}
-      </tbody>
-    </table>
+  <hr>
+  <div class="container">
+    {% for comentario in comentarios %}
+      <p>Cliente:
+        {{ comentario.nome_cliente }}
+      </p>
+      <p>Assunto:
+        {{ comentario.assunto }}
+      </p>
+      <p>Descrição:
+        {{ comentario.descricao }}
+      </p>
+      <p>Arquivo:
+        {% if comentario.arquivo %}
+          <a href="{{ comentario.arquivo.url }}" class="pure-button pure-button-active" target="_blank">
+            Baixar
+          </a>
+          {% else %}
+            <span class="pure-form-message">No arquivo</span>
+        {% endif %}
+      </p>
+      <br>
+      <hr>
+    {% endfor %}
   </div>
 </div>
 {% endblock %}
