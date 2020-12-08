@@ -18,7 +18,6 @@
     </a>   
     <hr>
   {% endblock %}
-  <div class="container">
     {% for comentario in comentarios %}
       <p>Cliente:
         {{ comentario.nome_cliente }}
@@ -38,23 +37,18 @@
             <span class="pure-form-message">No arquivo</span>
         {% endif %}
       </p>
-      <p>Alterar Comentário:
-        <a href="{% url 'update_comentario' comentario.id %}" style="text-decoration:none">
-          <button class="btn btn-info btn-sm" type="button">
-            Alterar
-          </button>
-        </a>
-      </p>
+
       <form method="post" action="{% url 'delete_comentario' comentario.id %}"> <!--Deve ser 'pk' em urls também-->
         {% csrf_token %}
-        Deletar arquivo:
-        <button type="submit" class="btn btn-danger btn-sm" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">
-          Excluir
+        <a href="{% url 'update_comentario' comentario.id %}" style="text-decoration:none">
+        <button class="btn btn-outline-primary my-2 my-sm-0" type="button">
+          Alterar
         </button>
+        </a>
+        <button type="submit" class="btn btn-outline-danger my-2 my-sm-0" onclick="return confirm('Tem certeza que deseja deletar esse registro?');">Excluir</button>
       </form>
-          <br>
-          <hr>
+        <hr>
     {% endfor %}
-  </div>
+
 </div>
 {% endblock %}

@@ -4,7 +4,8 @@ from django.contrib.auth.forms import (
     UserCreationForm, AuthenticationForm, PasswordChangeForm)
 from django.contrib.auth import (
     authenticate, login, logout, update_session_auth_hash)
-from django.contrib.auth.models import User
+# from django.contrib.auth.models import User
+from django.http.response import Http404
 
 from apps.confidencechronograms.models import Cliente, Funcionario
 # com o forms vou conseguir resolver para incluir o usuario_cli e usuario_fun
@@ -13,7 +14,12 @@ from .forms import ClienteForm, FuncionarioForm
 
 # Cadastro de cliente
 def cadastrar_cliente(request):
-    if request.method == "POST":
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.get(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if funcionario and request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
         if form_usuario.is_valid():
             form_usuario.save()
@@ -27,7 +33,12 @@ def cadastrar_cliente(request):
 # mostra continue cadastro cliente
 @login_required(login_url="/login/")
 def continue_cad_cliente(request):
-    if request.method == "POST":
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.get(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if funcionario and request.method == "POST":
         form = ClienteForm(request.POST)
         if form.is_valid():
             # 'nome', 'rua', 'razao_social', 'tipo_pessoa', 'cpf', 'rg',
@@ -55,7 +66,12 @@ def continue_cad_cliente(request):
 
 @login_required(login_url="/login/")
 def submit_continue_cad_cliente(request):
-    if request.POST:
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.get(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if funcionario and request.POST:
         nome = request.POST.get("nome")
         fone = request.POST.get("fone")
         rua = request.POST.get("rua")
@@ -77,7 +93,12 @@ def submit_continue_cad_cliente(request):
 
 # cadastro de funcinário
 def cadastrar_funcionario(request):
-    if request.method == "POST":
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.get(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if funcionario and request.method == "POST":
         form_usuario = UserCreationForm(request.POST)
         if form_usuario.is_valid():
             form_usuario.save()
@@ -93,7 +114,12 @@ def cadastrar_funcionario(request):
 def continue_cad_funcionario(request):
     """ Continuação do Cadastro do Funcionário.
     """
-    if request.method == "POST":
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.get(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if funcionario and request.method == "POST":
         form = FuncionarioForm(request.POST)
         if form.is_valid():
             form.save()
@@ -126,7 +152,12 @@ def continue_cad_funcionario(request):
 
 @login_required(login_url="/login/")
 def submit_continue_cad_funcionario(request):
-    if request.POST:
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.get(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if funcionario and request.POST:
         nome = request.POST.get("nome")
         fone = request.POST.get("fone")
         rua = request.POST.get("rua")

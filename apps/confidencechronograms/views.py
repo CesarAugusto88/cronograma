@@ -5,22 +5,21 @@ from django.contrib import messages
 from django.http.response import Http404, JsonResponse
 from django.contrib.auth.models import User
 import json
-# import pickle
+
+import pickle
 from apps.confidencechronograms.models import (
     Tarefa, Cliente, Funcionario, Cronograma, Comentario, Empreiteira,
     Funcionario_da_Obra, Mao_de_Obra, Deposito,
     Material, Categoria, Orgao, Taxa
 )
-# Detalhe_Taxa, Detalhe_Funcionario_da_Obra, Detalhe_Mao_de_Obra_Tarefa,
-# Detalhe_Material, Detalhe_Mao_de_Obra
+
 from apps.confidencechronograms.forms import (
     TarefaForm, CronogramaForm, ComentarioForm, EmpreiteiraForm,
     Funcionario_da_ObraForm, Mao_de_ObraForm,
     OrgaoForm, TaxaForm, DepositoForm, MaterialForm,
     CategoriaForm, ClientesForm
 )
-# Detalhe_Funcionario_da_ObraForm, Detalhe_Mao_de_Obra_TarefaForm,
-# Detalhe_MaterialForm, Detalhe_TaxaForm, Detalhe_Mao_de_ObraForm,
+
 from django.http import HttpResponse
 from django.views.generic import View
 # import datetime
@@ -507,41 +506,6 @@ def task_list(request):
             # WHERE funcionario=funcionario)"
             # ])
 
-            # Criar função para mostrar valores das tarefas
-            # **IMPORTANTE: TODAS ASSOCIAÇÕES DEVEM ESTAR OK.
-
-            # Valor Mão de Obra
-            # valor_mao_de_obra = 0
-            # for task in tasks:
-            #     valor_mao_de_obra +=
-            # task.mao_de_obra_funcionario_da_obra.mao_de_obra.valor_unitario
-            # qtdd_mao_de_obra = 0
-            # for task in tasks:
-            #     qtdd_mao_de_obra +=
-            # task.mao_de_obra_funcionario_da_obra.mao_de_obra.quantidade
-            # total_valor_mao_de_obra = qtdd_mao_de_obra * valor_mao_de_obra
-
-            # # Valor Material
-            # valor_material = 0
-            # for task in tasks:
-            #     valor_material +=
-            # task.fornecedor_material.material.valor_unitario
-            # qtdd_material = 0
-            # for task in tasks:
-            #     qtdd_material += task.fornecedor_material.material.quantidade
-            # total_valor_material = qtdd_material * valor_material
-
-            # # Valor Taxa
-            # valor_taxa = 0
-            # for task in tasks:
-            #     valor_taxa += task.taxa.valor_unitario
-            # qtdd_taxa = 0
-            # for task in tasks:
-            #     qtdd_taxa += task.taxa.quantidade
-            # total_valor_taxa = qtdd_taxa * valor_taxa
-            # valor_total = total_valor_mao_de_obra +
-            # total_valor_material + total_valor_taxa
-
         dados = {
             "tasks": tasks
         }
@@ -653,8 +617,6 @@ def comentario_list(request):
     except Exception:
         raise Http404()
 
-    # NÃO ESTÁ PEGANDO O CLIENTE ESPECÍFICO QUE LANÇOU OS comentarioS
-    # VERIFICAR TAMBÉM EM OUTRA FUNÇÕES
     if cliente:
         # id pesquisa
         termo_pesquisa = request.GET.get('pesquisa', None)
@@ -814,7 +776,7 @@ def price_task(request):
 
 
 class GeneratePDF(View):
-    """Gerar pdf de relatório para cliente."""
+    """Gerar pdf de 'relatorio.html' para cliente."""
     def get(self, request, *args, **kwargs):
         context = {}
         cliente = request.user
@@ -829,43 +791,45 @@ class GeneratePDF(View):
         except Exception:
             raise Http404()
         if cliente:
+            # pegar por tarefa para gerar valores dela
+            # FAZER POR MY_FILTERS.PY
+            # tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+            # qs = Tarefa.objects.values_list()
+            # # print(qs)
+            # reloaded_qs = Tarefa.objects.all()
+            # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(reloaded_qs)
 
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
             tasks = Tarefa.objects.filter(cronograma=cronograma.id)
-            # Criar função para mostrar valores para cliente
-            # Valor Mão de Obra
-            # valor_mao_de_obra = 0
-            # for task in tasks:
-            #     valor_mao_de_obra +=
-            # task.mao_de_obra_funcionario_da_obra.mao_de_obra.valor_unitario
-            # qtdd_mao_de_obra = 0
-            # for task in tasks:
-            #     qtdd_mao_de_obra +=
-            # task.mao_de_obra_funcionario_da_obra.mao_de_obra.quantidade
-            # total_valor_mao_de_obra = qtdd_mao_de_obra * valor_mao_de_obra
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
 
-            # # Valor Material
-            # valor_material = 0
-            # for task in tasks:
-            #     valor_material +=
-            # task.fornecedor_material.material.valor_unitario
-            # qtdd_material = 0
-            # for task in tasks:
-            #     qtdd_material += task.fornecedor_material.material.quantidade
-            # total_valor_material = qtdd_material * valor_material
+            mao_de_obra = Mao_de_Obra.objects.filter(empreiteira=cronograma.id)
+            smdo = 0
+            for tmdo in mao_de_obra:
+                smdo += tmdo.valor_unitario * tmdo.quantidade
 
-            # # Valor Taxa
-            # valor_taxa = 0
-            # for task in tasks:
-            #     valor_taxa += task.taxa.valor_unitario
-            # qtdd_taxa = 0
-            # for task in tasks:
-            #     qtdd_taxa += task.taxa.quantidade
-            # total_valor_taxa = qtdd_taxa * valor_taxa
-            # valor_total = total_valor_mao_de_obra + total_valor_material +
-            # total_valor_taxa
+            material = Material.objects.filter(cronograma=cronograma.id)
+            smtrl = 0
+            for mtrl in material:
+                smtrl += mtrl.valor_unitario * mtrl.quantidade
 
+            taxa = Taxa.objects.filter(cronograma=cronograma.id)
+            stx = 0
+            for tx in taxa:
+                stx += tx.valor_unitario * tx.quantidade
+
+            sttl = smdo + smtrl + stx
             context = {
                 "tasks": tasks, "cliente": cliente, "chronogram": cronograma,
+                'sttl': sttl
             }
             # data = {
             #     'today': datetime.date.today(),
@@ -924,8 +888,8 @@ def nova_empreiteira(request):
     if request.method == "POST":
         form = EmpreiteiraForm(request.POST)
         if form.is_valid():
-            novo = Empreiteira(**form.cleaned_data)
-            novo.save()
+            emp = form.save(commit=False)
+            emp.save()
             return redirect("empreiteira_list")
     else:
         form = EmpreiteiraForm()
@@ -978,7 +942,8 @@ def mao_de_obra_list(request):
         # vlt = str(vlt)
 
         # vlt = [
-        #     t.valor_total() for t in Mao_de_Obra.objects.filter(empreiteira=empreiteira.id)]
+        #     t.valor_total() for
+        # t in Mao_de_Obra.objects.filter(empreiteira=empreiteira.id)]
 
         if termo_pesquisa:
             mao_de_obra = Mao_de_Obra.objects.all()
@@ -1089,69 +1054,6 @@ def excluir_funcionario_da_obra(request, id):
         funcionario_da_obra = Funcionario_da_Obra.objects.get(id=id)
         funcionario_da_obra.delete()
     return redirect("funcionario_da_obra_list")
-
-
-# # -----------detalhe_mao_de_obra---------------------
-# @login_required(login_url="/login/")
-# def detalhe_mao_de_obra_list(request):
-#     usuario = request.user
-#     dados = {}
-#     try:
-#         funcionario = Funcionario.objects.get(usuario=usuario)
-#     except Exception:
-#         raise Http404()
-#     if funcionario:
-#         # id pesquisa
-#         termo_pesquisa = request.GET.get('pesquisa', None)
-#         if termo_pesquisa:
-#             detalhe_mao_de_obra = Detalhe_Mao_de_Obra.objects.all()
-#             detalhe_mao_de_obra =
-# detalhe_mao_de_obra.filter(id=termo_pesquisa)
-#         else:
-#             detalhe_mao_de_obra = Detalhe_Mao_de_Obra.objects.all()
-#         dados = {"detalhe_mao_de_obra": detalhe_mao_de_obra}
-#     else:
-#         raise Http404()
-#     return render(request, "detalhe_mao_de_obra_list.html", dados)
-
-
-# # Cria detalhe_mao_de_obra
-# @login_required(login_url="/login/")
-# def novo_detalhe_mao_de_obra(request):
-#     """ Cria formulário de detalhe_mao_de_obra."""
-#     if request.method == "POST":
-#         form = Detalhe_Mao_de_ObraForm(request.POST)
-#         if form.is_valid():
-#             novo = Detalhe_Mao_de_Obra(**form.cleaned_data)
-#             novo.save()
-#             return redirect("detalhe_mao_de_obra_list")
-#     else:
-#         form = Detalhe_Mao_de_ObraForm()
-#     return render(request, "criar_detalhe_mao_de_obra.html", {"form": form})
-
-
-# # Altarar detalhe_mao_de_obra
-# @login_required(login_url="/login/")
-# def alterar_detalhe_mao_de_obra(request, id):
-#     """ Atualiza detalhe_mao_de_obra."""
-#     detalhe_mao_de_obra = Detalhe_Mao_de_Obra.objects.get(id=id)
-#     form = Detalhe_Mao_de_ObraForm(
-# request.POST or None, instance=detalhe_mao_de_obra)
-#     if form.is_valid():
-#         form.save()
-#         return redirect("detalhe_mao_de_obra_list")
-#     return render(
-#         request, "alterar_detalhe_mao_de_obra.html", {
-#             "form": form, 'detalhe_mao_de_obra': detalhe_mao_de_obra})
-
-
-# # Exclui detalhe_mao_de_obra
-# @login_required(login_url="/login/")
-# def excluir_detalhe_mao_de_obra(request, id):
-#     if request.method == "POST":
-#         detalhe_mao_de_obra = Detalhe_Mao_de_Obra.objects.get(id=id)
-#         detalhe_mao_de_obra.delete()
-#     return redirect("detalhe_mao_de_obra_list")
 
 
 # ---------Deposito---------------------
@@ -1336,68 +1238,6 @@ def excluir_material(request, id):
     return redirect("material_list")
 
 
-# ---------Detalhe Material---------------------
-# @login_required(login_url="/login/")
-# def detalhe_material_list(request):
-#     usuario = request.user
-#     dados = {}
-#     try:
-#         funcionario = Funcionario.objects.get(usuario=usuario)
-#     except Exception:
-#         raise Http404()
-#     if funcionario:
-#         # id pesquisa
-#         termo_pesquisa = request.GET.get('pesquisa', None)
-#         if termo_pesquisa:
-#             detalhe_material = Detalhe_Material.objects.all()
-#             # __icontains sem case sensitive
-#             detalhe_material = detalhe_material.filter(
-#                 nome__icontains=termo_pesquisa)
-#         else:
-#             detalhe_material = Detalhe_Material.objects.all()
-#         dados = {"detalhe_material": detalhe_material}
-#     else:
-#         raise Http404()
-#     return render(request, "detalhe_material_list.html", dados)
-
-
-# @login_required(login_url="/login/")
-# def novo_detalhe_material(request):
-#     """ Cria formulário de detalhe_material."""
-#     if request.method == "POST":
-#         form = Detalhe_MaterialForm(request.POST)
-#         if form.is_valid():
-#             novo = Detalhe_Material(**form.cleaned_data)
-#             novo.save()
-#             return redirect("detalhe_material_list")
-#     else:
-#         form = Detalhe_MaterialForm()
-#     return render(request, "criar_detalhe_material.html", {"form": form})
-
-
-# # alterar detalhe_material
-# @login_required(login_url="/login/")
-# def alterar_detalhe_material(request, id):
-#     """ Atualiza detalhe_material."""
-#     detalhe_material = Detalhe_Material.objects.get(id=id)
-#     form = Detalhe_MaterialForm(
-# request.POST or None, instance=detalhe_material)
-#     if form.is_valid():
-#         form.save()
-#         return redirect("detalhe_material_list")
-#     return render(
-#         request, "alterar_detalhe_material.html", {
-#             "form": form, 'detalhe_material': detalhe_material})
-
-
-# @login_required(login_url="/login/")
-# def excluir_detalhe_material(request, id):
-#     if request.method == "POST":
-#         detalhe_material = Detalhe_Material.objects.get(id=id)
-#         detalhe_material.delete()
-#     return redirect("detalhe_material_list")
-
-
 # ---------Orgão---------------------
 @login_required(login_url="/login/")
 def orgao_list(request):
@@ -1515,201 +1355,3 @@ def excluir_taxa(request, id):
         taxa = Taxa.objects.get(id=id)
         taxa.delete()
     return redirect("taxa_list")
-
-
-# ---------Detalhe Taxa---------------------
-# @login_required(login_url="/login/")
-# def detalhe_taxa_list(request):
-#     usuario = request.user
-#     dados = {}
-#     try:
-#         funcionario = Funcionario.objects.get(usuario=usuario)
-#     except Exception:
-#         raise Http404()
-#     if funcionario:
-#         # id pesquisa
-#         termo_pesquisa = request.GET.get('pesquisa', None)
-#         if termo_pesquisa:
-#             detalhe_taxa = Detalhe_Taxa.objects.all()
-#             # __icontains sem case sensitive
-#             detalhe_taxa = detalhe_taxa.filter(
-# nome__icontains=termo_pesquisa)
-#         else:
-#             detalhe_taxa = Detalhe_Taxa.objects.all()
-#         dados = {"detalhe_taxa": detalhe_taxa}
-#     else:
-#         raise Http404()
-#     return render(request, "detalhe_taxa_list.html", dados)
-
-
-# @login_required(login_url="/login/")
-# def novo_detalhe_taxa(request):
-#     """ Cria formulário de detalhe_taxa."""
-#     if request.method == "POST":
-#         form = Detalhe_TaxaForm(request.POST)
-#         if form.is_valid():
-#             novo = Detalhe_Taxa(**form.cleaned_data)
-#             novo.save()
-#             return redirect("detalhe_taxa_list")
-#     else:
-#         form = Detalhe_TaxaForm()
-#     return render(request, "criar_detalhe_taxa.html", {"form": form})
-
-
-# alterar detalhe_taxa
-# @login_required(login_url="/login/")
-# def alterar_detalhe_taxa(request, id):
-#     """ Atualiza detalhe_taxa."""
-#     detalhe_taxa = Detalhe_Taxa.objects.get(id=id)
-#     form = Detalhe_TaxaForm(request.POST or None, instance=detalhe_taxa)
-#     if form.is_valid():
-#         form.save()
-#         return redirect("detalhe_taxa_list")
-#     return render(
-#         request, "alterar_detalhe_taxa.html", {
-#             "form": form, 'detalhe_taxa': detalhe_taxa})
-
-
-# @login_required(login_url="/login/")
-# def excluir_detalhe_taxa(request, id):
-#     if request.method == "POST":
-#         detalhe_taxa = Detalhe_Taxa.objects.get(id=id)
-#         detalhe_taxa.delete()
-#     return redirect("detalhe_taxa_list")
-
-
-# ---------Detalhe Mao de Obra Tarefa---------------------
-# @login_required(login_url="/login/")
-# def detalhe_mao_de_obra_tarefa_list(request):
-#     usuario = request.user
-#     dados = {}
-#     try:
-#         funcionario = Funcionario.objects.get(usuario=usuario)
-#     except Exception:
-#         raise Http404()
-#     if funcionario:
-#         # id pesquisa
-#         termo_pesquisa = request.GET.get('pesquisa', None)
-#         if termo_pesquisa:
-#             detalhe_mao_de_obra_tarefa =
-# Detalhe_Mao_de_Obra_Tarefa.objects.all()
-#             # __icontains sem case sensitive
-#             detalhe_mao_de_obra_tarefa = detalhe_mao_de_obra_tarefa.filter(
-#                 nome__icontains=termo_pesquisa)
-#         else:
-#             detalhe_mao_de_obra_tarefa =
-# Detalhe_Mao_de_Obra_Tarefa.objects.all()
-#         dados = {"detalhe_mao_de_obra_tarefa": detalhe_mao_de_obra_tarefa}
-#     else:
-#         raise Http404()
-#     return render(request, "detalhe_mao_de_obra_tarefa_list.html", dados)
-
-
-# @login_required(login_url="/login/")
-# def novo_detalhe_mao_de_obra_tarefa(request):
-#     """ Cria formulário de detalhe_mao_de_obra_tarefa."""
-#     if request.method == "POST":
-#         form = Detalhe_Mao_de_Obra_TarefaForm(request.POST)
-#         if form.is_valid():
-#             novo = Detalhe_Mao_de_Obra_Tarefa(**form.cleaned_data)
-#             novo.save()
-#             return redirect("detalhe_mao_de_obra_tarefa_list")
-#     else:
-#         form = Detalhe_Mao_de_Obra_TarefaForm()
-#     return render(
-#         request, "criar_detalhe_mao_de_obra_tarefa.html", {"form": form})
-
-
-# alterar detalhe_mao_de_obra_tarefa
-# @login_required(login_url="/login/")
-# def alterar_detalhe_mao_de_obra_tarefa(request, id):
-#     """ Atualiza detalhe_mao_de_obra_tarefa."""
-#     detalhe_mao_de_obra_tarefa =
-# Detalhe_Mao_de_Obra_Tarefa.objects.get(id=id)
-#     form = Detalhe_Mao_de_Obra_TarefaForm(
-# request.POST or None, instance=detalhe_mao_de_obra_tarefa)
-#     if form.is_valid():
-#         form.save()
-#         return redirect("detalhe_mao_de_obra_tarefa_list")
-#     return render(
-#         request, "alterar_detalhe_mao_de_obra_tarefa.html", {
-#             "form": form,
-#             'detalhe_mao_de_obra_tarefa': detalhe_mao_de_obra_tarefa})
-
-
-# @login_required(login_url="/login/")
-# def excluir_detalhe_mao_de_obra_tarefa(request, id):
-#     if request.method == "POST":
-#         detalhe_mao_de_obra_tarefa = (
-#             Detalhe_Mao_de_Obra_Tarefa.objects.get(id=id))
-#         detalhe_mao_de_obra_tarefa.delete()
-#     return redirect("detalhe_mao_de_obra_tarefa_list")
-
-
-# # ---------Detalhe Funcionario da Obra---------------------
-# @login_required(login_url="/login/")
-# def detalhe_funcionario_da_obra_list(request):
-#     usuario = request.user
-#     dados = {}
-#     try:
-#         funcionario = Funcionario.objects.get(usuario=usuario)
-#     except Exception:
-#         raise Http404()
-#     if funcionario:
-#         # id pesquisa
-#         termo_pesquisa = request.GET.get('pesquisa', None)
-#         if termo_pesquisa:
-#             detalhe_funcionario_da_obra =
-# Detalhe_Funcionario_da_Obra.objects.all()
-#             # __icontains sem case sensitive
-#             detalhe_funcionario_da_obra = detalhe_funcionario_da_obra.filter(
-#                 id=termo_pesquisa)
-#         else:
-#             detalhe_funcionario_da_obra =
-# Detalhe_Funcionario_da_Obra.objects.all()
-#         dados = {"detalhe_funcionario_da_obra": detalhe_funcionario_da_obra}
-#     else:
-#         raise Http404()
-#     return render(request, "detalhe_funcionario_da_obra_list.html", dados)
-
-
-# @login_required(login_url="/login/")
-# def novo_detalhe_funcionario_da_obra(request):
-#     """ Cria formulário de detalhe_funcionario_da_obra."""
-#     if request.method == "POST":
-#         form = Detalhe_Funcionario_da_ObraForm(request.POST)
-#         if form.is_valid():
-#             novo = Detalhe_Funcionario_da_Obra(**form.cleaned_data)
-#             novo.save()
-#             return redirect("detalhe_funcionario_da_obra_list")
-#     else:
-#         form = Detalhe_Funcionario_da_ObraForm()
-#     return render(
-#         request, "criar_detalhe_funcionario_da_obra.html", {"form": form})
-
-
-# alterar detalhe_funcionario_da_obra
-# @login_required(login_url="/login/")
-# def alterar_detalhe_funcionario_da_obra(request, id):
-#     """ Atualiza detalhe_funcionario_da_obra."""
-#     detalhe_funcionario_da_obra =
-# Detalhe_Funcionario_da_Obra.objects.get(id=id)
-#     form = Detalhe_Funcionario_da_ObraForm(
-# request.POST or None, instance=detalhe_funcionario_da_obra)
-
-#     if form.is_valid():
-#         form.save()
-#         return redirect("detalhe_funcionario_da_obra_list")
-#     return render(
-#         request, "alterar_detalhe_funcionario_da_obra.html", {
-#             "form": form,
-#             'detalhe_funcionario_da_obra': detalhe_funcionario_da_obra})
-
-
-# @login_required(login_url="/login/")
-# def excluir_detalhe_funcionario_da_obra(request, id):
-#     if request.method == "POST":
-#         detalhe_funcionario_da_obra =
-# Detalhe_Funcionario_da_Obra.objects.get(id=id)
-#         detalhe_funcionario_da_obra.delete()
-#     return redirect("detalhe_funcionario_da_obra_list")

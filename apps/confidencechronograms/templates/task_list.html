@@ -1,6 +1,9 @@
 {% extends 'base-funcionario.html' %}
 
 {% block content %}
+
+{% load my_filters %}
+
 <div class="container">
   {% block content_header %}
     <h2>Tarefas</h2>
@@ -20,16 +23,16 @@
   {% endblock %}
         {% for task in tasks %}
         <p>
+          Nome:
+            <b>{{ task.nome }}</b>
+        </p>
+        <p>
           Ident:
             {{ task.ident }}
         </p>
         <p>
-          Estrutura:
-            {{ task.cronograma.estrutura }}
-        </p>
-        <p>
-          Nome:
-            {{ task.nome }}
+          Dependências:
+            {{ task.dependencias }}
         </p>
         <p>
           Data Inicial:
@@ -41,15 +44,19 @@
         </p>
         <p>
           Processo:
-            {{ task.progresso }}
+            {{ task.progresso }}%
         </p>
-        <p>
-          Dependências:
-            {{ task.dependencias }}
-        </p>
-        <p>
+        <!-- <p> Se precisar mostrar o valor
           Valores:
             colocar alguma função
+        </p> -->
+        <p>
+          Estrutura:
+            {{ task.cronograma.estrutura }}
+        </p>
+        <p>
+          Cliente:
+            {{ task.cronograma.cliente }}
         </p>
         <form method="post" action="{% url 'delete_task' task.id %}">
           {% csrf_token %}

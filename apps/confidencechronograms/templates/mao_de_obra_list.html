@@ -30,13 +30,13 @@
         {{ mao_de_obra.unidade }}
       </p>
       <p>Valor unitário:
-        {{ mao_de_obra.valor_unitario }}
+        R${{ mao_de_obra.valor_unitario }}
       </p>
       <p>Quantidade:
         {{ mao_de_obra.quantidade }}
       </p>
       <p>Valor total:
-        {% multiply mao_de_obra.valor_unitario mao_de_obra.quantidade %}
+        R${% multiply mao_de_obra.valor_unitario mao_de_obra.quantidade %}
       </p>
       <!-- <p>Funcionários: erro não é todos - muitos para muitos...
         {% for funcionario in funcionarios %}

@@ -5,8 +5,6 @@ from apps.confidencechronograms.models import (
     Mao_de_Obra, Funcionario_da_Obra, Deposito,
     Categoria, Material, Taxa, Orgao
 )
-# Detalhe_Mao_de_Obra, Detalhe_Taxa, Detalhe_Funcionario_da_Obra, 
-# Detalhe_Material, Detalhe_Mao_de_Obra_Tarefa
 
 
 class ClienteForm(forms.ModelForm):
@@ -50,7 +48,7 @@ class ComentarioForm(forms.ModelForm):
 class EmpreiteiraForm(forms.ModelForm):
     class Meta:
         model = Empreiteira
-        fields = ('nome', 'cnpj', 'email', 'fone')
+        fields = ('nome', 'cnpj', 'email', 'fone', 'cronogramas')
 
 
 class Funcionario_da_ObraForm(forms.ModelForm):
@@ -74,6 +72,15 @@ class Mao_de_ObraForm(forms.ModelForm):
     #     queryset=Funcionario_da_Obra.objects.all(),
     #     widget=forms.CheckboxSelectMultiple
     # )
+        # Adicionar botão
+        # widgets = {
+        #     'funcionarios_da_obra': AddAnotherEditSelectedWidgetWrapper(
+        #         forms.Select,
+        #         reverse_lazy('novo_funcionario_da_bra'),
+        #         reverse_lazy('alterar_funcionario_da_obra', args=['__fk__']),
+        #     )
+        # }
+        # permission_required = 'libraryapp.can_edit'
 
 
 class DepositoForm(forms.ModelForm):
@@ -87,7 +94,7 @@ class MaterialForm(forms.ModelForm):
         model = Material
         fields = (
             'nome', 'unidade', 'valor_unitario',
-            'quantidade', 'deposito', 'categoria', 'deposito'
+            'quantidade', 'deposito', 'categoria', 'deposito', 'cronograma'
             )
 
 
@@ -106,7 +113,10 @@ class OrgaoForm(forms.ModelForm):
 class TaxaForm(forms.ModelForm):
     class Meta:
         model = Taxa
-        fields = ('nome', 'unidade', 'valor_unitario', 'quantidade', 'orgao')
+        fields = (
+            'nome', 'unidade', 'valor_unitario',
+            'quantidade', 'orgao', 'cronograma'
+            )
 
 
 class TarefaForm(forms.ModelForm):
@@ -140,47 +150,3 @@ class ClientesForm(forms.ModelForm):
             'nome', 'cpf', 'rg', 'rua', 'numero', 'bairro', 'cidade',
             'cep', 'uf', 'email', 'fone', 'usuario'
             )
-
-
-# ---------------------------------------------
-# class Detalhe_Mao_de_ObraForm(forms.ModelForm):
-#     class Meta:
-#         model = Detalhe_Mao_de_Obra
-#         fields = (
-#             'valor_unitario', 'quantidade', 'mao_de_obra',
-#             'empreiteira'
-#         )
-
-
-# class Detalhe_Funcionario_da_ObraForm(forms.ModelForm):
-#     class Meta:
-#         model = Detalhe_Funcionario_da_Obra
-#         fields = ('funcionario_da_obra', 'mao_de_obra')
-# -------------------------------------------------------
-
-# -------------------------------------------------------------
-# class Detalhe_MaterialForm(forms.ModelForm):
-#     class Meta:
-#         model = Detalhe_Material
-#         fields = (
-#             'valor_unitario', 'quantidade', 'material', 'deposito', 
-#             'categoria'
-#         )
-# -------------------------------------------------------------
-
-
-# --------------------------------------------------
-# class Detalhe_TaxaForm(forms.ModelForm):
-#     class Meta:
-#         model = Detalhe_Taxa
-#         fields = ('valor_unitario', 'quantidade', 'orgao', 'taxa')
-# --------------------------------------------------
-
-# -------------------------------------------------------------
-# class Detalhe_Mao_de_Obra_TarefaForm(forms.ModelForm):
-#     class Meta:
-#         model = Detalhe_Mao_de_Obra_Tarefa
-#         fields = (
-#             'mao_de_obra', 'tarefa'
-#         )
-# -------------------------------------------------------------

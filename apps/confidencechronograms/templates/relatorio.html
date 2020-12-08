@@ -38,14 +38,16 @@
         </style>
     </head>
     <body>
+        {% load my_filters %}
+        
         <div class='wrapper'>
             <div class='header'>
 		    <p class='title'># Relatório #</p>
             </div>
             <div class='details'>
-                Data: {{ today }} <br>
+                Data: {% now "jS F Y H:i" %} <br>
                 Cliente: {{ cliente.nome }} <br>
-                Cronograma Estrutura: {{ chronogram.construction }} <br>
+                Tipo de Estrutura: {{ chronogram.estrutura }} <br>
                 <hr class='hrItem' />
             </div>
             <div class="pure-u-1">
@@ -55,10 +57,10 @@
                         <th>Tarefa</th>
                         <th>Início</th>
                         <th>Fim</th>
-                        <th>Valor Mão de Obra</th>
-                        <th>Valor Materiais</th>
-                        <th>Valor Taxas</th>
-                        <th>Valor total</th>
+                        <th>Valor Total Mão de Obra</th>
+                        <th>Valor Total  Materiais</th>
+                        <th>Valor Total Taxas</th>
+                        <th>Total da Tarefa</th>
                     </tr>
                     </thead>
                     <tbody>
@@ -67,10 +69,16 @@
                         <td>{{ task.nome }}</td>
                         <td>{{ task.dt_inicial }}</td>
                         <td>{{ task.dt_final }}</td>
-                        <td>{{ task.total_valor_mao_de_obra }}</td>
-                        <td>{{ task.total_valor_material }}</td>
-                        <td>{{ task.total_valor_taxa }}</td>
-                        <td>{{ task.valor_total }}</td>
+                        {% for mdo in mao_de_obra %}
+                            <td>R${% multiply mdo.valor_unitario mdo.quantidade %}</td>
+                        {% endfor %}
+                        {% for mtrl in material %}
+                            <td>R${% multiply mtrl.valor_unitario mtrl.quantidade %}</td>
+                        {% endfor %}
+                        {% for tx in taxa %}
+                            <td>R${% multiply tx.valor_unitario tx.quantidade %}</td>
+                        {% endfor %}
+                        <td>R${% sumthree smdo smtrl stx %}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -96,7 +104,7 @@
                         <td></td>
                         <td></td>
                         <td style="text-align: right;"><strong>Total =</strong></td>
-                        <td><strong>{{ soma }}</strong></td>
+                        <td><strong>R$</strong></td>
                     </tr>
                     </tbody>
                 </table>

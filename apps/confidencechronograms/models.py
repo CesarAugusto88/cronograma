@@ -161,8 +161,7 @@ class Cronograma(models.Model):
 
     def __str__(self):
         """Devolve uma representação em string do modelo."""
-        return f"Cliente:{self.cliente}, Construção:{self.estrutura} " \
-               f"Endereço:{self.endereco}"
+        return f"Cliente:{self.cliente}"
 
     def get_date_added(self):
 
@@ -177,6 +176,8 @@ class Empreiteira(models.Model):
     cnpj = models.CharField(blank=True, null=True, max_length=14)
     email = models.EmailField("E-mail", blank=True, null=True, max_length=60)
     fone = models.CharField(verbose_name='Telefone', max_length=16)
+    cronogramas = models.ManyToManyField('Cronograma', blank=True)
+
     date_added = models.DateTimeField(
         verbose_name='Data de criação', auto_now_add=True)
     date_update = models.DateTimeField(
@@ -247,7 +248,7 @@ class Mao_de_Obra(models.Model):
         max_digits=10, decimal_places=2, default=0.0)
     quantidade = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.0)
-    empreiteira = models.ForeignKey(Empreiteira, on_delete=models.PROTECT)
+    empreiteira = models.ForeignKey('Empreiteira', on_delete=models.PROTECT, null=True, blank=True)
     funcionarios_da_obra = models.ManyToManyField('Funcionario_da_Obra')
 
     class Meta:
@@ -258,51 +259,6 @@ class Mao_de_Obra(models.Model):
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
         return self.nome
-
-
-# --------------------------------------------------------
-# Tabela associação de Mão de obra e Funcionario da obra
-# class Detalhe_Mao_de_Obra(models.Model):
-#     valor_unitario = models.DecimalField(
-#         max_digits=10, decimal_places=2, default=0.0)
-#     quantidade = models.DecimalField(
-#         max_digits=10, decimal_places=2, default=0.0)
-#     mao_de_obra = models.ForeignKey(Mao_de_Obra, on_delete=models.PROTECT)
-#     empreiteira = models.ForeignKey(Empreiteira, on_delete=models.PROTECT)
-#     date_added = models.DateTimeField(
-#         verbose_name='Data de criação', auto_now_add=True)
-#     date_update = models.DateTimeField(
-#         verbose_name='Data de atualização', auto_now=True)
-
-#     class Meta:
-#         verbose_name = 'Detalhe Mão de Obra'
-#         verbose_name_plural = 'Detalhes Mãos de Obra'
-#         ordering = ['date_added']
-
-#     def __str__(self):
-#         """ Devolve uma representação em string do modelo."""
-#         return self.mao_de_obra.nome
-
-
-# Tabela associação de Mão de obra e Funcionario da obra
-# class Detalhe_Funcionario_da_Obra(models.Model):
-#     funcionario_da_obra = models.ForeignKey(
-#         Funcionario_da_Obra, on_delete=models.PROTECT)
-#     mao_de_obra = models.ForeignKey(Mao_de_Obra, on_delete=models.PROTECT)
-#     date_added = models.DateTimeField(
-#         verbose_name='Data de criação', auto_now_add=True)
-#     date_update = models.DateTimeField(
-#         verbose_name='Data de atualização', auto_now=True)
-
-#     class Meta:
-#         verbose_name = 'Detalhe Funcionário da Obra'
-#         verbose_name_plural = 'Detalhes Funcionários da Obra'
-#         ordering = ['date_added']
-
-#     def __str__(self):
-#         """ Devolve uma representação em string do modelo."""
-#         return self.funcionario_da_obra.nome
-# --------------------------------------------------------
 
 
 class Deposito(models.Model):
@@ -347,9 +303,11 @@ class Material(models.Model):
     unidade = models.CharField(max_length=20)
     valor_unitario = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.0)
-    quantidade = models.DecimalField(max_digits=10, decimal_places=2, default=0.0)
+    quantidade = models.DecimalField(
+        max_digits=10, decimal_places=2, default=0.0)
+    cronograma = models.ForeignKey(Cronograma, on_delete=models.PROTECT)
     deposito = models.ForeignKey(Deposito, on_delete=models.PROTECT)
-    categoria = models.OneToOneField(Categoria, on_delete=models.PROTECT, null=True)
+    categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
 
     class Meta:
         verbose_name = 'Material'
@@ -359,35 +317,6 @@ class Material(models.Model):
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
         return f"Material:{self.nome}"
-
-
-# ---------------------------------------
-# class Detalhe_Material(models.Model):
-#     valor_unitario = models.DecimalField(
-#         max_digits=10, decimal_places=2, default=0.0)
-#     quantidade = models.DecimalField(
-#         max_digits=10, decimal_places=2, default=0.0)
-#     material = models.ForeignKey(
-#         Material, on_delete=models.PROTECT, blank=True)
-#     deposito = models.ForeignKey(
-#         Deposito, on_delete=models.PROTECT, blank=True)
-#     categoria = models.ForeignKey(
-#         Categoria, on_delete=models.PROTECT, blank=True)
-
-#     date_added = models.DateTimeField(
-#         verbose_name='Data de criação', auto_now_add=True)
-#     date_update = models.DateTimeField(
-#         verbose_name='Data de atualização', auto_now=True)
-
-#     class Meta:
-#         verbose_name = 'Detalhe Mateial'
-#         verbose_name_plural = 'Detalhes Materiais'
-#         ordering = ['date_added']
-
-#     def __str__(self):
-#         """ Devolve uma representação em string do modelo."""
-#         return self.material.nome
-# -------------------------------------------------
 
 
 class Orgao(models.Model):
@@ -420,6 +349,7 @@ class Taxa(models.Model):
         max_digits=10, decimal_places=2, default=0.0)
     quantidade = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.0)
+    cronograma = models.ForeignKey(Cronograma, on_delete=models.PROTECT)
     orgao = models.ForeignKey(Orgao, on_delete=models.PROTECT)
 
     class Meta:
@@ -432,35 +362,6 @@ class Taxa(models.Model):
 
         return f"Taxa: {self.nome}"
 
-
-# --------------------------------------------------------
-# Tabela associação de Taxa e Orgão
-# class Detalhe_Taxa(models.Model):
-
-#     valor_unitario = models.DecimalField(
-#         max_digits=10, decimal_places=2, default=0.0)
-#     quantidade = models.DecimalField(
-#         max_digits=10, decimal_places=2, default=0.0)
-#     orgao = models.ForeignKey(Orgao, on_delete=models.PROTECT)
-#     taxa = models.ForeignKey(Taxa, on_delete=models.PROTECT)
-#     date_added = models.DateTimeField(
-#         verbose_name='Data de criação', auto_now_add=True)
-#     date_update = models.DateTimeField(
-#         verbose_name='Data de atualização', auto_now=True)
-
-#     class Meta:
-#         verbose_name = 'Detalhe Taxa'
-#         verbose_name_plural = 'Detalhes Taxas'
-#         ordering = ['date_added']
-
-#     def __str__(self):
-#         """ Devolve uma representação em string do modelo."""
-
-#         return self.taxa.nome
-# --------------------------------------------------------
-
-
-########################################
 
 # UM CRONOGRAMA TEM VÁRIAS TAREFAS.
 class Tarefa(models.Model):
@@ -555,29 +456,6 @@ class Tarefa(models.Model):
         return f"{self.nome} {self.descricao}"
 
 
-# --------------------------------------------------------
-# Tabela associação de Mão de obra e Tarefa
-# class Detalhe_Mao_de_Obra_Tarefa(models.Model):
-#     # Mao de Obra
-#     mao_de_obra = models.ForeignKey(Mao_de_Obra, on_delete=models.PROTECT)
-#     # Tarefa
-#     tarefa = models.ForeignKey(Tarefa, on_delete=models.PROTECT)
-#     date_added = models.DateTimeField(
-#         verbose_name='Data de criação', auto_now_add=True)
-#     date_update = models.DateTimeField(
-#         verbose_name='Data de atualização', auto_now=True)
-
-#     class Meta:
-#         verbose_name = 'Detalhe Mão de Obra Tarefa'
-#         verbose_name_plural = 'Detalhes Mãos de Obra Tarefas'
-#         ordering = ['date_added']
-
-#     def __str__(self):
-#         """ Devolve uma representação em string do modelo."""
-#         return self.tarefa.nome
-# --------------------------------------------------------
-
-
 # Comentario feito por um cliente
 class Comentario(models.Model):
     """Tabela de comentário com referencia de cliente e funcionário."""
@@ -634,4 +512,8 @@ class Comentario(models.Model):
         return self.date_added.strftime("%d/%m/%Y %H h : %M min")
 
     def __str__(self):
-        return f"{self.cliente.nome} {self.funcionario.nome}"
+        """Devolve uma representação em string do modelo."""
+        if len(self.descricao) >= 50:
+            return f"{self.descricao[:50]}..."
+
+        return f"{self.cliente.nome} {self.funcionario.nome} {self.descricao}"

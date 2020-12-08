@@ -10,7 +10,7 @@
       href="{% static 'css/frappe-gantt.css' %}">
   
     <h3>Cliente: {{ cliente.nome }}</h3>
-    <h3>Construção: {{ cronograma.construction }}</h3>
+    <h3>Construção: {{ cronograma.estrutura }}</h3>
   
     <svg id="chronogram"></svg>
     <script src="{% static 'js/frappe-gantt.min.js' %}"></script>
@@ -56,10 +56,10 @@
       gantt.change_view_mode('Week'); -->
   <script src="{% static 'js/main.js' %}"></script>
 
-  <button type="button" onclick="days()">Days</button>
-  <button type="button" onclick="weeks()">Weeks</button>
-  <button type="button" onclick="months()">Months</button>
-  <button type="button" onclick="years()">Years</button>
+  <button class="btn btn-outline-info" type="button" onclick="days()">Dias</button>
+  <button class="btn btn-outline-info" type="button" onclick="weeks()">Semanas</button>
+  <button class="btn btn-outline-info" type="button" onclick="months()">Mesês</button>
+  <button class="btn btn-outline-info" type="button" onclick="years()">Anos</button>
 
 
 

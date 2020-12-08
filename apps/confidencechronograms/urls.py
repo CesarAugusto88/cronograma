@@ -147,53 +147,6 @@ urlpatterns = [
     path(
         "cronogramaconfiavel/funcionario-da-obra/excluir/<int:id>/",
         views.excluir_funcionario_da_obra, name="excluir_funcionario_da_obra"),
-    # detalhe_mao_de_obra
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra/",
-    #     views.detalhe_mao_de_obra_list, name="detalhe_mao_de_obra_list"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra/nova-detalhe_mao_de_obra/",
-    #     views.novo_detalhe_mao_de_obra, name="novo_detalhe_mao_de_obra"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra/alterar/<int:id>/",
-    #     views.alterar_detalhe_mao_de_obra, name="alterar_detalhe_mao_de_obra"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra/excluir/<int:id>/",
-    #     views.excluir_detalhe_mao_de_obra, name="excluir_detalhe_mao_de_obra"),
-    # detalhe_mao_de_obra_tarefa
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra-tarefa/",
-    #     views.detalhe_mao_de_obra_tarefa_list,
-    #     name="detalhe_mao_de_obra_tarefa_list"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra-tarefa/novo-detalhe-tarefa/",
-    #     views.novo_detalhe_mao_de_obra_tarefa,
-    #     name="novo_detalhe_mao_de_obra_tarefa"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra-tarefa/alterar/<int:id>/",
-    #     views.alterar_detalhe_mao_de_obra_tarefa,
-    #     name="alterar_detalhe_mao_de_obra_tarefa"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-mao-de-obra-tarefa/excluir/<int:id>/",
-    #     views.excluir_detalhe_mao_de_obra_tarefa,
-    #     name="excluir_detalhe_mao_de_obra_tarefa"),
-    # detalhe_funcionario_da_obra
-    # path(
-    #     "cronogramaconfiavel/detalhe-funcionario-obra/",
-    #     views.detalhe_funcionario_da_obra_list,
-    #     name="detalhe_funcionario_da_obra_list"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-funcionario-obra/novo/",
-    #     views.novo_detalhe_funcionario_da_obra,
-    #     name="novo_detalhe_funcionario_da_obra"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-funcionario-obra/alterar/<int:id>/",
-    #     views.alterar_detalhe_funcionario_da_obra,
-    #     name="alterar_detalhe_funcionario_da_obra"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-funcionario-obra/excluir/<int:id>/",
-    #     views.excluir_detalhe_funcionario_da_obra,
-    #     name="excluir_detalhe_funcionario_da_obra"),
     # deposito
     path(
         "cronogramaconfiavel/deposito/",
@@ -223,8 +176,7 @@ urlpatterns = [
         views.excluir_categoria, name="excluir_categoria"),
     # Material
     path(
-        "cronogramaconfiavel/material/",
-        views.material_list, name="material_list"),
+        "cronogramaconfiavel/material/", views.material_list, name="material_list"),
     path(
         "cronogramaconfiavel/material/novo-material/",
         views.novo_material, name="novo_material"),
@@ -234,21 +186,6 @@ urlpatterns = [
     path(
         "cronogramaconfiavel/material/excluir/<int:id>/",
         views.excluir_material, name="excluir_material"),
-
-    # detalhe Material
-    # path(
-    #     "cronogramaconfiavel/detalhe-material/",
-    #     views.detalhe_material_list, name="detalhe_material_list"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-material/novo-detalhe-material/",
-    #     views.novo_detalhe_material, name="novo_detalhe_material"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-material/alterar/<int:id>/",
-    #     views.alterar_detalhe_material, name="alterar_detalhe_material"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-material/excluir/<int:id>/",
-    #     views.excluir_detalhe_material, name="excluir_detalhe_material"),
-
     # Orgão
     path(
         "cronogramaconfiavel/orgao/", views.orgao_list, name="orgao_list"),
@@ -273,21 +210,7 @@ urlpatterns = [
     path(
         "cronogramaconfiavel/taxa/excluir/<int:id>/",
         views.excluir_taxa, name="excluir_taxa"),
-    # detalhe Taxa
-    # path(
-    #     "cronogramaconfiavel/detalhe-taxa/",
-    #     views.detalhe_taxa_list, name="detalhe_taxa_list"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-taxa/novo-detalhe-taxa/",
-    #     views.novo_detalhe_taxa, name="novo_detalhe_taxa"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-taxa/alterar/<int:id>/",
-    #     views.alterar_detalhe_taxa, name="alterar_detalhe_taxa"),
-    # path(
-    #     "cronogramaconfiavel/detalhe-taxa/excluir/<int:id>/",
-    #     views.excluir_detalhe_taxa, name="excluir_detalhe_taxa"),
-
-
+   
     # relatório PDF
     re_path(r'^pdf/$', views.GeneratePDF.as_view(), name="relatorio"),
 

@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div class="container" style="padding-top: 15px;">
-        <h2>Update Comentário</h2>
+<div class="container">
+        <h2>Atualizar Comentário</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }}
