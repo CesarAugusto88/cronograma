@@ -137,7 +137,9 @@ class TarefaForm(ModelForm):
         widgets = {
             'dt_inicial': DateInput(),
             'dt_final': DateInput(),
-            'progresso': forms.TextInput(attrs={'type': 'range'}),
+            'progresso': forms.TextInput(attrs={'type': 'range',
+                                                'step': '10', 'min': '0',
+                                                'max': '100'}),
             }
 
         # def __init__(self, *args, **kwargs):

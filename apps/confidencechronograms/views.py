@@ -6,7 +6,7 @@ from django.http.response import Http404, JsonResponse
 from django.contrib.auth.models import User
 import json
 
-#import pickle
+# import pickle
 from apps.confidencechronograms.models import (
     Tarefa, Cliente, Funcionario, Cronograma, Comentario, Empreiteira,
     Funcionario_da_Obra, Mao_de_Obra, Deposito,
@@ -742,7 +742,8 @@ def price_task(request):
             tasks = tasks.filter(nome__icontains=termo_pesquisa)
         elif termo_pesquisa_mdo:
             # __icontains sem case sensitive
-            mao_de_obra = mao_de_obra.filter(nome__icontains=termo_pesquisa_mdo)
+            mao_de_obra = mao_de_obra.filter(
+                nome__icontains=termo_pesquisa_mdo)
         elif termo_pesquisa_mtrl:
             # __icontains sem case sensitive
             material = material.filter(nome__icontains=termo_pesquisa_mtrl)
