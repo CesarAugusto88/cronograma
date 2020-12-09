@@ -2,18 +2,47 @@
 
 {% block content %}
 {% load my_filters %}
-
+<style>
+  hr {
+    border: none;
+    height: 1px;
+    /* Set the hr color */
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+  }
+</style>
 
 <div class="container">
   {% block content_header %}
-    <h2>Valores das Tarefas</h2>
+    <h2>Todas Tarefas</h2>
     <form action="" class="pure-form">
       <fieldset>
-          <legend>Pesquisa de Valores das Tarefas</legend>
+          <legend>Pesquisa de Tarefas</legend>
           <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome da Tarefa"/>
           <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
       </fieldset>
     </form>
+    <!-- <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Mãos de Obra</legend>
+          <input type="text" size="30" id="pesquisa_mdo" name="pesquisa_mdo" placeholder="Nome da Mão de Obra"/>
+          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
+      </fieldset>
+    </form>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Materiais</legend>
+          <input type="text" size="30" id="pesquisa_mtrl" name="pesquisa_mtrl" placeholder="Nome do Material"/>
+          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
+      </fieldset>
+    </form>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Taxas</legend>
+          <input type="text" size="30" id="pesquisa_tx" name="pesquisa_tx" placeholder="Nome da Taxa"/>
+          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
+      </fieldset>
+    </form> -->
     
   {% endblock %}
   <a class="btn btn-outline-info"  
@@ -22,14 +51,9 @@
         Gerar Relatório
   </a> 
   <hr>
-  <!-- <a class="navbar-brand pure-button pure-button-primary btn-sm" 
-    href=" url 'e_mail' ">
-        <span class="icono-mail" aria-hidden="true"></span>
-        Enviar E-mail
-  </a>  -->
-
+  <b>Tarefas:</b>
   {% for task in tasks %}
-    <p>Nome:
+    <p>Tarefa:
     <b>{{ task.nome }}</b>
     </p>
     <p>Data inicial:
@@ -38,10 +62,81 @@
     <p>Data final:
       {{ task.dt_final }}
     </p>
-    <!-- <p>Valor total: talves colocar nome de funcionarios
-      Colocar uma função
-    </p> -->
-    <hr>
+    <hr style="background-color: rgb(182, 172, 172)">
   {% endfor %}
+  <hr>
+  <b>Mãos de Obra:</b>
+    {% for mdo in mao_de_obra %}
+      <p>&nbsp;&nbsp;&nbsp;Nome:
+      <b>{{ mdo.nome }}</b>
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Valor unitário:
+        R${{ mdo.valor_unitario }}
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Quantidade:
+        {{ mdo.quantidade }}
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Unidade:
+        {{ mdo.unidade }}
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Total:
+        R${% multiply mdo.valor_unitario mdo.quantidade %}
+      </p>
+      <hr style="background-color: rgb(182, 172, 172)">
+    {% endfor %}
+    <p>&nbsp;&nbsp;&nbsp;Subtotal Mãos de Obra:
+      <b>R${% total smdo %}</b>
+    </p>
+  <hr>
+  <b>Materiais:</b>
+    {% for mtrl in material %}
+      <p>&nbsp;&nbsp;&nbsp;Nome:
+      <b>{{ mtrl.nome }}</b>
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Valor unitário:
+        R${{ mtrl.valor_unitario }}
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Quantidade:
+        {{ mtrl.quantidade }}
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Unidade:
+        {{ mtrl.unidade }}
+      </p>
+      <p>&nbsp;&nbsp;&nbsp;Total:
+        R${% multiply mtrl.valor_unitario mtrl.quantidade %}
+      </p>
+      <hr style="background-color: rgb(182, 172, 172)">
+    {% endfor %}
+    <p>&nbsp;&nbsp;&nbsp;Subtotal Materiais:
+      <b>R${% total smtrl %}</b>
+    </p>
+    <hr>
+  <b>Taxas:</b>
+  {% for tx in taxa %}
+    <p>&nbsp;&nbsp;&nbsp;Nome:
+    <b>{{ tx.nome }}</b>
+    </p>
+    <p>&nbsp;&nbsp;&nbsp;Valor unitário:
+      R${{ tx.valor_unitario }}
+    </p>
+    <p>&nbsp;&nbsp;&nbsp;Quantidade:
+      {{ tx.quantidade }}
+    </p>
+    <p>&nbsp;&nbsp;&nbsp;Unidade:
+      {{ tx.unidade }}
+    </p>
+    <p>&nbsp;&nbsp;&nbsp;Total:
+      R${% multiply tx.valor_unitario tx.quantidade %}
+    </p>
+    <hr style="background-color: rgb(182, 172, 172)">
+  {% endfor %}
+  <p>&nbsp;&nbsp;&nbsp;Subtotal Taxas:
+    <b>R${% total stx %}</b>
+  </p>
+  <hr>
+  <p style="font-size: 15pt;"><b> Total da Construção:
+    R${% total sttl %}</b>
+  </p>
+  
 </div>
 {% endblock %}

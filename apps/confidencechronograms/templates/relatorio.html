@@ -69,16 +69,22 @@
                         <td>{{ task.nome }}</td>
                         <td>{{ task.dt_inicial }}</td>
                         <td>{{ task.dt_final }}</td>
-                        {% for mdo in mao_de_obra %}
-                            <td>R${% multiply mdo.valor_unitario mdo.quantidade %}</td>
-                        {% endfor %}
-                        {% for mtrl in material %}
-                            <td>R${% multiply mtrl.valor_unitario mtrl.quantidade %}</td>
-                        {% endfor %}
-                        {% for tx in taxa %}
-                            <td>R${% multiply tx.valor_unitario tx.quantidade %}</td>
-                        {% endfor %}
-                        <td>R${% sumthree smdo smtrl stx %}</td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        {% comment  %}
+                            {% for mdo in mao_de_obra %}
+                                <td>R${% multiply mdo.valor_unitario mdo.quantidade %}</td>
+                            {% endfor %}
+                            {% for mtrl in material %}
+                                <td>R${% multiply mtrl.valor_unitario mtrl.quantidade %}</td>
+                            {% endfor %}
+                            {% for tx in taxa %}
+                                <td>R${% multiply tx.valor_unitario tx.quantidade %}</td>
+                            {% endfor %}
+                            <td>R${% sumthree smdo smtrl stx %}</td>
+                        {% endcomment %}
                     </tr>
                     {% endfor %}
                     </tbody>

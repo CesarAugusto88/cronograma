@@ -6,7 +6,7 @@ from django.http.response import Http404, JsonResponse
 from django.contrib.auth.models import User
 import json
 
-import pickle
+#import pickle
 from apps.confidencechronograms.models import (
     Tarefa, Cliente, Funcionario, Cronograma, Comentario, Empreiteira,
     Funcionario_da_Obra, Mao_de_Obra, Deposito,
@@ -716,7 +716,7 @@ def price_task(request):
         # filter mostra como está a saida em __str__
         # do models da classe
         # cronograma = Cronograma.objects.filter(client=cliente)
-        # get mostra od atributos do objeto
+        # get mostra os atributos do objeto
         # e assim pope-se colocar qual atributo
         cronograma = Cronograma.objects.get(cliente=cliente)
     except Exception:
@@ -724,52 +724,72 @@ def price_task(request):
     if cliente:
         # id pesquisa
         termo_pesquisa = request.GET.get('pesquisa', None)
+        termo_pesquisa_mdo = request.GET.get('pesquisa_mdo', None)
+        termo_pesquisa_mtrl = request.GET.get('pesquisa_mtrl', None)
+        termo_pesquisa_tx = request.GET.get('pesquisa_tx', None)
+
+        tasks = Tarefa.objects.all()
+        mao_de_obra = Mao_de_Obra.objects.all()
+        material = Material.objects.all()
+        taxa = Taxa.objects.all()
+        smdo = 0
+        smtrl = 0
+        stx = 0
+        sttl = 0
         # PESQUISAS DEVEM ESTAR DIRETO EM MODEL PESQUISANDO
         if termo_pesquisa:
-            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
             # __icontains sem case sensitive
             tasks = tasks.filter(nome__icontains=termo_pesquisa)
+        elif termo_pesquisa_mdo:
+            # __icontains sem case sensitive
+            mao_de_obra = mao_de_obra.filter(nome__icontains=termo_pesquisa_mdo)
+        elif termo_pesquisa_mtrl:
+            # __icontains sem case sensitive
+            material = material.filter(nome__icontains=termo_pesquisa_mtrl)
+        elif termo_pesquisa_tx:
+            # __icontains sem case sensitive
+            taxa = taxa.filter(nome__icontains=termo_pesquisa_tx)
         else:
             # OK esta pegando so os comentarios referentes ao cliente que criou
             # ***É preciso atribuir automaticamente o cliente
             # print(cronograma.id)
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
+
+            # estou pegando todas desse cronograma
             tasks = Tarefa.objects.filter(cronograma=cronograma.id)
-            # Valor Mão de Obra
-            # valor_mao_de_obra = 0
-            # for task in tasks:
-            #     valor_mao_de_obra +=
-            # task.mao_de_obra_funcionario_da_obra.mao_de_obra.valor_unitario
-            # qtdd_mao_de_obra = 0
-            # for task in tasks:
-            #     qtdd_mao_de_obra +=
-            # task.mao_de_obra_funcionario_da_obra.mao_de_obra.quantidade
-            # total_valor_mao_de_obra = qtdd_mao_de_obra * valor_mao_de_obra
 
-            # # Valor Material
-            # valor_material = 0
-            # for task in tasks:
-            #     valor_material +=
-            # task.fornecedor_material.material.valor_unitario
-            # qtdd_material = 0
-            # for task in tasks:
-            #     qtdd_material += task.fornecedor_material.material.quantidade
-            # total_valor_material = qtdd_material * valor_material
+            mao_de_obra = Mao_de_Obra.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS MÃOS DE OBRA DA CONSTRUÇÃO INTEIRA
+            smdo = 0
+            for tmdo in mao_de_obra:
+                smdo += tmdo.valor_unitario * tmdo.quantidade
 
-            # # Valor Taxa
-            # valor_taxa = 0
-            # for task in tasks:
-            #     valor_taxa += task.taxa.valor_unitario
-            # qtdd_taxa = 0
-            # for task in tasks:
-            #     qtdd_taxa += task.taxa.quantidade
-            # total_valor_taxa = qtdd_taxa * valor_taxa
+            material = Material.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DOS MATERIAIS DA CONSTRUÇÃO INTEIRA
+            smtrl = 0
+            for mtrl in material:
+                smtrl += mtrl.valor_unitario * mtrl.quantidade
 
-            # valor_total = total_valor_mao_de_obra +
-            # total_valor_material + total_valor_taxa
+            taxa = Taxa.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS TAXAS DA CONSTRUÇÃO INTEIRA
+            stx = 0
+            for tx in taxa:
+                stx += tx.valor_unitario * tx.quantidade
+
+            # VALOR TOTAL DA CONSTRUÇÃO INTEIRA
+            sttl = smdo + smtrl + stx
 
         context = {
-                "tasks": tasks, "cliente": cliente, "cronograma": cronograma,
-            }
+            'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+            'mao_de_obra': mao_de_obra, 'material': material, 'taxa': taxa,
+            'smdo': smdo, 'smtrl': smtrl, 'stx': stx, 'sttl': sttl
+        }
     else:
         raise Http404()
     return render(request, "valores_list.html", context)
@@ -794,41 +814,42 @@ class GeneratePDF(View):
             # pegar por tarefa para gerar valores dela
             # FAZER POR MY_FILTERS.PY
             # tasks = Tarefa.objects.filter(cronograma=cronograma.id)
-            # qs = Tarefa.objects.values_list()
-            # # print(qs)
-            # reloaded_qs = Tarefa.objects.all()
-            # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
-            # # reloaded_qs = Tarefa.objects.all()
-            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
-            # print(reloaded_qs)
 
             # qs = Tarefa.objects.values_list()
             # print(qs)
-            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
             # # reloaded_qs = Tarefa.objects.all()
             # tasks.query = pickle.loads(pickle.dumps(qs.query))
             # # reloaded_qs = Tarefa.objects.all()
             # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
             # print(tasks)
 
-            mao_de_obra = Mao_de_Obra.objects.filter(empreiteira=cronograma.id)
+            # estou pegando todas desse cronograma
+            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            mao_de_obra = Mao_de_Obra.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS MÃOS DE OBRA DA CONSTRUÇÃO INTEIRA
             smdo = 0
             for tmdo in mao_de_obra:
                 smdo += tmdo.valor_unitario * tmdo.quantidade
 
             material = Material.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DOS MATERIAIS DA CONSTRUÇÃO INTEIRA
             smtrl = 0
             for mtrl in material:
                 smtrl += mtrl.valor_unitario * mtrl.quantidade
 
             taxa = Taxa.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS TAXAS DA CONSTRUÇÃO INTEIRA
             stx = 0
             for tx in taxa:
                 stx += tx.valor_unitario * tx.quantidade
 
+            # VALOR TOTAL DA CONSTRUÇÃO INTEIRA
             sttl = smdo + smtrl + stx
+
             context = {
-                "tasks": tasks, "cliente": cliente, "chronogram": cronograma,
+                'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+                'mao_de_obra': mao_de_obra, 'material': material, 'taxa': taxa,
                 'sttl': sttl
             }
             # data = {

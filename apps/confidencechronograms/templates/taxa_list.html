@@ -34,11 +34,14 @@
       <p>Quantidade:
         {{ taxa.quantidade }}
       </p>
-      <p>Orgão:
-        {{ taxa.orgao.nome }}
+      <p>Unidade:
+        {{ taxa.unidade}}
       </p>
       <p>Valor total:
         R${% multiply taxa.valor_unitario taxa.quantidade %}
+      </p>
+      <p>Órgão:
+        {{ taxa.orgao.nome }}
       </p>
       <form method="post" action="{% url 'excluir_taxa' taxa.id %}">
         {% csrf_token %}

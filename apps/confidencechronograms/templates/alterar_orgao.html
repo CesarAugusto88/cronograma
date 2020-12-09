@@ -2,8 +2,8 @@
 
 {% block content %}
 
-<div class="container" style="padding-top: 15px;">
-        <h2>Alteração de Orgão</h2>
+<div class="container">
+        <h2>Alteração de Órgão</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }} <!--form.as_table padrao?-->

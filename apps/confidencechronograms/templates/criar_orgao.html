@@ -5,12 +5,12 @@
 {% block content %}
 
 <div class="container">
-  <h2>Orgão</h2>
+  <h2>Órgão</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
 
-    <button type="submit" class="pure-button pure-button-primary">Criar Orgão</button>
+    <button type="submit" class="pure-button pure-button-primary">Criar Órgão</button>
   </form>
 </div>
 {% endblock %}

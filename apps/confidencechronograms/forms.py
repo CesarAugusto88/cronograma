@@ -1,4 +1,5 @@
 from django import forms
+from django.forms import ModelForm
 
 from apps.confidencechronograms.models import (
     Cliente, Funcionario, Tarefa, Cronograma, Comentario, Empreiteira,
@@ -65,7 +66,7 @@ class Mao_de_ObraForm(forms.ModelForm):
         model = Mao_de_Obra
         fields = (
             'nome', 'unidade', 'valor_unitario',
-            'quantidade', 'funcionarios_da_obra'
+            'quantidade', 'funcionarios_da_obra', 'cronograma'
             )
 
     # funcionarios_da_obra = forms.ModelMultipleChoiceField(
@@ -119,15 +120,32 @@ class TaxaForm(forms.ModelForm):
             )
 
 
-class TarefaForm(forms.ModelForm):
+class DateInput(forms.DateInput):
+    input_type = 'date'
+
+
+class TarefaForm(ModelForm):
+
     class Meta:
         model = Tarefa
         fields = (
-             'cronograma', 'maos_de_obra', 'materiais', 'taxas', 'ident',
+             'cronograma', 'maos_de_obra', 'materiais',
+             'taxas', 'ident', 'dependencias',
              'nome', 'descricao', 'dt_inicial', 'dt_final', 'progresso',
-             'dependencias'
             )
 
+        widgets = {
+            'dt_inicial': DateInput(),
+            'dt_final': DateInput(),
+            'progresso': forms.TextInput(attrs={'type': 'range'}),
+            }
+
+        # def __init__(self, *args, **kwargs):
+        #     super(TarefaForm, self).__init__(*args, **kwargs)
+        #     # input_formats to parse HTML5 datetime-local
+        #     # input to datetime field
+        #     self.fields['dt_inicial'].input_formats = ('%Y-%m-%dT%H:%M',)
+        #     self.fields['dt_final'].input_formats = ('%Y-%m-%dT%H:%M',)
     # maos_de_obra = forms.ModelMultipleChoiceField(
     #     queryset=Mao_de_Obra.objects.all(),
     #     widget=forms.CheckboxSelectMultiple
@@ -139,7 +157,7 @@ class TarefaForm(forms.ModelForm):
     # taxas = forms.ModelMultipleChoiceField(
     #     queryset=Taxa.objects.all(),
     #     widget=forms.CheckboxSelectMultiple
-    # )
+    # ) widgets = {'my_date_field': DateInput()}
 
 
 # Para alterar clientes pelo funcionario

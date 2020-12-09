@@ -26,14 +26,14 @@
       <p>Nome:
         {{ mao_de_obra.nome }}
       </p>
-      <p>Unidade:
-        {{ mao_de_obra.unidade }}
-      </p>
       <p>Valor unitário:
         R${{ mao_de_obra.valor_unitario }}
       </p>
       <p>Quantidade:
         {{ mao_de_obra.quantidade }}
+      </p>
+      <p>Unidade:
+        {{ mao_de_obra.unidade }}
       </p>
       <p>Valor total:
         R${% multiply mao_de_obra.valor_unitario mao_de_obra.quantidade %}

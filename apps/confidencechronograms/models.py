@@ -248,13 +248,19 @@ class Mao_de_Obra(models.Model):
         max_digits=10, decimal_places=2, default=0.0)
     quantidade = models.DecimalField(
         max_digits=10, decimal_places=2, default=0.0)
-    empreiteira = models.ForeignKey('Empreiteira', on_delete=models.PROTECT, null=True, blank=True)
+    empreiteira = models.ForeignKey(
+        'Empreiteira', on_delete=models.PROTECT, null=True, blank=True)
     funcionarios_da_obra = models.ManyToManyField('Funcionario_da_Obra')
+    cronograma = models.ForeignKey(Cronograma, on_delete=models.PROTECT)
+    date_added = models.DateTimeField(
+        verbose_name='Data de criação', auto_now_add=True)
+    date_update = models.DateTimeField(
+        verbose_name='Data de atualização', auto_now=True)
 
     class Meta:
         verbose_name = 'Mão de Obra'
         verbose_name_plural = 'Mãos de Obra'
-        ordering = ['nome']
+        ordering = ['date_added']
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
@@ -316,7 +322,7 @@ class Material(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return f"Material:{self.nome}"
+        return self.nome
 
 
 class Orgao(models.Model):
@@ -332,8 +338,8 @@ class Orgao(models.Model):
         verbose_name='Data de atualização', auto_now=True)
 
     class Meta:
-        verbose_name = 'Orgão'
-        verbose_name_plural = 'Orgãos'
+        verbose_name = 'Órgão'
+        verbose_name_plural = 'Órgãos'
         ordering = ['date_added']
 
     def __str__(self):

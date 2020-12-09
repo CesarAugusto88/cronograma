@@ -32,7 +32,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
 
     'debug_toolbar',
-    #my apps
+    # my apps
     'apps.confidencechronograms',
     'apps.account',
     "crispy_forms",
@@ -127,8 +127,6 @@ USE_I18N = True
 USE_L10N = True
 
 USE_TZ = False
-
-USE_THOUSAND_SEPARATOR = True
 
 
 # Static files (CSS, JavaScript, Images)
