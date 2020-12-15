@@ -796,6 +796,179 @@ def price_task(request):
     return render(request, "valores_list.html", context)
 
 
+# Valores das maos de obra - em cliente
+@login_required(login_url="/login/")
+def price_mao_de_obra(request):
+    """ Lista de nomes, datas e VALORES das maos de obra"""
+    context = {}
+    cliente = request.user
+    try:
+        cliente = Cliente.objects.get(usuario=cliente)
+        # filter mostra como está a saida em __str__
+        # do models da classe
+        # cronograma = Cronograma.objects.filter(client=cliente)
+        # get mostra os atributos do objeto
+        # e assim pope-se colocar qual atributo
+        cronograma = Cronograma.objects.get(cliente=cliente)
+    except Exception:
+        raise Http404()
+    if cliente:
+        # id pesquisa
+        termo_pesquisa = request.GET.get('pesquisa', None)
+        tasks = Tarefa.objects.all()
+        mao_de_obra = Mao_de_Obra.objects.all()
+        smdo = 0
+        # PESQUISAS DEVEM ESTAR DIRETO EM MODEL PESQUISANDO
+        if termo_pesquisa:
+            # __icontains sem case sensitive
+            mao_de_obra = mao_de_obra.filter(
+                nome__icontains=termo_pesquisa)
+        else:
+            # OK esta pegando so os comentarios referentes ao cliente que criou
+            # ***É preciso atribuir automaticamente o cliente
+            # print(cronograma.id)
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
+
+            # estou pegando todas desse cronograma
+            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            mao_de_obra = Mao_de_Obra.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS MÃOS DE OBRA DA CONSTRUÇÃO INTEIRA
+            smdo = 0
+            for tmdo in mao_de_obra:
+                smdo += tmdo.valor_unitario * tmdo.quantidade
+
+        context = {
+            'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+            'mao_de_obra': mao_de_obra, 'smdo': smdo
+        }
+    else:
+        raise Http404()
+    return render(request, "valores_list_mao_de_obra.html", context)
+
+
+# Valores das tarefas - em cliente
+@login_required(login_url="/login/")
+def price_material(request):
+    """ Lista de nomes, datas e VALORES das tarefas"""
+    context = {}
+    cliente = request.user
+    try:
+        cliente = Cliente.objects.get(usuario=cliente)
+        # filter mostra como está a saida em __str__
+        # do models da classe
+        # cronograma = Cronograma.objects.filter(client=cliente)
+        # get mostra os atributos do objeto
+        # e assim pope-se colocar qual atributo
+        cronograma = Cronograma.objects.get(cliente=cliente)
+    except Exception:
+        raise Http404()
+    if cliente:
+        # id pesquisa
+        termo_pesquisa = request.GET.get('pesquisa', None)
+        tasks = Tarefa.objects.all()
+
+        material = Material.objects.all()
+        smtrl = 0
+
+        # PESQUISAS DEVEM ESTAR DIRETO EM MODEL PESQUISANDO
+        if termo_pesquisa:
+            # __icontains sem case sensitive
+            material = material.filter(nome__icontains=termo_pesquisa)
+        else:
+            # OK esta pegando so os comentarios referentes ao cliente que criou
+            # ***É preciso atribuir automaticamente o cliente
+            # print(cronograma.id)
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
+
+            # estou pegando todas desse cronograma
+            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            material = Material.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DOS MATERIAIS DA CONSTRUÇÃO INTEIRA
+            smtrl = 0
+            for mtrl in material:
+                smtrl += mtrl.valor_unitario * mtrl.quantidade
+
+        context = {
+            'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+            'material': material, 'smtrl': smtrl
+        }
+    else:
+        raise Http404()
+    return render(request, "valores_list_material.html", context)
+
+
+# Valores das taxas - em cliente
+@login_required(login_url="/login/")
+def price_taxa(request):
+    """ Lista de nomes, datas e VALORES das tarefas"""
+    context = {}
+    cliente = request.user
+    try:
+        cliente = Cliente.objects.get(usuario=cliente)
+        # filter mostra como está a saida em __str__
+        # do models da classe
+        # cronograma = Cronograma.objects.filter(client=cliente)
+        # get mostra os atributos do objeto
+        # e assim pope-se colocar qual atributo
+        cronograma = Cronograma.objects.get(cliente=cliente)
+    except Exception:
+        raise Http404()
+    if cliente:
+        # id pesquisa
+        termo_pesquisa = request.GET.get('pesquisa', None)
+        tasks = Tarefa.objects.all()
+        taxa = Taxa.objects.all()
+        stx = 0
+
+        # PESQUISAS DEVEM ESTAR DIRETO EM MODEL PESQUISANDO
+        if termo_pesquisa:
+            # __icontains sem case sensitive
+            taxa = taxa.filter(nome__icontains=termo_pesquisa)
+        else:
+            # OK esta pegando so os comentarios referentes ao cliente que criou
+            # ***É preciso atribuir automaticamente o cliente
+            # print(cronograma.id)
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
+
+            # estou pegando todas desse cronograma
+            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            taxa = Taxa.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS TAXAS DA CONSTRUÇÃO INTEIRA
+            stx = 0
+            for tx in taxa:
+                stx += tx.valor_unitario * tx.quantidade
+
+        context = {
+            'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+            'taxa': taxa, 'stx': stx
+        }
+    else:
+        raise Http404()
+    return render(request, "valores_list_taxa.html", context)
+
+
+# Gera pdf relatório tarefas
 class GeneratePDF(View):
     """Gerar pdf de 'relatorio.html' para cliente."""
     def get(self, request, *args, **kwargs):
@@ -865,6 +1038,223 @@ class GeneratePDF(View):
             raise Http404()
 
         return HttpResponse(pdf, content_type='confidencechronograms/pdf')
+
+
+# Gera pdf relatorio Mãos de Obra
+class GeneratePDFMaodeObra(View):
+    """Gerar pdf de 'relatorio_maos_de_obra.html' para cliente."""
+    def get(self, request, *args, **kwargs):
+        context = {}
+        cliente = request.user
+        try:
+            cliente = Cliente.objects.get(usuario=cliente)
+            # filter mostra como está a saida em __str__
+            # do models da classe
+            # cronograma = Cronograma.objects.filter(client=cliente)
+            # get mostra od atributos do objeto
+            # e assim pope-se colocar qual atributo
+            cronograma = Cronograma.objects.get(cliente=cliente)
+        except Exception:
+            raise Http404()
+        if cliente:
+            # pegar por tarefa para gerar valores dela
+            # FAZER POR MY_FILTERS.PY
+            # tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
+
+            # estou pegando todas desse cronograma
+            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            mao_de_obra = Mao_de_Obra.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS MÃOS DE OBRA DA CONSTRUÇÃO INTEIRA
+            smdo = 0
+            for tmdo in mao_de_obra:
+                smdo += tmdo.valor_unitario * tmdo.quantidade
+
+            material = Material.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DOS MATERIAIS DA CONSTRUÇÃO INTEIRA
+            smtrl = 0
+            for mtrl in material:
+                smtrl += mtrl.valor_unitario * mtrl.quantidade
+
+            taxa = Taxa.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS TAXAS DA CONSTRUÇÃO INTEIRA
+            stx = 0
+            for tx in taxa:
+                stx += tx.valor_unitario * tx.quantidade
+
+            # VALOR TOTAL DA CONSTRUÇÃO INTEIRA
+            sttl = smdo + smtrl + stx
+
+            context = {
+                'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+                'mao_de_obra': mao_de_obra, 'material': material, 'taxa': taxa,
+                'smdo': smdo, 'sttl': sttl
+            }
+            # data = {
+            #     'today': datetime.date.today(),
+            #     'amount': 39.99,
+            #     'customer_name': 'Cooper Mann',
+            #     'order_id': 1233434,
+            # }
+            pdf = render_to_pdf('relatorio_maos_de_obra.html', context)
+
+        else:
+            raise Http404()
+
+        return HttpResponse(pdf, content_type='cronogramaconfiavel/pdf')
+
+
+# Gera pdf relatorio Materiais
+class GeneratePDFMaterial(View):
+    """Gerar pdf de 'relatorio_materiais.html' para cliente."""
+    def get(self, request, *args, **kwargs):
+        context = {}
+        cliente = request.user
+        try:
+            cliente = Cliente.objects.get(usuario=cliente)
+            # filter mostra como está a saida em __str__
+            # do models da classe
+            # cronograma = Cronograma.objects.filter(client=cliente)
+            # get mostra od atributos do objeto
+            # e assim pope-se colocar qual atributo
+            cronograma = Cronograma.objects.get(cliente=cliente)
+        except Exception:
+            raise Http404()
+        if cliente:
+            # pegar por tarefa para gerar valores dela
+            # FAZER POR MY_FILTERS.PY
+            # tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
+
+            # estou pegando todas desse cronograma
+            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            mao_de_obra = Mao_de_Obra.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS MÃOS DE OBRA DA CONSTRUÇÃO INTEIRA
+            smdo = 0
+            for tmdo in mao_de_obra:
+                smdo += tmdo.valor_unitario * tmdo.quantidade
+
+            material = Material.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DOS MATERIAIS DA CONSTRUÇÃO INTEIRA
+            smtrl = 0
+            for mtrl in material:
+                smtrl += mtrl.valor_unitario * mtrl.quantidade
+
+            taxa = Taxa.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS TAXAS DA CONSTRUÇÃO INTEIRA
+            stx = 0
+            for tx in taxa:
+                stx += tx.valor_unitario * tx.quantidade
+
+            # VALOR TOTAL DA CONSTRUÇÃO INTEIRA
+            sttl = smdo + smtrl + stx
+
+            context = {
+                'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+                'mao_de_obra': mao_de_obra, 'material': material, 'taxa': taxa,
+                'smtrl': smtrl, 'sttl': sttl
+            }
+            # data = {
+            #     'today': datetime.date.today(),
+            #     'amount': 39.99,
+            #     'customer_name': 'Cooper Mann',
+            #     'order_id': 1233434,
+            # }
+            pdf = render_to_pdf('relatorio_materiais.html', context)
+
+        else:
+            raise Http404()
+
+        return HttpResponse(pdf, content_type='cronogramaconfiavel/pdf')
+
+
+# Gera pdf relatorio Taxas
+class GeneratePDFTaxa(View):
+    """Gerar pdf de 'relatorio_taxas.html' para cliente."""
+    def get(self, request, *args, **kwargs):
+        context = {}
+        cliente = request.user
+        try:
+            cliente = Cliente.objects.get(usuario=cliente)
+            # filter mostra como está a saida em __str__
+            # do models da classe
+            # cronograma = Cronograma.objects.filter(client=cliente)
+            # get mostra od atributos do objeto
+            # e assim pope-se colocar qual atributo
+            cronograma = Cronograma.objects.get(cliente=cliente)
+        except Exception:
+            raise Http404()
+        if cliente:
+            # pegar por tarefa para gerar valores dela
+            # FAZER POR MY_FILTERS.PY
+            # tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            # qs = Tarefa.objects.values_list()
+            # print(qs)
+            # # reloaded_qs = Tarefa.objects.all()
+            # tasks.query = pickle.loads(pickle.dumps(qs.query))
+            # # reloaded_qs = Tarefa.objects.all()
+            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # print(tasks)
+
+            # estou pegando todas desse cronograma
+            tasks = Tarefa.objects.filter(cronograma=cronograma.id)
+
+            mao_de_obra = Mao_de_Obra.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS MÃOS DE OBRA DA CONSTRUÇÃO INTEIRA
+            smdo = 0
+            for tmdo in mao_de_obra:
+                smdo += tmdo.valor_unitario * tmdo.quantidade
+
+            material = Material.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DOS MATERIAIS DA CONSTRUÇÃO INTEIRA
+            smtrl = 0
+            for mtrl in material:
+                smtrl += mtrl.valor_unitario * mtrl.quantidade
+
+            taxa = Taxa.objects.filter(cronograma=cronograma.id)
+            # VALOR TOTAL DAS TAXAS DA CONSTRUÇÃO INTEIRA
+            stx = 0
+            for tx in taxa:
+                stx += tx.valor_unitario * tx.quantidade
+
+            # VALOR TOTAL DA CONSTRUÇÃO INTEIRA
+            sttl = smdo + smtrl + stx
+
+            context = {
+                'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
+                'mao_de_obra': mao_de_obra, 'material': material, 'taxa': taxa,
+                'stx': stx, 'sttl': sttl
+            }
+            # data = {
+            #     'today': datetime.date.today(),
+            #     'amount': 39.99,
+            #     'customer_name': 'Cooper Mann',
+            #     'order_id': 1233434,
+            # }
+            pdf = render_to_pdf('relatorio_taxas.html', context)
+
+        else:
+            raise Http404()
+
+        return HttpResponse(pdf, content_type='cronogramaconfiavel/pdf')
+
 
 # EMAIL- em models
 # def e_mail(request):

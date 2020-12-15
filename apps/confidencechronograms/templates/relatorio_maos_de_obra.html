@@ -1,7 +1,7 @@
 <!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
     <head>
-        <title>Retatório</title>
+        <title>Retatório de Mãos de Obra</title>
         <link rel="stylesheet" href="http://yui.yahooapis.com/pure/0.3.0/pure-min.css">
         <style type="text/css">
             body {
@@ -42,7 +42,7 @@
         
         <div class='wrapper'>
             <div class='header'>
-		    <p class='title'># Relatório das Tarefas #</p>
+		    <p class='title'># Relatório de Mãos de Obra#</p>
             </div>
             <div class='details'>
                 Data: {% now "jS F Y H:i" %} <br>
@@ -54,22 +54,21 @@
                 <table class="pure-table pure-table-bordered">
                     <thead>
                     <tr>
-                        <th>Tarefa</th>
-                        <th>Início</th>
-                        <th>Fim</th>
-                        <!--
-                        <th>Valor Total Mão de Obra</th>
-                        <th>Valor Total  Materiais</th>
-                        <th>Valor Total Taxas</th>
-                        <th>Total da Tarefa</th> -->
+                        <th>Mão de Obra</th>
+                        <th>Valor Unitário</th>
+                        <th>Quantidade</th>
+                        <th>Unidade</th>
+                        <th>Preço</th>
                     </tr>
                     </thead>
                     <tbody>
-                    {% for task in tasks %}
+                    {% for mdo in mao_de_obra %}
                     <tr style="text-align: center;">
-                        <td>{{ task.nome }}</td>
-                        <td>{{ task.dt_inicial }}</td>
-                        <td>{{ task.dt_final }}</td>
+                        <td>{{ mdo.nome }}</td>
+                        <td>{{ mdo.valor_unitario }}</td>
+                        <td>{{ mdo.quantidade }}</td>
+                        <td>{{ mdo.unidade }}</td>
+                        <td>R${% multiply mdo.valor_unitario mdo.quantidade %}</td>
                     </tr>
                     {% endfor %}
                     </tbody>
@@ -81,7 +80,8 @@
                         <th></th>
                         <th></th>
                         <th></th>
-
+                        <th></th>
+                        <th></th>
                     </tr>
                     </thead>
                     <tbody>
@@ -89,11 +89,14 @@
                         <td></td>
                         <td></td>
                         <td></td>
+                        <td style="text-align: right;"><strong>Total Mãos de Obra =</strong></td>
+                        <td><strong>R${% total smdo %}</strong></td>
                     </tr>
                     </tbody>
                 </table>
+
             </div>
-            <div class='details'>
+            <div class='details'>            
                 <hr class='hrItem' />
             </div>
         </div>

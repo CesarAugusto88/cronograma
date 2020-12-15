@@ -101,10 +101,23 @@ urlpatterns = [
     path(
         "cronogramaconfiavel/comentarios/funcionario",
         views.comentario_list_fun, name="comentario_list_fun"),
-    # Valores de tarefas
+    # tarefas
     path(
-        "cronogramaconfiavel/task/price",
+        "cronogramaconfiavel/task/tasks",
         views.price_task, name="price_task"),
+    # Valores de mãos de obra
+    path(
+        "cronogramaconfiavel/maos-de-obra/price-mao-de-obra",
+        views.price_mao_de_obra, name="price_mao_de_obra"),
+    # Valores de materiais
+    path(
+        "cronogramaconfiavel/materiais/price",
+        views.price_material, name="price_material"),
+    # Valores de taxas
+    path(
+        "cronogramaconfiavel/taxas/price",
+        views.price_taxa, name="price_taxa"),
+
     # Email-views
     # path("cronogramaconfiavel/sendmail", views.e_mail, name="e_mail"),
     #################################
@@ -176,7 +189,8 @@ urlpatterns = [
         views.excluir_categoria, name="excluir_categoria"),
     # Material
     path(
-        "cronogramaconfiavel/material/", views.material_list, name="material_list"),
+        "cronogramaconfiavel/material/", views.material_list,
+        name="material_list"),
     path(
         "cronogramaconfiavel/material/novo-material/",
         views.novo_material, name="novo_material"),
@@ -211,8 +225,14 @@ urlpatterns = [
         "cronogramaconfiavel/taxa/excluir/<int:id>/",
         views.excluir_taxa, name="excluir_taxa"),
    
-    # relatório PDF
+    # relatórios PDF
     re_path(r'^pdf/$', views.GeneratePDF.as_view(), name="relatorio"),
+    re_path(r'^pdf-mao-de-obra/$', views.GeneratePDFMaodeObra.as_view(),
+            name="relatorio_maos_de_obra"),
+    re_path(r'^pdf-material/$', views.GeneratePDFMaterial.as_view(),
+            name="relatorio_materiais"),
+    re_path(r'^pdf-taxa/$', views.GeneratePDFTaxa.as_view(),
+            name="relatorio_taxas"),
 
     # Para aparecer arquivos do diretório media quando DEBUG=False
     re_path(

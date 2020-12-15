@@ -14,7 +14,7 @@
 
 <div class="container">
   {% block content_header %}
-    <h2>Todas Tarefas</h2>
+    <h2>Tarefas</h2>
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Tarefas</legend>
@@ -22,27 +22,6 @@
           <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
       </fieldset>
     </form>
-    <!-- <form action="" class="pure-form">
-      <fieldset>
-          <legend>Pesquisa de Mãos de Obra</legend>
-          <input type="text" size="30" id="pesquisa_mdo" name="pesquisa_mdo" placeholder="Nome da Mão de Obra"/>
-          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
-      </fieldset>
-    </form>
-    <form action="" class="pure-form">
-      <fieldset>
-          <legend>Pesquisa de Materiais</legend>
-          <input type="text" size="30" id="pesquisa_mtrl" name="pesquisa_mtrl" placeholder="Nome do Material"/>
-          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
-      </fieldset>
-    </form>
-    <form action="" class="pure-form">
-      <fieldset>
-          <legend>Pesquisa de Taxas</legend>
-          <input type="text" size="30" id="pesquisa_tx" name="pesquisa_tx" placeholder="Nome da Taxa"/>
-          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
-      </fieldset>
-    </form> -->
     
   {% endblock %}
   <a class="btn btn-outline-info"  
@@ -64,7 +43,7 @@
     </p>
     <hr style="background-color: rgb(182, 172, 172)">
   {% endfor %}
-  <hr>
+  <!-- <hr>
   <b>Mãos de Obra:</b>
     {% for mdo in mao_de_obra %}
       <p>&nbsp;&nbsp;&nbsp;Nome:
@@ -132,7 +111,7 @@
   {% endfor %}
   <p>&nbsp;&nbsp;&nbsp;Subtotal Taxas:
     <b>R${% total stx %}</b>
-  </p>
+  </p> -->
   <hr>
   <p style="font-size: 15pt;"><b> Total da Construção:
     R${% total sttl %}</b>

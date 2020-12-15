@@ -1,0 +1,58 @@
+{% extends 'base-cliente.html' %}
+
+{% block content %}
+{% load my_filters %}
+<style>
+  hr {
+    border: none;
+    height: 1px;
+    /* Set the hr color */
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+  }
+</style>
+
+<div class="container">
+  {% block content_header %}
+    <h2>Mãos de Obra</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de mãos de obra</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome da Mão de Obra"/>
+          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
+      </fieldset>
+    </form>
+    
+  {% endblock %}
+  <a class="btn btn-outline-info"  
+    href="{% url 'relatorio_maos_de_obra' %}">
+        <span class="icono-check" aria-hidden="true"></span>
+        Gerar Relatório
+  </a> 
+  <hr>
+  <b>Mãos de Obra:</b>
+    {% for mdo in mao_de_obra %}
+      <p>Nome:
+      <b>{{ mdo.nome }}</b>
+      </p>
+      <p>Valor unitário:
+        R${{ mdo.valor_unitario }}
+      </p>
+      <p>Quantidade:
+        {{ mdo.quantidade }}
+      </p>
+      <p>Unidade:
+        {{ mdo.unidade }}
+      </p>
+      <p>Total:
+        R${% multiply mdo.valor_unitario mdo.quantidade %}
+      </p>
+      <hr style="background-color: rgb(182, 172, 172)">
+    {% endfor %}
+    <p>Subtotal Mãos de Obra:
+      <b>R${% total smdo %}</b>
+    </p>
+    <hr>
+  
+</div>
+{% endblock %}

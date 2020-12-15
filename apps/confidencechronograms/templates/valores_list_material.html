@@ -1,0 +1,59 @@
+{% extends 'base-cliente.html' %}
+
+{% block content %}
+{% load my_filters %}
+<style>
+  hr {
+    border: none;
+    height: 1px;
+    /* Set the hr color */
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+  }
+</style>
+
+<div class="container">
+  {% block content_header %}
+    <h2>Materiais</h2>
+ 
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Materiais</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome do Material"/>
+          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
+      </fieldset>
+    </form>
+    
+  {% endblock %}
+  <a class="btn btn-outline-info"  
+    href="{% url 'relatorio_materiais' %}">
+        <span class="icono-check" aria-hidden="true"></span>
+        Gerar Relatório
+  </a> 
+  <hr>
+  
+  <b>Materiais:</b>
+    {% for mtrl in material %}
+      <p>Nome:
+      <b>{{ mtrl.nome }}</b>
+      </p>
+      <p>Valor unitário:
+        R${{ mtrl.valor_unitario }}
+      </p>
+      <p>Quantidade:
+        {{ mtrl.quantidade }}
+      </p>
+      <p>Unidade:
+        {{ mtrl.unidade }}
+      </p>
+      <p>Total:
+        R${% multiply mtrl.valor_unitario mtrl.quantidade %}
+      </p>
+      <hr style="background-color: rgb(182, 172, 172)">
+    {% endfor %}
+    <p>Subtotal Materiais:
+      <b>R${% total smtrl %}</b>
+    </p>
+    <hr>
+</div>
+{% endblock %}

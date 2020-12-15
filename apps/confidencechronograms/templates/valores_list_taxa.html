@@ -1,0 +1,59 @@
+{% extends 'base-cliente.html' %}
+
+{% block content %}
+{% load my_filters %}
+<style>
+  hr {
+    border: none;
+    height: 1px;
+    /* Set the hr color */
+    color: #333; /* old IE */
+    background-color: #333; /* Modern Browsers */
+  }
+</style>
+
+<div class="container">
+  {% block content_header %}
+    <h2>Taxas</h2>
+    <form action="" class="pure-form">
+      <fieldset>
+          <legend>Pesquisa de Taxas</legend>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome da Taxa"/>
+          <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
+      </fieldset>
+    </form>
+    
+  {% endblock %}
+  <a class="btn btn-outline-info"  
+    href="{% url 'relatorio_taxas' %}">
+        <span class="icono-check" aria-hidden="true"></span>
+        Gerar Relatório
+  </a> 
+  <hr>
+  
+  <b>Taxas:</b>
+  {% for tx in taxa %}
+    <p>Nome:
+    <b>{{ tx.nome }}</b>
+    </p>
+    <p>Valor unitário:
+      R${{ tx.valor_unitario }}
+    </p>
+    <p>Quantidade:
+      {{ tx.quantidade }}
+    </p>
+    <p>Unidade:
+      {{ tx.unidade }}
+    </p>
+    <p>Total:
+      R${% multiply tx.valor_unitario tx.quantidade %}
+    </p>
+    <hr style="background-color: rgb(182, 172, 172)">
+  {% endfor %}
+  <p>Subtotal Taxas:
+    <b>R${% total stx %}</b>
+  </p>
+  <hr>
+  
+</div>
+{% endblock %}

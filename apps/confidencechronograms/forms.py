@@ -73,7 +73,7 @@ class Mao_de_ObraForm(forms.ModelForm):
     #     queryset=Funcionario_da_Obra.objects.all(),
     #     widget=forms.CheckboxSelectMultiple
     # )
-        # Adicionar botão
+        # ADICIONAR BOTÃO
         # widgets = {
         #     'funcionarios_da_obra': AddAnotherEditSelectedWidgetWrapper(
         #         forms.Select,
