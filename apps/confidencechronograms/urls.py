@@ -13,6 +13,8 @@ urlpatterns = [
     path('contato/', views.contact, name='contact'),
     # Lista (tarefas) do cronograma
     path('cronograma/', views.list_chronogram, name='list_chronogram'),
+    # Lista (tarefas) do cronograma para Funcionario
+    path('cronograma-funcionario/', views.list_chronogram_, name='list_chronogram_'),
     # path('', views.index)
     # Se encontrar url vazia(normal, local), redireciona para chronogram
     # path('', RedirectView.as_view(url='/chronogram/')),
@@ -224,7 +226,7 @@ urlpatterns = [
     path(
         "cronogramaconfiavel/taxa/excluir/<int:id>/",
         views.excluir_taxa, name="excluir_taxa"),
-   
+
     # relatórios PDF
     re_path(r'^pdf/$', views.GeneratePDF.as_view(), name="relatorio"),
     re_path(r'^pdf-mao-de-obra/$', views.GeneratePDFMaodeObra.as_view(),

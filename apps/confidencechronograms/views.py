@@ -77,6 +77,56 @@ def confidencechronogram(request):
         return HttpResponse("<h1>Contate um Administrador!</h1>")
 
 
+# lista as tarefas do chronograma para o FUNCIONARIO
+@login_required(login_url='/login/')
+def list_chronogram_(request):
+    """ retorna o cronograma com às tarefas (javascript)
+    Mostrar o caminho crítico das atividades do cronograma: Atividades
+    que não podem atrasar - As atividades ja vão estar no limite.
+    Mostrar a porcentagem da conclusão das atividades para o cliente ter
+    uma visão. javascript? Mostrar a porcentagem do valor investido conforme
+    o valor total do models Chronogram.
+    """
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.get(usuario=usuario)
+
+        # Criar usuario_admin em cronograma, tarefa ..
+        # admin = Cliente.objects.get(usuario_admin=usuario)
+
+        # filter mostra como está a saida em __str__
+        # do models da classe
+        # cronograma = Cronograma.objects.filter(client=cliente)
+        # get mostra od atributos do objeto
+        # e assim pode-se colocar qual atributo
+        cronograma = Cronograma.objects.get(funcionario=funcionario)
+
+    except Exception:
+        raise Http404()
+
+    if funcionario:
+        # print(cronograma.id)
+        # c = Cronograma.objects.first()
+        # c = request.user.chronogram_set.get()
+
+        tasks = [t.to_dict() for t in Tarefa.objects.filter(
+            cronograma=cronograma.id)]
+
+        context = {
+            "tasks": json.dumps(tasks), "funcionario": funcionario,
+            'cronograma': cronograma
+        }
+
+    elif not cliente:
+        messages.info(request, 'Usuário diferente, contate um administrados!')
+        return redirect('/login/')
+
+    else:
+        raise Http404()
+
+    return render(request, "chronogram_funcionario.html", context)
+
+
 # lista as tarefas do chronograma para o cliente
 @login_required(login_url='/login/')
 def list_chronogram(request):

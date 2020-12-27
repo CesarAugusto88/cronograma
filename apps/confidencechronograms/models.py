@@ -170,7 +170,8 @@ class Cronograma(models.Model):
     # cliente como chave estrangeira
     # (E aparecer o cliente que já está cadastrado)
     cliente = models.ForeignKey(Cliente, on_delete=models.PROTECT)
-    funcionario = models.ForeignKey(Funcionario, on_delete=models.PROTECT)
+    funcionario = models.ForeignKey(
+        Funcionario, on_delete=models.PROTECT, null=True, blank=True)
 
     proprietario = models.CharField(
         verbose_name='Proprietário', max_length=80

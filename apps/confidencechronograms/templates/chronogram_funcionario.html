@@ -1,0 +1,66 @@
+{% extends "base-funcionario.html" %}
+
+{% block content %}
+
+{% load static %}
+
+    <link
+      rel="stylesheet"
+      type="text/css"
+      href="{% static 'css/frappe-gantt.css' %}">
+  
+    <h3>Funcionário: {{ funcionario.nome }}</h3>
+    <h3>Construção: {{ cronograma.estrutura }}</h3>
+  
+    <svg id="chronogram"></svg>
+    <script src="{% static 'js/frappe-gantt.min.js' %}"></script>
+
+  <!--Ver se é possível colocar variáveis como colunas de nomes e valores das tarefas/atividades/etapas em tables.
+      Em views (tasks) ou aqui.-->
+ 
+  <script>
+    var tasks = {% autoescape off %} {{ tasks }} {% endautoescape %};
+    var options = {
+      header_height: 50,
+      column_width: 30,
+      step: 24,
+      view_modes: ['Quarter Day', 'Half Day', 'Day', 'Week', 'Month', 'Year'],
+      bar_height: 20,
+      bar_corner_radius: 3,
+      arrow_curve: 5,
+      padding: 18,
+      view_mode: 'Day',   
+      date_format: 'YYYY-MM-DD',
+      custom_popup_html: null,
+    }
+
+    /*Essas funções onclick abaixo de javascript não foram criadas (biblioteca JS)...
+      Criar funções para mostrar datas, progresso... Ou pega do DB e mostar */
+    var gantt = new Gantt("#chronogram", tasks, {
+    on_click: function (tasks) {
+        console.log(tasks);
+    },
+    on_date_change: function(tasks, start, end) {
+        console.log(tasks, start, end);
+    },
+    on_progress_change: function(tasks, progress) {
+        console.log(tasks, progress);
+    },
+    on_view_change: function(mode) {
+        console.log(mode);
+    }});
+    
+  </script>
+
+  <!-- botões para visualizar como dias, semanas, meses:
+      gantt.change_view_mode('Week'); -->
+  <script src="{% static 'js/main.js' %}"></script>
+
+  <button class="btn btn-outline-info" type="button" onclick="days()">Dias</button>
+  <button class="btn btn-outline-info" type="button" onclick="weeks()">Semanas</button>
+  <button class="btn btn-outline-info" type="button" onclick="months()">Mesês</button>
+  <button class="btn btn-outline-info" type="button" onclick="years()">Anos</button>
+
+
+
+{% endblock %}

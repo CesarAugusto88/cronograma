@@ -32,7 +32,7 @@ class CronogramaForm(forms.ModelForm):
         model = Cronograma
         fields = (
             'estrutura', 'cliente', 'proprietario', 'endereco',
-            'tempo_total', 'valor_total'
+            'tempo_total', 'valor_total', 'funcionario'
             )
 
 
