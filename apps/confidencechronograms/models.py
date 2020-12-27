@@ -3,6 +3,9 @@ from django.contrib.auth.models import User
 from django.core.mail import send_mail, mail_admins
 from django.template.loader import render_to_string
 from confidencechronogram import settings
+from django.forms import ValidationError
+
+from apps.confidencechronograms.utils import valida_cpf, valida_cnpj
 
 
 class GerenciaCronograma(models.Manager):
@@ -44,7 +47,7 @@ class Funcionario(models.Model):
     complemento = models.CharField(blank=True, null=True, max_length=30)
     bairro = models.CharField(blank=True, null=True, max_length=30)
     cidade = models.CharField(blank=True, null=True, max_length=30)
-    cep = models.CharField(blank=True, null=True, max_length=9)
+    cep = models.CharField(blank=True, null=True, max_length=8)
     uf = models.CharField(blank=True, null=True, max_length=2)
     email = models.EmailField("E-mail", max_length=60)
     fone = models.CharField(verbose_name='Telefone', max_length=16)
@@ -58,6 +61,25 @@ class Funcionario(models.Model):
     date_update = models.DateTimeField(
         verbose_name='Data de atualização', auto_now=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def clean(self):
+        error_messages = {}
+
+        cpf_enviado = self.cpf or None
+        cpf_salvo = None
+        funcionario = Funcionario.objects.filter(cpf=cpf_enviado).first()
+
+        if funcionario:
+            cpf_salvo = funcionario.cpf
+
+            if cpf_salvo is not None and self.pk != funcionario.pk:
+                error_messages['cpf'] = 'CPF já existe.'
+
+        if not valida_cpf(self.cpf):
+            error_messages['cpf'] = 'Digite um CPF válido'
+
+        if error_messages:
+            raise ValidationError(error_messages)
 
     # classe Meta serve p modificar nomes para plural
     class Meta:
@@ -95,7 +117,7 @@ class Cliente(models.Model):
     complemento = models.CharField(blank=True, null=True, max_length=30)
     bairro = models.CharField(blank=True, null=True, max_length=30)
     cidade = models.CharField(blank=True, null=True, max_length=30)
-    cep = models.CharField(blank=True, null=True, max_length=9)
+    cep = models.CharField(blank=True, null=True, max_length=8)
     uf = models.CharField(blank=True, null=True, max_length=2)
     email = models.EmailField("E-mail", max_length=60)
     fone = models.CharField(verbose_name='Telefone', max_length=16)
@@ -106,6 +128,25 @@ class Cliente(models.Model):
         verbose_name='Data de atualização', auto_now=True)
 
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
+
+    def clean(self):
+        error_messages = {}
+
+        cpf_enviado = self.cpf or None
+        cpf_salvo = None
+        cliente = Cliente.objects.filter(cpf=cpf_enviado).first()
+
+        if cliente:
+            cpf_salvo = cliente.cpf
+
+            if cpf_salvo is not None and self.pk != cliente.pk:
+                error_messages['cpf'] = 'CPF já existe.'
+
+        if not valida_cpf(self.cpf):
+            error_messages['cpf'] = 'Digite um CPF válido'
+
+        if error_messages:
+            raise ValidationError(error_messages)
 
     # classe Meta serve p modificar nomes para plural
     class Meta:
@@ -173,7 +214,7 @@ class Empreiteira(models.Model):
     """ Um funcionário trabalha em uma Empreiteira que pode
     ser tercerizada (ou a própria construtora) """
     nome = models.CharField(max_length=200)
-    cnpj = models.CharField(blank=True, null=True, max_length=14)
+    cnpj = models.CharField(blank=True, null=True, max_length=18)
     email = models.EmailField("E-mail", blank=True, null=True, max_length=60)
     fone = models.CharField(verbose_name='Telefone', max_length=16)
     cronogramas = models.ManyToManyField('Cronograma', blank=True)
@@ -182,6 +223,22 @@ class Empreiteira(models.Model):
         verbose_name='Data de criação', auto_now_add=True)
     date_update = models.DateTimeField(
         verbose_name='Data de atualização', auto_now=True)
+
+    def clean(self):
+        error_messages = {}
+
+        cnpj_enviado = self.cnpj or None
+        cnpj_salvo = None
+        empreiteira = Empreiteira.objects.filter(cnpj=cnpj_enviado).first()
+
+        if empreiteira:
+            cnpj_salvo = empreiteira.cnpj
+
+            if cnpj_salvo is not None and self.pk != empreiteira.pk:
+                error_messages['cnpj'] = 'CNPJ já existe.'
+
+        if not valida_cnpj(self.cnpj):
+            error_messages['cnpj'] = 'Digite um CNPJ válido'
 
     # classe Meta serve para modificar nomes para plural
     class Meta:
@@ -220,7 +277,7 @@ class Funcionario_da_Obra(models.Model):
     complemento = models.CharField(blank=True, null=True, max_length=30)
     bairro = models.CharField(blank=True, null=True, max_length=30)
     cidade = models.CharField(blank=True, null=True, max_length=30)
-    cep = models.CharField(blank=True, null=True, max_length=9)
+    cep = models.CharField(blank=True, null=True, max_length=8)
     uf = models.CharField(blank=True, null=True, max_length=2)
     email = models.EmailField("E-mail", max_length=60)
     fone = models.CharField(verbose_name='Telefone', max_length=16)
@@ -230,6 +287,27 @@ class Funcionario_da_Obra(models.Model):
         verbose_name='Data de atualização', auto_now=True)
 
     empreiteira = models.ForeignKey(Empreiteira, on_delete=models.PROTECT)
+
+    def clean(self):
+        error_messages = {}
+
+        cpf_enviado = self.cpf or None
+        cpf_salvo = None
+        funcionario_da_obra = (
+            Funcionario_da_Obra.objects.filter(cpf=cpf_enviado).first()
+        )
+
+        if funcionario_da_obra:
+            cpf_salvo = funcionario_da_obra.cpf
+
+            if cpf_salvo is not None and self.pk != funcionario_da_obra.pk:
+                error_messages['cpf'] = 'CPF já existe.'
+
+        if not valida_cpf(self.cpf):
+            error_messages['cpf'] = 'Digite um CPF válido'
+
+        if error_messages:
+            raise ValidationError(error_messages)
 
     class Meta:
         verbose_name = 'Funcionário da Obra'
@@ -270,13 +348,29 @@ class Mao_de_Obra(models.Model):
 class Deposito(models.Model):
     """ Deposito de Vários materiais """
     nome = models.CharField(max_length=200)
-    cnpj = models.CharField(blank=True, null=True, max_length=14)
+    cnpj = models.CharField(blank=True, null=True, max_length=18)
     email = models.EmailField("E-mail", blank=True, null=True, max_length=60)
     fone = models.CharField(verbose_name='Telefone', max_length=16)
     date_added = models.DateTimeField(
         verbose_name='Data de criação', auto_now_add=True)
     date_update = models.DateTimeField(
         verbose_name='Data de atualização', auto_now=True)
+
+    def clean(self):
+        error_messages = {}
+
+        cnpj_enviado = self.cnpj or None
+        cnpj_salvo = None
+        deposito = Deposito.objects.filter(cnpj=cnpj_enviado).first()
+
+        if deposito:
+            cnpj_salvo = deposito.cnpj
+
+            if cnpj_salvo is not None and self.pk != deposito.pk:
+                error_messages['cnpj'] = 'CNPJ já existe.'
+
+        if not valida_cnpj(self.cnpj):
+            error_messages['cnpj'] = 'Digite um CNPJ válido'
 
     class Meta:
         verbose_name = 'Depósito'
@@ -329,13 +423,32 @@ class Orgao(models.Model):
     """ Orgão que emite várias taxas """
 
     nome = models.CharField(max_length=200)
-    cnpj = models.CharField(blank=True, null=True, max_length=14)
+    cnpj = models.CharField(blank=True, null=True, max_length=18)
     email = models.EmailField("E-mail", blank=True, null=True, max_length=60)
     fone = models.CharField(verbose_name='Telefone', max_length=16)
     date_added = models.DateTimeField(
         verbose_name='Data de criação', auto_now_add=True)
     date_update = models.DateTimeField(
         verbose_name='Data de atualização', auto_now=True)
+
+    def clean(self):
+        error_messages = {}
+
+        cnpj_enviado = self.cnpj or None
+        cnpj_salvo = None
+        orgao = Orgao.objects.filter(cnpj=cnpj_enviado).first()
+
+        if orgao:
+            cnpj_salvo = orgao.cnpj
+
+            if cnpj_salvo is not None and self.pk != orgao.pk:
+                error_messages['cnpj'] = 'CNPJ já existe.'
+
+        if not valida_cnpj(self.cnpj):
+            error_messages['cnpj'] = 'Digite um CNPJ válido'
+
+        if error_messages:
+            raise ValidationError(error_messages)
 
     class Meta:
         verbose_name = 'Órgão'

@@ -72,7 +72,6 @@ def confidencechronogram(request):
     if funcionario:
         return redirect("funcionario")
     elif cliente:
-
         return redirect("cliente")
     else:
         return HttpResponse("<h1>Contate um Administrador!</h1>")
@@ -88,9 +87,12 @@ def list_chronogram(request):
     uma visão. javascript? Mostrar a porcentagem do valor investido conforme
     o valor total do models Chronogram.
     """
-    cliente = request.user
+    usuario = request.user
     try:
-        cliente = Cliente.objects.get(usuario=cliente)
+        cliente = Cliente.objects.get(usuario=usuario)
+        # Criar usuario_admin em cronograma, tarefa ..
+        # admin = Cliente.objects.get(usuario_admin=usuario)
+
         # filter mostra como está a saida em __str__
         # do models da classe
         # cronograma = Cronograma.objects.filter(client=cliente)
@@ -161,10 +163,10 @@ def list_chronogram(request):
 @login_required(login_url="/login/")
 def dados_cliente(request):
     """ Mostra dados do cliente."""
-    usuario_cli = request.user
+    usuario = request.user
     try:
         # Mesmo objeto em html
-        cliente = Cliente.objects.filter(usuario=usuario_cli)
+        cliente = Cliente.objects.filter(usuario=usuario)
         # cliente = Cliente.objects.all()
     except Exception:
         raise Http404()
@@ -205,11 +207,11 @@ def submit_cliente(request):
         cep = request.POST.get("cep")
         uf = request.POST.get("uf")
 
-        usuario_cli = request.user
+        usuario = request.user
         id_cliente = request.POST.get("id_cliente")
         if id_cliente:
             cliente = Cliente.objects.get(id=id_cliente)
-            if cliente.usuario == usuario_cli:
+            if cliente.usuario == usuario:
                 cliente.nome = nome
                 cliente.fone = fone
                 cliente.email = email

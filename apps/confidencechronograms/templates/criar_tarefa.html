@@ -3,12 +3,38 @@
 {% load crispy_forms_tags %}
 
 {% block content %}
+<!-- STYLE PARA RANGE
+<style>
+label, input {
+  position: relative;
+  width: 78px;
+  }
+  
+  label::after {
+  content: '' attr(unit);
+  position: absolute;
+  top: 3px;
+  left: 45px;
+  font-family: arial, helvetica, sans-serif;
+  font-size: 13px;
+  color: rgba(0, 0, 0, 0.6);
+  font-weight: bold;
+  }
+</style> -->
+
 
 <div class="container">
   <h2>Tarefa</h2>
   <form method="post" enctype="multipart/form-data">
     {% csrf_token %}
     {{ form|crispy }}
+    <!-- para criar form um por um: COLOCAR FUNÇÃO EM VIEWS PARA PEGAR INPUT DEIXAR OS OUTROS PADROES
+         MESMO PARA UPDATE
+    {{form.progresso.errors}}
+    <label>
+    Progresso %: <label>
+      <input type='number' id="teste" step='5' name="progresso" value='{{form.progresso}}' min="0" max="100" placeholder='0.00' />
+    <label> -->
     <button type="submit" class="pure-button pure-button-primary">Criar Tarefa</button>
   </form>
 </div>
