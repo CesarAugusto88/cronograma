@@ -97,9 +97,12 @@ def list_chronogram_(request):
         # filter mostra como está a saida em __str__
         # do models da classe
         # cronograma = Cronograma.objects.filter(client=cliente)
-        # get mostra od atributos do objeto
-        # e assim pode-se colocar qual atributo
+        # get mostra os atributos do objeto
+        # e assim pode-se colocar qual atributo -"nome.atributo"
+
+        # Se tiver mais de um funcionario por cronograma da erro.
         cronograma = Cronograma.objects.get(funcionario=funcionario)
+        print(cronograma.estrutura)
 
     except Exception:
         raise Http404()
@@ -146,8 +149,8 @@ def list_chronogram(request):
         # filter mostra como está a saida em __str__
         # do models da classe
         # cronograma = Cronograma.objects.filter(client=cliente)
-        # get mostra od atributos do objeto
-        # e assim pode-se colocar qual atributo
+        # get mostra os atributos do objeto
+        # e assim pode-se colocar qual atributo -"nome.atributo"
         cronograma = Cronograma.objects.get(cliente=cliente)
 
     except Exception:
@@ -485,14 +488,15 @@ def chronogram_list(request):
 @login_required(login_url="/login/")
 def new_chronogram(request):
     """ Cria formulário do cronograma e envia objeto cliente."""
-    funcionario = request.user
-    user_funcionario = Funcionario.objects.get(usuario=funcionario)
+    # funcionario = request.user
+    # user_funcionario = Funcionario.objects.get(usuario=funcionario)
     if request.method == "POST":
         form = CronogramaForm(request.POST)
         if form.is_valid():
-            # funcionário que criou vinculado no cronograma
-            novo = Cronograma(
-                funcionario=user_funcionario, **form.cleaned_data)
+            # funcionário que criou vinculado no cronograma - moficicado
+            # novo = Cronograma(
+            #     funcionario=user_funcionario, **form.cleaned_data)
+            novo = Cronograma(**form.cleaned_data)
             novo.save()
 
             return redirect("chronogram_list")
