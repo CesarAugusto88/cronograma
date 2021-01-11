@@ -16,7 +16,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
-ALLOWED_HOSTS = ['confidence.devsys.com.br', 'www.confidence.devsys.com.br', '127.0.0.1', 'localhost']
+ALLOWED_HOSTS = [
+    'confidence.devsys.com.br', 'www.confidence.devsys.com.br',
+    '127.0.0.1', 'localhost']
 
 INTERNAL_IPS = ['127.0.0.1']
 
@@ -81,7 +83,9 @@ WSGI_APPLICATION = 'confidencechronogram.wsgi.application'
 
 
 default_dburl = 'sqlite:///' + os.path.join(BASE_DIR, 'db.sqlite3')
-DATABASES = { 'default': config('DATABASE_URL', default=default_dburl, cast=dburl), }
+DATABASES = {
+    'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
+    }
 
 # DATABASES = {
 #     "default": {
@@ -151,9 +155,9 @@ LOGIN_URL = '/cronogramaconfiavel/'
 
 STATICFILES_STORAGE = 'django.contrib.staticfiles.storage.ManifestStaticFilesStorage'
 
-#Configurations e-mail
+# Configurations e-mail
 # EMAIL_HOST = 'http://mail.devsys.com.br'
-# EMAIL_PORT = 
+# EMAIL_PORT =
 # EMAIL_HOST_USER = config('MY_EMAIL')
 # EMAIL_HOST_PASSWORD = config('SECRET_EMAIL')
 # EMAIL_USE_TLS = True

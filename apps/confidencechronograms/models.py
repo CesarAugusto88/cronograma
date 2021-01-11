@@ -62,24 +62,24 @@ class Funcionario(models.Model):
         verbose_name='Data de atualização', auto_now=True)
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def clean(self):
-        error_messages = {}
+    # def clean(self):
+    #     error_messages = {}
 
-        cpf_enviado = self.cpf or None
-        cpf_salvo = None
-        funcionario = Funcionario.objects.filter(cpf=cpf_enviado).first()
+    #     cpf_enviado = self.cpf or None
+    #     cpf_salvo = None
+    #     funcionario = Funcionario.objects.filter(cpf=cpf_enviado).first()
 
-        if funcionario:
-            cpf_salvo = funcionario.cpf
+    #     if funcionario:
+    #         cpf_salvo = funcionario.cpf
 
-            if cpf_salvo is not None and self.pk != funcionario.pk:
-                error_messages['cpf'] = 'CPF já existe.'
+    #         if cpf_salvo is not None and self.pk != funcionario.pk:
+    #             error_messages['cpf'] = 'CPF já existe.'
 
-        if not valida_cpf(self.cpf):
-            error_messages['cpf'] = 'Digite um CPF válido'
+    #     if not valida_cpf(self.cpf):
+    #         error_messages['cpf'] = 'Digite um CPF válido'
 
-        if error_messages:
-            raise ValidationError(error_messages)
+    #     if error_messages:
+    #         raise ValidationError(error_messages)
 
     # classe Meta serve p modificar nomes para plural
     class Meta:
@@ -129,24 +129,24 @@ class Cliente(models.Model):
 
     usuario = models.ForeignKey(User, on_delete=models.CASCADE)
 
-    def clean(self):
-        error_messages = {}
+    # def clean(self):
+    #     error_messages = {}
 
-        cpf_enviado = self.cpf or None
-        cpf_salvo = None
-        cliente = Cliente.objects.filter(cpf=cpf_enviado).first()
+    #     cpf_enviado = self.cpf or None
+    #     cpf_salvo = None
+    #     cliente = Cliente.objects.filter(cpf=cpf_enviado).first()
 
-        if cliente:
-            cpf_salvo = cliente.cpf
+    #     if cliente:
+    #         cpf_salvo = cliente.cpf
 
-            if cpf_salvo is not None and self.pk != cliente.pk:
-                error_messages['cpf'] = 'CPF já existe.'
+    #         if cpf_salvo is not None and self.pk != cliente.pk:
+    #             error_messages['cpf'] = 'CPF já existe.'
 
-        if not valida_cpf(self.cpf):
-            error_messages['cpf'] = 'Digite um CPF válido'
+    #     if not valida_cpf(self.cpf):
+    #         error_messages['cpf'] = 'Digite um CPF válido'
 
-        if error_messages:
-            raise ValidationError(error_messages)
+    #     if error_messages:
+    #         raise ValidationError(error_messages)
 
     # classe Meta serve p modificar nomes para plural
     class Meta:
@@ -289,26 +289,26 @@ class Funcionario_da_Obra(models.Model):
 
     empreiteira = models.ForeignKey(Empreiteira, on_delete=models.PROTECT)
 
-    def clean(self):
-        error_messages = {}
+    # def clean(self):
+    #     error_messages = {}
 
-        cpf_enviado = self.cpf or None
-        cpf_salvo = None
-        funcionario_da_obra = (
-            Funcionario_da_Obra.objects.filter(cpf=cpf_enviado).first()
-        )
+    #     cpf_enviado = self.cpf or None
+    #     cpf_salvo = None
+    #     funcionario_da_obra = (
+    #         Funcionario_da_Obra.objects.filter(cpf=cpf_enviado).first()
+    #     )
 
-        if funcionario_da_obra:
-            cpf_salvo = funcionario_da_obra.cpf
+    #     if funcionario_da_obra:
+    #         cpf_salvo = funcionario_da_obra.cpf
 
-            if cpf_salvo is not None and self.pk != funcionario_da_obra.pk:
-                error_messages['cpf'] = 'CPF já existe.'
+    #         if cpf_salvo is not None and self.pk != funcionario_da_obra.pk:
+    #             error_messages['cpf'] = 'CPF já existe.'
 
-        if not valida_cpf(self.cpf):
-            error_messages['cpf'] = 'Digite um CPF válido'
+    #     if not valida_cpf(self.cpf):
+    #         error_messages['cpf'] = 'Digite um CPF válido'
 
-        if error_messages:
-            raise ValidationError(error_messages)
+    #     if error_messages:
+    #         raise ValidationError(error_messages)
 
     class Meta:
         verbose_name = 'Funcionário da Obra'
@@ -343,7 +343,7 @@ class Mao_de_Obra(models.Model):
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return self.nome
+        return f'{self.nome} - {self.cronograma.cliente}'
 
 
 class Deposito(models.Model):
@@ -409,15 +409,19 @@ class Material(models.Model):
     cronograma = models.ForeignKey(Cronograma, on_delete=models.PROTECT)
     deposito = models.ForeignKey(Deposito, on_delete=models.PROTECT)
     categoria = models.ForeignKey(Categoria, on_delete=models.PROTECT)
+    date_added = models.DateTimeField(
+        verbose_name='Data de criação', auto_now_add=True)
+    date_update = models.DateTimeField(
+        verbose_name='Data de atualização', auto_now=True)
 
     class Meta:
         verbose_name = 'Material'
         verbose_name_plural = 'Materiais'
-        ordering = ['nome']
+        ordering = ['date_added']
 
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
-        return self.nome
+        return f'{self.nome} - {self.cronograma.cliente}'
 
 
 class Orgao(models.Model):
@@ -432,24 +436,24 @@ class Orgao(models.Model):
     date_update = models.DateTimeField(
         verbose_name='Data de atualização', auto_now=True)
 
-    def clean(self):
-        error_messages = {}
+    # def clean(self):
+    #     error_messages = {}
 
-        cnpj_enviado = self.cnpj or None
-        cnpj_salvo = None
-        orgao = Orgao.objects.filter(cnpj=cnpj_enviado).first()
+    #     cnpj_enviado = self.cnpj or None
+    #     cnpj_salvo = None
+    #     orgao = Orgao.objects.filter(cnpj=cnpj_enviado).first()
 
-        if orgao:
-            cnpj_salvo = orgao.cnpj
+    #     if orgao:
+    #         cnpj_salvo = orgao.cnpj
 
-            if cnpj_salvo is not None and self.pk != orgao.pk:
-                error_messages['cnpj'] = 'CNPJ já existe.'
+    #         if cnpj_salvo is not None and self.pk != orgao.pk:
+    #             error_messages['cnpj'] = 'CNPJ já existe.'
 
-        if not valida_cnpj(self.cnpj):
-            error_messages['cnpj'] = 'Digite um CNPJ válido'
+    #     if not valida_cnpj(self.cnpj):
+    #         error_messages['cnpj'] = 'Digite um CNPJ válido'
 
-        if error_messages:
-            raise ValidationError(error_messages)
+    #     if error_messages:
+    #         raise ValidationError(error_messages)
 
     class Meta:
         verbose_name = 'Órgão'
@@ -480,7 +484,7 @@ class Taxa(models.Model):
     def __str__(self):
         """ Devolve uma representação em string do modelo."""
 
-        return f"Taxa: {self.nome}"
+        return f"Taxa: {self.nome} - {self.cronograma.cliente}"
 
 
 # UM CRONOGRAMA TEM VÁRIAS TAREFAS.

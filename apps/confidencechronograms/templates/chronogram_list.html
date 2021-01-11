@@ -28,6 +28,9 @@
     <p>Endereço:
       {{ cronograma.endereco }}
     </p>
+    <p>Funcionário:
+      {{ cronograma.funcionario }}
+    </p>
     <form method="post" action="{% url 'delete_chronogram' cronograma.id %}">
       {% csrf_token %}
       <a href="{% url 'update_chronogram' cronograma.id %}" style="text-decoration:none">

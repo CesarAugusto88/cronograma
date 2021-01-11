@@ -42,7 +42,7 @@
         
         <div class='wrapper'>
             <div class='header'>
-		    <p class='title'># Relatório de Mãos de Obra#</p>
+		    <p class='title'># Relatório de Mãos de Obra #</p>
             </div>
             <div class='details'>
                 Data: {% now "jS F Y H:i" %} <br>
@@ -91,6 +91,42 @@
                         <td></td>
                         <td style="text-align: right;"><strong>Total Mãos de Obra =</strong></td>
                         <td><strong>R${% total smdo %}</strong></td>
+                    </tr>
+                    </tbody>
+                </table>
+
+                <!--Funcionários das Mãos de Obra-->
+                <div class='header'>
+                    <p class='title'># Funcionários da Obra #</p>
+                </div>
+                <hr class='hrItem' />
+                <table class="pure-table pure-table-bordered">
+                    <thead>
+                    <tr>
+                        <th>Funcionário(s) por Mão de Obra</th>
+                    </tr>
+                    </thead>
+                    <tbody>
+                    {% for f in lfun %}
+                    <tr style="text-align: center;">
+                        <td>{{ f }}</td>
+
+                    </tr>
+                    {% endfor %}
+                    </tbody>
+                </table>
+                <hr class='hrItem' />
+                <table class="pure-table pure-table-bordered">
+                    <thead>
+                    <tr>
+                        <th></th>
+
+                    </tr>
+                    </thead>
+                    <tbody>
+                    <tr style="text-align: center;">
+                        <td></td>
+
                     </tr>
                     </tbody>
                 </table>

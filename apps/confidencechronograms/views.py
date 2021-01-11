@@ -6,6 +6,7 @@ from django.http.response import Http404, JsonResponse
 from django.contrib.auth.models import User
 import json
 
+
 # import pickle
 from apps.confidencechronograms.models import (
     Tarefa, Cliente, Funcionario, Cronograma, Comentario, Empreiteira,
@@ -102,10 +103,12 @@ def list_chronogram_(request):
 
         # Se tiver mais de um funcionario por cronograma da erro.
         cronograma = Cronograma.objects.get(funcionario=funcionario)
-        print(cronograma.estrutura)
+        # print(cronograma)
 
     except Exception:
-        raise Http404()
+        # raise Http404()
+        return HttpResponse(
+            'Verifique o seu usuario Funcionario em CRONOGRAMAS.')
 
     if funcionario:
         # print(cronograma.id)
@@ -551,10 +554,7 @@ def task_list(request):
             # __icontains sem case sensitive
             tasks = tasks.filter(nome__icontains=termo_pesquisa)
         else:
-            # get() returned more than one Cronograma -- it returned 2!
-
-            # tasks = Tarefa.objects.filter(funcionario=funcionario.id)
-            tasks = Tarefa.objects.all()
+            tasks = Tarefa.objects.order_by("-date_added").all()
 
             # Não encontra tabela confidence_chronograms_tarefa
             # tarefa = tasks.extra(where=[
@@ -887,8 +887,8 @@ def price_mao_de_obra(request):
             # print(qs)
             # # reloaded_qs = Tarefa.objects.all()
             # tasks.query = pickle.loads(pickle.dumps(qs.query))
-            # # reloaded_qs = Tarefa.objects.all()
-            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # reloaded_qs = Tarefa.objects.all()
+            # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
             # print(tasks)
 
             # estou pegando todas desse cronograma
@@ -1000,10 +1000,9 @@ def price_taxa(request):
             # print(cronograma.id)
             # qs = Tarefa.objects.values_list()
             # print(qs)
-            # # reloaded_qs = Tarefa.objects.all()
-            # tasks.query = pickle.loads(pickle.dumps(qs.query))
-            # # reloaded_qs = Tarefa.objects.all()
-            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
+            # reloaded_qs = Tarefa.objects.all()Topografia do terrenoqs.query))
+            # reloaded_qs = Tarefa.objects.all()
+            # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
             # print(tasks)
 
             # estou pegando todas desse cronograma
@@ -1104,67 +1103,68 @@ class GeneratePDFMaodeObra(View):
         cliente = request.user
         try:
             cliente = Cliente.objects.get(usuario=cliente)
-            # filter mostra como está a saida em __str__
-            # do models da classe
-            # cronograma = Cronograma.objects.filter(client=cliente)
-            # get mostra od atributos do objeto
-            # e assim pope-se colocar qual atributo
             cronograma = Cronograma.objects.get(cliente=cliente)
         except Exception:
             raise Http404()
         if cliente:
-            # pegar por tarefa para gerar valores dela
-            # FAZER POR MY_FILTERS.PY
-            # tasks = Tarefa.objects.filter(cronograma=cronograma.id)
-
-            # qs = Tarefa.objects.values_list()
-            # print(qs)
-            # # reloaded_qs = Tarefa.objects.all()
-            # tasks.query = pickle.loads(pickle.dumps(qs.query))
-            # # reloaded_qs = Tarefa.objects.all()
-            # # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
-            # print(tasks)
-
-            # estou pegando todas desse cronograma
             tasks = Tarefa.objects.filter(cronograma=cronograma.id)
-
             mao_de_obra = Mao_de_Obra.objects.filter(cronograma=cronograma.id)
-            # VALOR TOTAL DAS MÃOS DE OBRA DA CONSTRUÇÃO INTEIRA
+
+            funcionarios = Mao_de_Obra.objects.filter(
+                cronograma=cronograma.id).prefetch_related(
+                'funcionarios_da_obra')
+            lista = []
+            l = []
+            for f in funcionarios:
+                if len(f.funcionarios_da_obra.all()) > 0:
+                    lista.append(str(f.funcionarios_da_obra.all()))
+            for i in lista:
+                # print(i)
+                lista_frase = i.split()
+                # print(lista_frase)
+                remover_palavras  = ['<QuerySet', '[<Funcionario_da_Obra:',
+                                     '<Funcionario_da_Obra:']
+                result = [palavra for palavra in lista_frase if palavra not in remover_palavras]
+                result = [item.replace(">]>", "") for item in result]
+                result = [item.replace(">", "") for item in result]
+                print(result)
+                retorno = ' '.join(result)
+                l.append(retorno)
+
+            # lfun = l
+            # i = 0
+            # while i < len(lfun):
+            #     j = i + 1
+            #     while j < len(lfun):
+            #         if lfun[j] == lfun[i]:
+            #             del(lfun[j])
+            #         else:
+            #             j = j + 1
+            #     i = i + 1
+            # print(lfun)
+
             smdo = 0
             for tmdo in mao_de_obra:
                 smdo += tmdo.valor_unitario * tmdo.quantidade
-
             material = Material.objects.filter(cronograma=cronograma.id)
-            # VALOR TOTAL DOS MATERIAIS DA CONSTRUÇÃO INTEIRA
             smtrl = 0
             for mtrl in material:
                 smtrl += mtrl.valor_unitario * mtrl.quantidade
 
             taxa = Taxa.objects.filter(cronograma=cronograma.id)
-            # VALOR TOTAL DAS TAXAS DA CONSTRUÇÃO INTEIRA
             stx = 0
             for tx in taxa:
                 stx += tx.valor_unitario * tx.quantidade
-
-            # VALOR TOTAL DA CONSTRUÇÃO INTEIRA
             sttl = smdo + smtrl + stx
 
             context = {
                 'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
                 'mao_de_obra': mao_de_obra, 'material': material, 'taxa': taxa,
-                'smdo': smdo, 'sttl': sttl
+                'smdo': smdo, 'sttl': sttl, 'lfun': l
             }
-            # data = {
-            #     'today': datetime.date.today(),
-            #     'amount': 39.99,
-            #     'customer_name': 'Cooper Mann',
-            #     'order_id': 1233434,
-            # }
             pdf = render_to_pdf('relatorio_maos_de_obra.html', context)
-
         else:
             raise Http404()
-
         return HttpResponse(pdf, content_type='cronogramaconfiavel/pdf')
 
 
@@ -1396,7 +1396,7 @@ def mao_de_obra_list(request):
         raise Http404()
     if funcionario:
         termo_pesquisa = request.GET.get('pesquisa', None)
-        mao_de_obra = Mao_de_Obra.objects.all()
+        mao_de_obra = Mao_de_Obra.objects.order_by("-date_added").all()
         funcionarios = Funcionario_da_Obra.objects.all()
 
         # qs = Empreiteira.objects.values_list('id')
@@ -1626,7 +1626,7 @@ def nova_categoria(request):
 @login_required(login_url="/login/")
 def alterar_categoria(request, id):
     """ Atualiza categoria."""
-    categoria = Deposito.objects.get(id=id)
+    categoria = Categoria.objects.get(id=id)
     form = CategoriaForm(request.POST or None, instance=categoria)
     if form.is_valid():
         form.save()
@@ -1661,7 +1661,7 @@ def material_list(request):
             # __icontains sem case sensitive
             material = material.filter(nome__icontains=termo_pesquisa)
         else:
-            material = Material.objects.all()
+            material = Material.objects.order_by("-date_added").all()
         dados = {"material": material}
     else:
         raise Http404()

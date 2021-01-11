@@ -3,7 +3,7 @@
 {% block content %}
 
 <div class="container" style="padding-top: 15px;">
-        <h2>Alterar Clientes</h2>
+        <h2>Alterar Cliente</h2>
         <form method="post" enctype="multipart/form-data">
             {% csrf_token %}
             {{ form.as_p }} <!--form.as_table padrao?-->
