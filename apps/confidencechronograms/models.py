@@ -490,11 +490,10 @@ class Taxa(models.Model):
 # UM CRONOGRAMA TEM VÁRIAS TAREFAS.
 class Tarefa(models.Model):
     """Tarefa específica do 'Cronograma'.
-    Tem Funcionarios da Obra que executa a
-    MAO DE OBRA (funcionario vinculado na tabela Mao_de_Obra)
+    MAOS DE OBRA (funcionario vinculado na tabela Mao_de_Obra)
     que é de uma 'Empreiteira'
-    O que importa são os valores que uma tarefa tem.
-    Por isso separado "Mao de Obra', 'Material' e, 'Taxa'.
+    MATERIAIS (material de um Deposito)
+    TAXAS (taxa de um Orgao)
     """
 
     # Cronograma tem cliente e funcionario

@@ -1,0 +1,20 @@
+id,app,name,applied
+1,contenttypes,0001_initial,2020-12-28 22:18:53.396813
+2,auth,0001_initial,2020-12-28 22:18:53.552769
+3,admin,0001_initial,2020-12-28 22:18:53.697750
+4,admin,0002_logentry_remove_auto_add,2020-12-28 22:18:53.859551
+5,admin,0003_logentry_add_action_flag_choices,2020-12-28 22:18:54.014551
+6,contenttypes,0002_remove_content_type_name,2020-12-28 22:18:54.147662
+7,auth,0002_alter_permission_name_max_length,2020-12-28 22:18:54.260763
+8,auth,0003_alter_user_email_max_length,2020-12-28 22:18:54.387159
+9,auth,0004_alter_user_username_opts,2020-12-28 22:18:54.536459
+10,auth,0005_alter_user_last_login_null,2020-12-28 22:18:54.652267
+11,auth,0006_require_contenttypes_0002,2020-12-28 22:18:54.755352
+12,auth,0007_alter_validators_add_error_messages,2020-12-28 22:18:54.868763
+13,auth,0008_alter_user_username_max_length,2020-12-28 22:18:54.986079
+14,auth,0009_alter_user_last_name_max_length,2020-12-28 22:18:55.115466
+15,auth,0010_alter_group_name_max_length,2020-12-28 22:18:55.233713
+16,auth,0011_update_proxy_permissions,2020-12-28 22:18:55.349766
+17,confidencechronograms,0001_initial,2020-12-28 22:18:55.710346
+18,sessions,0001_initial,2020-12-28 22:18:55.873142
+19,confidencechronograms,0002_auto_20201231_1947,2020-12-31 19:47:42.535260

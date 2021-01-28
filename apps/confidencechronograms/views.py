@@ -456,7 +456,7 @@ def excluir_clientes(request, id):
     if request.method == "POST":
         cliente = Cliente.objects.get(id=id)
         cliente.delete()
-    return redirect("list_clientes")
+    return redirect("clientes_list")
 
 
 #########################################
@@ -570,44 +570,6 @@ def task_list(request):
     return render(request, "task_list.html", dados)
 
 
-# EXEMPLO para pegar os valores para tarefas acima:
-    # cliente = request.user
-    #     try:
-    #         cliente = Cliente.objects.get(usuario=cliente)
-    #         # filter mostra como está a saida em __str__
-    #         # do models da classe
-    #         #cronograma = Cronograma.objects.filter(client=cliente)
-    #         # get mostra od atributos do objeto
-    #         # e assim pode-se colocar qual atributo
-    #         cronograma = Cronograma.objects.get(cliente=cliente)
-
-    #     except Exception:
-    #         raise Http404()
-
-    #     if cliente:
-    #         #print(cronograma.id)
-    #         #c = Cronograma.objects.first()
-    #         #c = request.user.chronogram_set.get()
-
-    #         tasks = [t.to_dict() for t in Tarefas.objects.filter(
-    # cronograma=cronograma.id)]
-
-    #         context = {
-    #             "tasks": json.dumps(tasks), "cliente": cliente,
-    # 'cronograma': cronograma
-    #         }
-
-    #     elif not cliente:
-    #         messages.info(
-    # request, 'Usuário diferente, contate um administrados!')
-    #         return redirect('/login/')
-
-    #     else:
-    #         raise Http404()
-
-    #     return render(request, "chronogram.html", context)
-
-
 @login_required(login_url="/login/")
 def new_task(request):
     """ Cria formulário de tarefa."""
@@ -616,7 +578,7 @@ def new_task(request):
         if request.method == "POST":
             form = TarefaForm(request.POST)
             if form.is_valid():
-                tf = form.save(commit=False)
+                tf = form.save()
                 tf.save()
                 return redirect("task_list")
         else:
@@ -1114,22 +1076,24 @@ class GeneratePDFMaodeObra(View):
                 cronograma=cronograma.id).prefetch_related(
                 'funcionarios_da_obra')
             lista = []
-            l = []
             for f in funcionarios:
                 if len(f.funcionarios_da_obra.all()) > 0:
                     lista.append(str(f.funcionarios_da_obra.all()))
+            lista2 = []
             for i in lista:
                 # print(i)
                 lista_frase = i.split()
                 # print(lista_frase)
-                remover_palavras  = ['<QuerySet', '[<Funcionario_da_Obra:',
-                                     '<Funcionario_da_Obra:']
-                result = [palavra for palavra in lista_frase if palavra not in remover_palavras]
+                remover_palavras = ['<QuerySet', '[<Funcionario_da_Obra:',
+                                    '<Funcionario_da_Obra:']
+                result = [
+                    palavra for palavra in lista_frase if palavra not in (
+                        remover_palavras)]
                 result = [item.replace(">]>", "") for item in result]
                 result = [item.replace(">", "") for item in result]
-                print(result)
+                # print(result)
                 retorno = ' '.join(result)
-                l.append(retorno)
+                lista2.append(retorno)
 
             # lfun = l
             # i = 0
@@ -1160,7 +1124,8 @@ class GeneratePDFMaodeObra(View):
             context = {
                 'tasks': tasks, 'cliente': cliente, 'cronograma': cronograma,
                 'mao_de_obra': mao_de_obra, 'material': material, 'taxa': taxa,
-                'smdo': smdo, 'sttl': sttl, 'lfun': l
+                'smdo': smdo, 'sttl': sttl, 'lfun': lista2,
+                'count': 0
             }
             pdf = render_to_pdf('relatorio_maos_de_obra.html', context)
         else:
@@ -1356,7 +1321,7 @@ def nova_empreiteira(request):
     if request.method == "POST":
         form = EmpreiteiraForm(request.POST)
         if form.is_valid():
-            emp = form.save(commit=False)
+            emp = form.save()
             emp.save()
             return redirect("empreiteira_list")
     else:
@@ -1433,7 +1398,7 @@ def nova_mao_de_obra(request):
     if request.method == "POST":
         form = Mao_de_ObraForm(request.POST)
         if form.is_valid():
-            mdo = form.save(commit=False)
+            mdo = form.save()
             mdo.save()
             return redirect("mao_de_obra_list")
     else:
@@ -1674,7 +1639,7 @@ def novo_material(request):
     if request.method == "POST":
         form = MaterialForm(request.POST)
         if form.is_valid():
-            # mtrl = form.save(commit=False)
+            # mtrl = form.save()
             # mtrl.save()
             novo = Material(**form.cleaned_data)
             novo.save()
@@ -1795,7 +1760,7 @@ def nova_taxa(request):
     if request.method == "POST":
         form = TaxaForm(request.POST)
         if form.is_valid():
-            # tx = form.save(commit=False)
+            # tx = form.save()
             # tx.save()
             novo = Taxa(**form.cleaned_data)
             novo.save()
@@ -1823,3 +1788,35 @@ def excluir_taxa(request, id):
         taxa = Taxa.objects.get(id=id)
         taxa.delete()
     return redirect("taxa_list")
+
+
+@login_required(login_url="/login/")
+def manual_cliente(request):
+    """ Manual do cliente."""
+    usuario = request.user
+    try:
+        cliente = Cliente.objects.filter(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if cliente:
+        dados = {"cliente": cliente}
+    else:
+        raise Http404()
+
+    return render(request, "manual_cliente.html", dados)
+
+
+@login_required(login_url="/login/")
+def manual_funcionario(request):
+    """ Manual do cliente."""
+    usuario = request.user
+    try:
+        funcionario = Funcionario.objects.filter(usuario=usuario)
+    except Exception:
+        raise Http404()
+    if cliente:
+        dados = {"funcionario": funcionario}
+    else:
+        raise Http404()
+
+    return render(request, "manual_funcionario.html", dados)

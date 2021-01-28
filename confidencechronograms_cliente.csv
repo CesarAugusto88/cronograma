@@ -1,0 +1,5 @@
+id,nome,cpf,rg,dt_nascimento,sexo,nacionalidade,naturalidade,profissao,estado_civil,rua,numero,complemento,bairro,cidade,cep,uf,email,fone,date_added,date_update,usuario_id
+1,Cliente - cesar,39272330807,,,M,,,,,aaa,123,,,,,,cesarcosta.augustos@gmail.com,11122,2020-12-28 22:25:00.398617,2020-12-28 22:25:00.398639,5
+2,Cliente 2,,,,F,,,,,ss,21,,,,,,cesarcosta.augustos@gmail.com,112233,2020-12-28 22:26:20.659659,2020-12-28 22:26:20.659687,6
+3,Cliente 3,,,,M,,,,,f,23,,,,,,cesarcosta.augustos@gmail.com,1234,2020-12-28 22:27:13.821170,2020-12-28 22:27:13.821197,7
+8,Moraes,12212121212,21212121,,,,,,,Abcd,,,,,12460000,SP,cesarcosta.augustos@gmail.com,12777777777777,2021-01-26 01:15:53.169327,2021-01-26 01:15:53.169349,19

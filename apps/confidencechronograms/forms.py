@@ -73,15 +73,15 @@ class Mao_de_ObraForm(forms.ModelForm):
     #     queryset=Funcionario_da_Obra.objects.all(),
     #     widget=forms.CheckboxSelectMultiple
     # )
-        # ADICIONAR BOTÃO
-        # widgets = {
-        #     'funcionarios_da_obra': AddAnotherEditSelectedWidgetWrapper(
-        #         forms.Select,
-        #         reverse_lazy('novo_funcionario_da_bra'),
-        #         reverse_lazy('alterar_funcionario_da_obra', args=['__fk__']),
-        #     )
-        # }
-        # permission_required = 'libraryapp.can_edit'
+    # ADICIONAR BOTÃO
+    # widgets = {
+    #     'funcionarios_da_obra': AddAnotherEditSelectedWidgetWrapper(
+    #         forms.Select,
+    #         reverse_lazy('novo_funcionario_da_bra'),
+    #         reverse_lazy('alterar_funcionario_da_obra', args=['__fk__']),
+    #     )
+    # }
+    # permission_required = 'libraryapp.can_edit'
 
 
 class DepositoForm(forms.ModelForm):
@@ -125,9 +125,11 @@ class DateInput(forms.DateInput):
 
 
 class TarefaForm(ModelForm):
-
     class Meta:
         model = Tarefa
+
+        localized_fields = ('dt_inicial', 'dt_final')
+
         fields = (
              'cronograma', 'maos_de_obra', 'materiais',
              'taxas', 'ident', 'dependencias',
@@ -135,10 +137,12 @@ class TarefaForm(ModelForm):
             )
 
         widgets = {
-            'dt_inicial': DateInput(),
-            'dt_final': DateInput(),
-            'progresso': forms.TextInput(attrs={'type': 'range',
-                                                'step': '10', 'min': '0',
+            'dt_inicial': forms.DateInput(
+                format='%d-%m-Y', attrs={'type': 'date'}),
+            'dt_final': forms.DateInput(
+                format='%d-%m-Y', attrs={'type': 'date'}),
+            'progresso': forms.TextInput(attrs={'type': 'number',
+                                                'step': '1', 'min': '0',
                                                 'max': '100'}),
             }
 

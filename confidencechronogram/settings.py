@@ -4,6 +4,10 @@ from decouple import config
 
 from dj_database_url import parse as dburl
 
+from django.conf.locale.pt_BR import formats as br_formats
+br_formats.DATE_FORMAT = 'd/m/Y'
+
+
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
@@ -128,9 +132,15 @@ TIME_ZONE = 'America/Sao_Paulo'
 
 USE_I18N = True
 
-USE_L10N = True
+USE_L10N = False
 
 USE_TZ = False
+
+DATE_FORMAT = 'd/m/Y'
+
+# DATE_INPUT_FORMATS = (
+#     '%d/%m/%Y',
+# )
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
