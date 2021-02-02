@@ -41,24 +41,27 @@ def continue_cad_cliente(request):
     if funcionario and request.method == "POST":
         form = ClienteForm(request.POST)
         if form.is_valid():
-            # 'nome', 'rua', 'razao_social', 'tipo_pessoa', 'cpf', 'rg',
-            # 'cep', 'uf', 'email', 'fone', 'usuario_cli'
+            # 'nome', 'cpf', 'rg', 'rua', 'numero', 'bairro', 'cidade',
+            # 'cep', 'uf', 'email', 'fone', 'usuario'
             nome = form.cleaned_data['nome']
-            rua = form.cleaned_data['rua']
             cpf = form.cleaned_data['cpf']
             rg = form.cleaned_data['rg']
+            rua = form.cleaned_data['rua']
+            numero = form.cleaned_data['numero']
+            bairro = form.cleaned_data['bairro']
+            cidade = form.cleaned_data['cidade']
             cep = form.cleaned_data['cep']
             uf = form.cleaned_data['uf']
             email = form.cleaned_data['email']
             fone = form.cleaned_data['fone']
             usuario_cli = form.cleaned_data['usuario']
             novo = Cliente(
-                nome=nome, rua=rua, cpf=cpf, rg=rg,
-                cep=cep, uf=uf, email=email, fone=fone,
-                usuario=usuario_cli
+                nome=nome, cpf=cpf, rg=rg, rua=rua, numero=numero,
+                bairro=bairro, cidade=cidade, cep=cep, uf=uf, email=email,
+                fone=fone, usuario=usuario_cli
             )
             novo.save()
-            return redirect("funcionario")
+            return redirect("clientes_list")
     else:
         form = ClienteForm()
     return render(request, "continue_cad_cliente.html", {"form": form})
@@ -73,19 +76,29 @@ def submit_continue_cad_cliente(request):
         raise Http404()
     if funcionario and request.POST:
         nome = request.POST.get("nome")
-        fone = request.POST.get("fone")
+        cpf = request.POST.get("cpf")
+        rg = request.POST.get("rg")
         rua = request.POST.get("rua")
+        numero = request.POST.get("numero")
+        bairro = request.POST.get("bairro")
         cidade = request.POST.get("cidade")
         cep = request.POST.get("cep")
         uf = request.POST.get("uf")
+        email = request.POST.get("email")
+        fone = request.POST.get("fone")
         usuario_id = request.POST.get("usuario_id")
         Funcionario.objects.create(
             nome=nome,
-            fone=fone,
+            cpf=cpf,
+            rg=rg,
             rua=rua,
+            numero=numero,
+            bairro=bairro,
             cidade=cidade,
             cep=cep,
             uf=uf,
+            email=email,
+            fone=fone,
             usuario_id=usuario_id
         )
     return redirect("/confidencechronogram/funcionario")
