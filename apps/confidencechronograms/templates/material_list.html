@@ -52,5 +52,20 @@
         </form>
       <hr>
       {% endfor %}
+      <div class="paginator">
+        <span class="step-links">
+          {% if material.has_previous %}
+            <a href="?page={{ material.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
+          {% endif %}
+  
+          <span class="current">
+            {{ material.number }} de {{ material.paginator.num_pages }}
+          </span>
+  
+          {% if material.has_next %}
+            <a href="?page={{ material.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
+          {% endif %}
+        </span>
+      </div>
 </div>
 {% endblock %}

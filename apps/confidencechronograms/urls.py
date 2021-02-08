@@ -105,7 +105,8 @@ urlpatterns = [
     path(
         "cronogramaconfiavel/comentarios/funcionario",
         views.comentario_list_fun, name="comentario_list_fun"),
-    # tarefas
+    ##########################################################
+    # Tarefas
     path(
         "cronogramaconfiavel/task/tasks",
         views.price_task, name="price_task"),

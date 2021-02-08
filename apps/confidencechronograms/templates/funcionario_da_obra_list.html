@@ -40,5 +40,20 @@
         </form>
       <hr>
         {% endfor %}
+        <div class="paginator">
+          <span class="step-links">
+            {% if funcionario_da_obra.has_previous %}
+              <a href="?page={{ funcionario_da_obra.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
+            {% endif %}
+    
+            <span class="current">
+              {{ funcionario_da_obra.number }} de {{ funcionario_da_obra.paginator.num_pages }}
+            </span>
+    
+            {% if funcionario_da_obra.has_next %}
+              <a href="?page={{ funcionario_da_obra.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
+            {% endif %}
+          </span>
+        </div>
 </div>
 {% endblock %}

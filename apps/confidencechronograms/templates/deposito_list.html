@@ -40,6 +40,21 @@
             </form>
               <hr>
         {% endfor %}
+        <div class="paginator">
+          <span class="step-links">
+            {% if deposito.has_previous %}
+              <a href="?page={{ deposito.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
+            {% endif %}
+    
+            <span class="current">
+              {{ deposito.number }} de {{ deposito.paginator.num_pages }}
+            </span>
+    
+            {% if deposito.has_next %}
+              <a href="?page={{ deposito.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
+            {% endif %}
+          </span>
+        </div>
 
 </div>
 {% endblock %}

@@ -40,6 +40,21 @@
       </form>
       <hr>
     {% endfor %}
+    <div class="paginator">
+      <span class="step-links">
+        {% if empreiteira.has_previous %}
+          <a href="?page={{ empreiteira.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
+        {% endif %}
+
+        <span class="current">
+          {{ empreiteira.number }} de {{ empreiteira.paginator.num_pages }}
+        </span>
+
+        {% if empreiteira.has_next %}
+          <a href="?page={{ empreiteira.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
+        {% endif %}
+      </span>
+    </div>
 
 </div>
 {% endblock %}

@@ -42,6 +42,21 @@
     </form>
       <hr>
   {% endfor %}
+  <div class="paginator">
+    <span class="step-links">
+      {% if cronogramas.has_previous %}
+        <a href="?page={{ cronogramas.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
+      {% endif %}
+
+      <span class="current">
+        {{ cronogramas.number }} de {{ cronogramas.paginator.num_pages }}
+      </span>
+
+      {% if cronogramas.has_next %}
+        <a href="?page={{ cronogramas.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
+      {% endif %}
+    </span>
+  </div>
  
 </div>
 {% endblock %}

@@ -475,6 +475,10 @@ class Taxa(models.Model):
         max_digits=10, decimal_places=2, default=0.0)
     cronograma = models.ForeignKey(Cronograma, on_delete=models.PROTECT)
     orgao = models.ForeignKey(Orgao, on_delete=models.PROTECT)
+    date_added = models.DateTimeField(
+        verbose_name='Data de criação', auto_now_add=True)
+    date_update = models.DateTimeField(
+        verbose_name='Data de atualização', auto_now=True)
 
     class Meta:
         verbose_name = 'Taxa'

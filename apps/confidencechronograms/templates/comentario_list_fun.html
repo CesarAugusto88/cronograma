@@ -28,12 +28,28 @@
             Baixar
           </a>
           {% else %}
-            <span class="pure-form-message">No arquivo</span>
+            <span class="pure-form-message">Sem arquivo</span>
         {% endif %}
       </p>
       <br>
       <hr>
     {% endfor %}
+
+    <div class="paginator">
+      <span class="step-links">
+        {% if comentarios.has_previous %}
+          <a href="?page={{ comentarios.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
+        {% endif %}
+
+        <span class="current">
+          {{ comentarios.number }} de {{ comentarios.paginator.num_pages }}
+        </span>
+
+        {% if comentarios.has_next %}
+          <a href="?page={{ comentarios.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
+        {% endif %}
+      </span>
+    </div>
   </div>
 </div>
 {% endblock %}

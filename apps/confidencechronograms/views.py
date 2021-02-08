@@ -1,4 +1,5 @@
 from django.shortcuts import render, redirect
+from django.core.paginator import Paginator
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth import authenticate, login, logout
 from django.contrib import messages
@@ -429,7 +430,10 @@ def clientes_list(request):
             # __icontains sem case sensitive
             clientes = clientes.filter(nome__icontains=termo_pesquisa)
         else:
-            clientes = Cliente.objects.all()
+            clientes_list = Cliente.objects.all().order_by('-date_added')
+            paginator = Paginator(clientes_list, 7)
+            page = request.GET.get('page')
+            clientes = paginator.get_page(page)
         dados = {"funcionario": funcionario, "clientes": clientes}
     else:
         raise Http404()
@@ -480,7 +484,10 @@ def chronogram_list(request):
             cronogramas = cronogramas.filter(
                 estrutura__icontains=termo_pesquisa)
         else:
-            cronogramas = Cronograma.objects.all()
+            cronogramas_list = Cronograma.objects.all().order_by('-date_added')
+            paginator = Paginator(cronogramas_list, 7)
+            page = request.GET.get('page')
+            cronogramas = paginator.get_page(page)
         dados = {"cronogramas": cronogramas}
     else:
         raise Http404()
@@ -554,7 +561,12 @@ def task_list(request):
             # __icontains sem case sensitive
             tasks = tasks.filter(nome__icontains=termo_pesquisa)
         else:
-            tasks = Tarefa.objects.order_by("-date_added").all()
+            tasks_list = Tarefa.objects.all().order_by('-cronograma')
+            paginator = Paginator(tasks_list, 7)
+            page = request.GET.get('page')
+            tasks = paginator.get_page(page)
+
+            # tasks = Tarefa.objects.order_by("-date_added").all()
 
             # Não encontra tabela confidence_chronograms_tarefa
             # tarefa = tasks.extra(where=[
@@ -623,7 +635,7 @@ def uploadcomentario(request):
     return render(request, "uploadcomentario.html", context)
 
 
-# Lista comentario dos clientes
+# Lista comentario - clientes
 @login_required(login_url="/login/")
 def comentario_list(request):
     """ Lista comentario do Cliente """
@@ -656,7 +668,7 @@ def comentario_list(request):
     return render(request, "comentario_list.html", dados)
 
 
-# Lista comentario para funcionários
+# Lista comentario - funcionários
 @login_required(login_url="/login/")
 def comentario_list_fun(request):
     """ Lista comentario Para Funcionário Específico. """
@@ -674,7 +686,11 @@ def comentario_list_fun(request):
             # __icontains sem case sensitive
             comentarios = comentarios.filter(assunto__icontains=termo_pesquisa)
         else:
-            comentarios = Comentario.objects.filter(funcionario=funcionario)
+            comentarios_list = Comentario.objects.filter(
+                funcionario=funcionario)
+            paginator = Paginator(comentarios_list, 2)
+            page = request.GET.get('page')
+            comentarios = paginator.get_page(page)
         dados = {"funcionario": funcionario, "comentarios": comentarios}
     else:
         raise Http404()
@@ -1308,7 +1324,10 @@ def empreiteira_list(request):
             # __icontains sem case sensitive
             empreiteira = empreiteira.filter(nome__icontains=termo_pesquisa)
         else:
-            empreiteira = Empreiteira.objects.all()
+            empreiteira_list = Empreiteira.objects.all().order_by('-date_added')
+            paginator = Paginator(empreiteira_list, 7)
+            page = request.GET.get('page')
+            empreiteira = paginator.get_page(page)
         dados = {"empreiteira": empreiteira}
     else:
         raise Http404()
@@ -1361,22 +1380,11 @@ def mao_de_obra_list(request):
         raise Http404()
     if funcionario:
         termo_pesquisa = request.GET.get('pesquisa', None)
-        mao_de_obra = Mao_de_Obra.objects.order_by("-date_added").all()
         funcionarios = Funcionario_da_Obra.objects.all()
-
-        # qs = Empreiteira.objects.values_list('id')
-        # print(qs)
-        # reloaded_qs = Empreiteira.objects.all()
-        # reloaded_qs.query = pickle.loads(pickle.dumps(qs.query))
-        # print(reloaded_qs)
-        # vlt = 0
-        # for mdo in mao_de_obra:
-        #     vlt += mdo.valor_unitario * mdo.quantidade
-        # vlt = str(vlt)
-
-        # vlt = [
-        #     t.valor_total() for
-        # t in Mao_de_Obra.objects.filter(empreiteira=empreiteira.id)]
+        mao_de_obra_list = Mao_de_Obra.objects.all().order_by('-date_added')
+        paginator = Paginator(mao_de_obra_list, 7)
+        page = request.GET.get('page')
+        mao_de_obra = paginator.get_page(page)
 
         if termo_pesquisa:
             mao_de_obra = Mao_de_Obra.objects.all()
@@ -1445,7 +1453,12 @@ def funcionario_da_obra_list(request):
             funcionario_da_obra = funcionario_da_obra.filter(
                 nome__icontains=termo_pesquisa)
         else:
-            funcionario_da_obra = Funcionario_da_Obra.objects.all()
+            funcionario_list = (
+                Funcionario_da_Obra.objects.all().order_by('-date_added')
+            )
+            paginator = Paginator(funcionario_list, 7)
+            page = request.GET.get('page')
+            funcionario_da_obra = paginator.get_page(page)
         dados = {"funcionario_da_obra": funcionario_da_obra}
     else:
         raise Http404()
@@ -1506,7 +1519,10 @@ def deposito_list(request):
             # __icontains sem case sensitive
             deposito = deposito.filter(nome__icontains=termo_pesquisa)
         else:
-            deposito = Deposito.objects.all()
+            deposito_list = Deposito.objects.all().order_by('-date_added')
+            paginator = Paginator(deposito_list, 7)
+            page = request.GET.get('page')
+            deposito = paginator.get_page(page)
         dados = {"deposito": deposito}
     else:
         raise Http404()
@@ -1566,7 +1582,10 @@ def categoria_list(request):
             # __icontains sem case sensitive
             categoria = categoria.filter(nome__icontains=termo_pesquisa)
         else:
-            categoria = Categoria.objects.all()
+            categoria_list = Categoria.objects.all().order_by('-date_added')
+            paginator = Paginator(categoria_list, 7)
+            page = request.GET.get('page')
+            categoria = paginator.get_page(page)
         dados = {"categoria": categoria}
     else:
         raise Http404()
@@ -1626,7 +1645,10 @@ def material_list(request):
             # __icontains sem case sensitive
             material = material.filter(nome__icontains=termo_pesquisa)
         else:
-            material = Material.objects.order_by("-date_added").all()
+            material_list = Material.objects.all().order_by('-date_added')
+            paginator = Paginator(material_list, 7)
+            page = request.GET.get('page')
+            material = paginator.get_page(page)
         dados = {"material": material}
     else:
         raise Http404()
@@ -1681,7 +1703,10 @@ def orgao_list(request):
     except Exception:
         raise Http404()
     if funcionario:
-        orgao = Orgao.objects.all()
+        orgao_list = Orgao.objects.all().order_by('-date_added')
+        paginator = Paginator(orgao_list, 4)
+        page = request.GET.get('page')
+        orgao = paginator.get_page(page)
         # id pesquisa
         termo_pesquisa = request.GET.get('pesquisa', None)
         if termo_pesquisa:
@@ -1747,7 +1772,10 @@ def taxa_list(request):
             # __icontains sem case sensitive
             taxa = taxa.filter(nome__icontains=termo_pesquisa)
         else:
-            taxa = Taxa.objects.all()
+            taxa_list = Taxa.objects.all().order_by('-date_added')
+            paginator = Paginator(taxa_list, 7)
+            page = request.GET.get('page')
+            taxa = paginator.get_page(page)
         dados = {"taxa": taxa}
     else:
         raise Http404()
