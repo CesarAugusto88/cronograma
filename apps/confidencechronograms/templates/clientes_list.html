@@ -6,7 +6,7 @@
   <form action="" class="pure-form">
     <fieldset>
         <legend>Pesquisa de Clientes</legend>
-        <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Cliente"/>
+        <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome do Cliente" value="{{ request.GET.pesquisa }}"/>
         <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
     </fieldset>
   </form>
@@ -48,9 +48,11 @@
         <a href="?page={{ clientes.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
       {% endif %}
 
-      <span class="current">
-        {{ clientes.number }} de {{ clientes.paginator.num_pages }}
-      </span>
+      {% if clientes.paginator.num_pages %}
+        <span class="current">
+          {{ clientes.number }} de {{ clientes.paginator.num_pages }}
+        </span>
+      {% endif %}
 
       {% if clientes.has_next %}
         <a href="?page={{ clientes.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>

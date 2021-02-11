@@ -7,7 +7,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Depósitos</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Depósito"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome do Depósito" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
       </fieldset>
     </form>
@@ -45,11 +45,13 @@
             {% if deposito.has_previous %}
               <a href="?page={{ deposito.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
             {% endif %}
-    
-            <span class="current">
-              {{ deposito.number }} de {{ deposito.paginator.num_pages }}
-            </span>
-    
+
+            {% if deposito.paginator.num_pages %}
+              <span class="current">
+                {{ deposito.number }} de {{ deposito.paginator.num_pages }}
+              </span>
+            {% endif %}
+
             {% if deposito.has_next %}
               <a href="?page={{ deposito.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
             {% endif %}

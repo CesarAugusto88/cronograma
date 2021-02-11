@@ -18,7 +18,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Taxas</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome da Taxa"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome da Taxa" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
       </fieldset>
     </form>
@@ -50,9 +50,12 @@
     </p>
     <hr style="background-color: rgb(182, 172, 172)">
   {% endfor %}
-  <p>Subtotal Taxas:
-    <b>R${% total stx %}</b>
-  </p>
+
+  {% if stx %}
+    <p>Subtotal Taxas:
+      <b>R${% total stx %}</b>
+    </p>
+  {% endif %}
   <hr>
   
 </div>

@@ -18,7 +18,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de mãos de obra</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome da Mão de Obra"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome da Mão de Obra" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
       </fieldset>
     </form>
@@ -49,10 +49,12 @@
       </p>
       <hr style="background-color: rgb(182, 172, 172)">
     {% endfor %}
-    <p>Subtotal Mãos de Obra:
-      <b>R${% total smdo %}</b>
-    </p>
+
+    {% if smdo %}
+      <p>Subtotal Mãos de Obra:
+        <b>R${% total smdo %}</b>
+      </p>
+    {% endif %}
     <hr>
-  
 </div>
 {% endblock %}

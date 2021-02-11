@@ -7,7 +7,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Cronogramas</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Estrutura"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome da Estrutura" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
       </fieldset>
     </form>
@@ -48,9 +48,11 @@
         <a href="?page={{ cronogramas.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
       {% endif %}
 
-      <span class="current">
-        {{ cronogramas.number }} de {{ cronogramas.paginator.num_pages }}
-      </span>
+      {% if cronogramas.paginator.num_pages %}
+        <span class="current">
+          {{ cronogramas.number }} de {{ cronogramas.paginator.num_pages }}
+        </span>
+      {% endif %}
 
       {% if cronogramas.has_next %}
         <a href="?page={{ cronogramas.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>

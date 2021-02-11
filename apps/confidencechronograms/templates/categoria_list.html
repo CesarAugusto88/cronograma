@@ -7,7 +7,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Categorias</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Categoria"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome da Categoria" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
       </fieldset>
     </form>
@@ -39,9 +39,12 @@
           <a href="?page={{ categoria.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
         {% endif %}
 
-        <span class="current">
-          {{ categoria.number }} de {{ categoria.paginator.num_pages }}
-        </span>
+        
+        {% if categoria.paginator.num_pages %}
+          <span class="current">
+            {{ categoria.number }} de {{ categoria.paginator.num_pages }}
+          </span>
+        {% endif %}
 
         {% if categoria.has_next %}
           <a href="?page={{ categoria.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>

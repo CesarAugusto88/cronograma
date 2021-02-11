@@ -6,7 +6,7 @@
   <form action="" class="pure-form">
     <fieldset>
         <legend>Pesquisa de Comentários</legend>
-        <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Assunto"/>
+        <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Assunto" value="{{ request.GET.pesquisa }}"/>
         <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
     </fieldset>
   </form>
@@ -41,9 +41,11 @@
           <a href="?page={{ comentarios.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
         {% endif %}
 
-        <span class="current">
-          {{ comentarios.number }} de {{ comentarios.paginator.num_pages }}
-        </span>
+        {% if comentarios.paginator.num_pages %}
+          <span class="current">
+            {{ comentarios.number }} de {{ comentarios.paginator.num_pages }}
+          </span>
+        {% endif %}
 
         {% if comentarios.has_next %}
           <a href="?page={{ comentarios.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>

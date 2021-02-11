@@ -10,7 +10,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Taxas</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Taxa"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome da Taxa" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
       </fieldset>
     </form>
@@ -60,9 +60,11 @@
           <a href="?page={{ taxa.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
         {% endif %}
 
-        <span class="current">
-          {{ taxa.number }} de {{ taxa.paginator.num_pages }}
-        </span>
+        {% if taxa.paginator.num_pages %}
+          <span class="current">
+            {{ taxa.number }} de {{ taxa.paginator.num_pages }}
+          </span>
+        {% endif %}
 
         {% if taxa.has_next %}
           <a href="?page={{ taxa.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>

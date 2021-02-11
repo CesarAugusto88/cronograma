@@ -18,7 +18,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Tarefas</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome da Tarefa"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome da Tarefa" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="btn btn-outline-success" >Pesquisar</button>
       </fieldset>
     </form>
@@ -113,9 +113,12 @@
     <b>R${% total stx %}</b>
   </p> -->
   <hr>
-  <p style="font-size: 15pt;"><b> Total da Construção:
-    R${% total sttl %}</b>
-  </p>
-  
+
+  {% if sttl %}
+    <p style="font-size: 15pt;"><b> Total da Construção:
+      R${% total sttl %}</b>
+    </p>
+  {% endif %}
+
 </div>
 {% endblock %}

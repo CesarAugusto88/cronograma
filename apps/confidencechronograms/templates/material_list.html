@@ -10,7 +10,7 @@
     <form action="" class="pure-form">
       <fieldset>
           <legend>Pesquisa de Material</legend>
-          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Nome"/>
+          <input type="text" size="30" id="pesquisa" name="pesquisa" placeholder="Escreva o Nome do Material" value="{{ request.GET.pesquisa }}"/>
           <button type="submit" class="pure-button pure-button-primary">Pesquisar</button>
       </fieldset>
     </form>
@@ -57,10 +57,13 @@
           {% if material.has_previous %}
             <a href="?page={{ material.previous_page_number }}"> <i class="fas fa-arrow-left"></i> </a>
           {% endif %}
-  
-          <span class="current">
-            {{ material.number }} de {{ material.paginator.num_pages }}
-          </span>
+          
+          {% if material.paginator.num_pages %}
+            <span class="current">
+              {{ material.number }} de {{ material.paginator.num_pages }}
+            </span>
+          {% endif %}
+            
   
           {% if material.has_next %}
             <a href="?page={{ material.next_page_number }}"> <i class="fas fa-arrow-right"></i> </a>
