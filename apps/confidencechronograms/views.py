@@ -1324,7 +1324,9 @@ def empreiteira_list(request):
             # __icontains sem case sensitive
             empreiteira = empreiteira.filter(nome__icontains=termo_pesquisa)
         else:
-            empreiteira_list = Empreiteira.objects.all().order_by('-date_added')
+            empreiteira_list = (
+                Empreiteira.objects.all().order_by('-date_added')
+            )
             paginator = Paginator(empreiteira_list, 7)
             page = request.GET.get('page')
             empreiteira = paginator.get_page(page)

@@ -4,7 +4,6 @@ from django.core.mail import send_mail, mail_admins
 from django.template.loader import render_to_string
 from confidencechronogram import settings
 from django.forms import ValidationError
-
 from apps.confidencechronograms.utils import valida_cpf, valida_cnpj
 
 
