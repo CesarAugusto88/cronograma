@@ -29,10 +29,10 @@
         {{ taxa.unidade }}
       </p>
       <p>Valor unitário:
-        R${{ taxa.valor_unitario }}
+        R${% substitui taxa.valor_unitario %}
       </p>
       <p>Quantidade:
-        {{ taxa.quantidade }}
+        {% substitui taxa.quantidade %}
       </p>
       <p>Unidade:
         {{ taxa.unidade}}

@@ -36,10 +36,10 @@
       <b>{{ mdo.nome }}</b>
       </p>
       <p>Valor unitário:
-        R${{ mdo.valor_unitario }}
+        R${% substitui mdo.valor_unitario %}
       </p>
       <p>Quantidade:
-        {{ mdo.quantidade }}
+        {% substitui mdo.quantidade %}
       </p>
       <p>Unidade:
         {{ mdo.unidade }}

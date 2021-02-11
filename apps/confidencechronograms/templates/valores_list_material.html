@@ -38,10 +38,10 @@
       <b>{{ mtrl.nome }}</b>
       </p>
       <p>Valor unitário:
-        R${{ mtrl.valor_unitario }}
+        R${% substitui mtrl.valor_unitario %}
       </p>
       <p>Quantidade:
-        {{ mtrl.quantidade }}
+        {% substitui mtrl.quantidade %}
       </p>
       <p>Unidade:
         {{ mtrl.unidade }}

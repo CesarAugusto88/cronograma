@@ -22,3 +22,9 @@ def sumthree(n1, n2, n3, *args, **kwargs):
     # you would need to do any localization of the result here
     result = round(float(n1+n2+n3), 2)
     return (str(result).replace(".", ","))
+
+@register.simple_tag()
+def substitui(subs, *args, **kwargs):
+    # you would need to do any localization of the result here
+    result = round(float(subs), 2)
+    return (str(result).replace(".", ","))

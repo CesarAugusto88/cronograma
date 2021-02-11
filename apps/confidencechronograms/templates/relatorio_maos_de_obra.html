@@ -65,8 +65,8 @@
                     {% for mdo in mao_de_obra %}
                     <tr style="text-align: center;">
                         <td>{{ mdo.nome }}</td>
-                        <td>{{ mdo.valor_unitario }}</td>
-                        <td>{{ mdo.quantidade }}</td>
+                        <td>{% substitui mdo.valor_unitario %}</td>
+                        <td>{% substitui mdo.quantidade %}</td>
                         <td>{{ mdo.unidade }}</td>
                         <td>R${% multiply mdo.valor_unitario mdo.quantidade %}</td>
                     </tr>

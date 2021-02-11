@@ -65,8 +65,8 @@
                     {% for mtrl in material %}
                     <tr style="text-align: center;">
                         <td>{{ mtrl.nome }}</td>
-                        <td>{{ mtrl.valor_unitario }}</td>
-                        <td>{{ mtrl.quantidade }}</td>
+                        <td>{% substitui mtrl.valor_unitario %}</td>
+                        <td>{% substitui mtrl.quantidade %}</td>
                         <td>{{ mtrl.unidade }}</td>
                         <td>R${% multiply mtrl.valor_unitario mtrl.quantidade %}</td>
                     </tr>

@@ -65,8 +65,8 @@
                     {% for tx in taxa %}
                     <tr style="text-align: center;">
                         <td>{{ tx.nome }}</td>
-                        <td>{{ tx.valor_unitario }}</td>
-                        <td>{{ tx.quantidade }}</td>
+                        <td>{% substitui tx.valor_unitario %}</td>
+                        <td>{% substitui tx.quantidade %}</td>
                         <td>{{ tx.unidade }}</td>
                         <td>R${% multiply tx.valor_unitario tx.quantidade %}</td>
                     </tr>

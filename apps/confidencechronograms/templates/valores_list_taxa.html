@@ -37,10 +37,10 @@
     <b>{{ tx.nome }}</b>
     </p>
     <p>Valor unitário:
-      R${{ tx.valor_unitario }}
+      R${% substitui tx.valor_unitario %}
     </p>
     <p>Quantidade:
-      {{ tx.quantidade }}
+      {% substitui tx.quantidade %}
     </p>
     <p>Unidade:
       {{ tx.unidade }}

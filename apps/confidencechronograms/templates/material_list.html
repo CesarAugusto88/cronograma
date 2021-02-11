@@ -29,10 +29,10 @@
         {{ material.unidade }}
       </p>
       <p>Valor unitário:
-        R${{ material.valor_unitario }}
+        R${% substitui material.valor_unitario %}
       </p>
       <p>Quantidade:
-        {{ material.quantidade }}
+        {% substitui material.quantidade %}
       </p>
       <p>Valor total:
           R${% multiply material.valor_unitario material.quantidade %}
