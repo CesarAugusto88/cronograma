@@ -1,10 +1,11 @@
 from django.contrib import admin
+from django.contrib.auth.models import Group
 from apps.confidencechronograms.models import (
     Cronograma, Tarefa, Cliente, Funcionario, Comentario, Empreiteira,
     Mao_de_Obra, Funcionario_da_Obra, Deposito, Material, Categoria,
     Orgao, Taxa)
-# Detalhe_Mao_de_Obra, Detalhe_Material, Detalhe_Taxa,
-# Detalhe_Funcionario_da_Obra, Detalhe_Mao_de_Obra_Tarefa
+
+admin.site.site_header = 'Admin Cronograma Confiável'
 
 
 class FuncionarioAdmin(admin.ModelAdmin):
@@ -52,3 +53,4 @@ admin.site.register(Material)
 admin.site.register(Categoria)
 admin.site.register(Orgao)
 admin.site.register(Taxa)
+admin.site.unregister(Group)
