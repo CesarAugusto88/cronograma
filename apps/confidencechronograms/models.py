@@ -1,3 +1,5 @@
+# from auditlog.models import AuditlogHistoryField
+from auditlog.registry import auditlog
 from django.db import models
 from django.contrib.auth.models import User
 from django.core.mail import send_mail, mail_admins
@@ -643,3 +645,18 @@ class Comentario(models.Model):
             return f"{self.descricao[:50]}..."
 
         return f"{self.cliente.nome} {self.funcionario.nome} {self.descricao}"
+
+
+auditlog.register(Cliente)
+auditlog.register(Funcionario)
+auditlog.register(Cronograma)
+auditlog.register(Empreiteira)
+auditlog.register(Funcionario_da_Obra)
+auditlog.register(Mao_de_Obra)
+auditlog.register(Deposito)
+auditlog.register(Categoria)
+auditlog.register(Material)
+auditlog.register(Orgao)
+auditlog.register(Taxa)
+auditlog.register(Tarefa)
+auditlog.register(Comentario)

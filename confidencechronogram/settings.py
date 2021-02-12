@@ -43,6 +43,7 @@ INSTALLED_APPS = [
     'apps.account',
     "crispy_forms",
     'bootstrapform',
+    'auditlog',
 ]
 
 CRISPY_TEMPLATE_PACK = 'bootstrap4'
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     "django.middleware.clickjacking.XFrameOptionsMiddleware",
     # Debug Toolbar
     # '/debug_toolbar.middleware.DebugToolbarMiddleware',
+    'auditlog.middleware.AuditlogMiddleware',
 ]
 
 ROOT_URLCONF = 'confidencechronogram.urls'
