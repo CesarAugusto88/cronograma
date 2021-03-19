@@ -14,6 +14,12 @@
           <div>
             <h4 style="font-size: 35px; text-align: center;">Conecte-se</h4>
           </div>
+          {% for message in messages %}
+            <div style="color: red;" align="left">
+              &emsp;&emsp; 
+              <strong>Erro: </strong>{{ message }}
+            </div>
+          {% endfor %}
           <div class="form-group">
             <label style="font-size: 25px;">Usuário:
               <input type="text" class="form-control" name="username" size="37" placeholder="Name" aria-describedby="userHelp">
@@ -41,13 +47,7 @@
             </a>
           </div>
         </form>
-        {% for message in messages %}
-          <br>
-          <div style="color: red;" align="left">
-            &emsp;&emsp; 
-            <strong>Erro: </strong>{{ message }}
-          </div>
-        {% endfor %}
+
       </section>
     </section>
   </section>

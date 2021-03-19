@@ -57,7 +57,7 @@ def submit_login(request):
         if usuario is not None:
             login(request, usuario)
             return redirect('/cronogramaconfiavel/')
-        messages.error(request, "Usuário ou senha inválida.")
+        messages.error(request, "Usuário ou senha diferente.")
 
     return redirect('/login/')
 
