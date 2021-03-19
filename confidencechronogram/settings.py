@@ -20,9 +20,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 DEBUG = config('DEBUG', default=False, cast=bool)
 
+# Adicionando IP da maquina 192.168.X.X para acessar em rede interna
+# na porta 8080 -> python manage.py runserver 192.168.X.X:8080
 ALLOWED_HOSTS = [
     'confidence.devsys.com.br', 'www.confidence.devsys.com.br',
-    '127.0.0.1', 'localhost']
+    '127.0.0.1', 'localhost', '192.168.X.X']
 
 INTERNAL_IPS = ['127.0.0.1']
 
