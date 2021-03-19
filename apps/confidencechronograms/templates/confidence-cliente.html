@@ -6,7 +6,6 @@
   <!--IF se cliente existir 'usuario_cli' mostra os dados -->
       {% for cliente in cliente %} 
         {% if cliente.usuario %}
-        <div class="content-ribbon">
           <fieldset>
             <legend>Dados do Cliente</legend>
             <p>
@@ -57,10 +56,6 @@
           </button>
         </a> 
         
-        <!-- Cliente não deleta <a href="cliente/delete/ cliente.id /">
-          <button type="button">Deletar</button>
-        </a>-->
-        </div>
         {% endif %}
       {% endfor %}
 </div>

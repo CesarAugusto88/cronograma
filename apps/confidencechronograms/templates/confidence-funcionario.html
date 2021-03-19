@@ -11,7 +11,6 @@
    <!-- IF se funcionário existir 'usuario_fun' mostra o conteúdo -->
     {% for funcionario in funcionario %}
       {% if funcionario.usuario %}
-      <div class="content-ribbon">
       <fieldset>
         <legend>Dados do Funcionário</legend>
         <p>
@@ -62,8 +61,7 @@
           <span class="icono-rename" aria-hidden="true"></span>
         </button>
       </a>  
-      
-      </div>
+
       {% endif %}
     {% endfor %}
 </div>
