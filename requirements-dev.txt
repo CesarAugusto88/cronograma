@@ -21,3 +21,4 @@ typing-extensions==3.7.4.1
 webencodings==0.5.1
 whitenoise==5.2.0
 xhtml2pdf==0.2.4
+auditlog
