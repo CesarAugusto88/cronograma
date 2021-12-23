@@ -95,19 +95,6 @@ DATABASES = {
     'default': config('DATABASE_URL', default=default_dburl, cast=dburl),
     }
 
-# DATABASES = {
-#     "default": {
-#         "ENGINE": "django.db.backends.mysql",
-#         "NAME": "db_confidence",
-#         "USER": "root",
-#         "PASSWORD": "Ads_12345",
-#         "HOST": "localhost",
-#         "PORT": "3306",
-#         "OPTIONS": {"init_command": "SET sql_mode='STRICT_TRANS_TABLES'",},
-#     }
-# } 
-
-
 # Password validation
 # https://docs.djangoproject.com/en/3.0/ref/settings/#auth-password-validators
 
