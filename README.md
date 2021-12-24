@@ -7,7 +7,7 @@ Sistema Web de Gerenciamento de Cronogramas Físico-Financeiro
 ##### Aplicação para Gerenciamento de Cronogramas de Obras (Confidence Chronogram).
 ## Servidor Home Host App Django 2.0
 ##### Servidor teste na plataforma Heroku
---
+ --
 ##### Instalação
 ```terminal
 # Clone este repositório
@@ -32,7 +32,7 @@ $ python manage.py createsuperuser
 $ python manage.py collectstatic
 
 ```
---
+ --
 
 ![GitHub](https://img.shields.io/github/license/CesarAugusto88/confidence_chronogram)
 
