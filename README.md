@@ -24,6 +24,7 @@ $ pip freeze
 # Execute as migraçãoes
 $ python manage.py migrate
 $ python manage.py makemigrations
+$ python manage.py migrate
 
 # Criar um Super usuário
 $ python manage.py createsuperuser
